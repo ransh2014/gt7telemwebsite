@@ -12,6 +12,10 @@ on:
         description: "Deploy even if this release was already deployed"
         type: boolean
         default: false
+      ignore_credit_guard:
+        description: "Deploy even if NETLIFY_CREDITS_LEFT is below 45"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -48,8 +52,24 @@ jobs:
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
           echo "deploy=$deploy" >> "$GITHUB_OUTPUT"
 
-      - name: Build the publish folder
+      - name: Netlify credit guard
+        id: credits
         if: steps.rel.outputs.deploy == 'true'
+        env:
+          # Netlify has no way to read the balance from here, so you keep this repo
+          # variable up to date by hand:  gh variable set NETLIFY_CREDITS_LEFT --body 120
+          # Unset = no guard. A production deploy costs 15 credits.
+          LEFT: ${{ vars.NETLIFY_CREDITS_LEFT }}
+          IGNORE: ${{ inputs.ignore_credit_guard }}
+        run: |
+          ok=true
+          if [ "$IGNORE" != "true" ] && [ -n "$LEFT" ] && [ "$LEFT" -lt 45 ] 2>/dev/null; then
+            ok=false
+            echo "::warning::Skipping the deploy: NETLIFY_CREDITS_LEFT is $LEFT (below 45). Top up, update the variable, then run this workflow again."
+          fi
+          echo "ok=$ok" >> "$GITHUB_OUTPUT"
+      - name: Build the publish folder
+        if: steps.rel.outputs.deploy == 'true' && steps.credits.outputs.ok == 'true'
         run: |
           mkdir _site
           rsync -a --exclude '.git' --exclude '.github' --exclude '.netlify' --exclude '.claude' \
@@ -57,19 +77,19 @@ jobs:
             --exclude '.deployed-tag' ./ _site/
 
       - uses: actions/setup-node@v5
-        if: steps.rel.outputs.deploy == 'true'
+        if: steps.rel.outputs.deploy == 'true' && steps.credits.outputs.ok == 'true'
         with:
           node-version: 20
 
       - name: Deploy to Netlify
-        if: steps.rel.outputs.deploy == 'true'
+        if: steps.rel.outputs.deploy == 'true' && steps.credits.outputs.ok == 'true'
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         run: npx --yes netlify-cli@17 deploy --prod --dir=_site --message "TRACE ${{ steps.rel.outputs.tag }}"
 
       - name: Remember what was deployed
-        if: steps.rel.outputs.deploy == 'true'
+        if: steps.rel.outputs.deploy == 'true' && steps.credits.outputs.ok == 'true'
         run: |
           echo "${{ steps.rel.outputs.tag }}" > .deployed-tag
           git config user.name "github-actions"
