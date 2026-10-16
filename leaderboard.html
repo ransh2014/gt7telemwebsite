@@ -386,7 +386,7 @@ async function loadLeaderboard(carName, trackName) {
   statusEl.textContent = `Loading Top-10 · ${carName} · ${trackName} …`;
   bodyEl.innerHTML = '';
 
-  const eq = (v) => `eq."${String(v).replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`;
+  const eq = (v) => `eq.${String(v)}`;
   const params = new URLSearchParams({
     car_name: eq(carName),
     track_name: eq(trackName),
