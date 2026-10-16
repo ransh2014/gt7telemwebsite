@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1DRKJH6JTG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1DRKJH6JTG');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TRACE — Live GT7 Telemetry Dashboard &amp; Lap Analyzer</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%2308080a'/><path d='M7 6 L19 6 L27 16 L19 26 L7 26 L15 16 Z' fill='%23c8102e'/></svg>">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/styles.css">
+<meta name="description" content="Free, open-source telemetry tool for Gran Turismo 7 — live dashboard, track map, Lap Analyst, and a global leaderboard. Windows, macOS, Linux, Android.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://gt7trace.netlify.app/">
+<meta name="theme-color" content="#050505">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TRACE">
+<meta property="og:title" content="TRACE — GT7 Telemetry Dashboard & Lap Analyzer for Gran Turismo 7">
+<meta property="og:description" content="Free, open-source telemetry tool for Gran Turismo 7 — live dashboard, track map, Lap Analyst, and a global leaderboard. Windows, macOS, Linux, Android.">
+<meta property="og:url" content="https://gt7trace.netlify.app/">
+<meta property="og:image" content="https://gt7trace.netlify.app/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="TRACE — GT7 Telemetry Dashboard & Lap Analyzer for Gran Turismo 7">
+<meta name="twitter:description" content="Free, open-source telemetry tool for Gran Turismo 7 — live dashboard, track map, Lap Analyst, and a global leaderboard. Windows, macOS, Linux, Android.">
+<meta name="twitter:image" content="https://gt7trace.netlify.app/og-image.png">
+<style>
+/* ── HERO ── */
+.hero {
+  min-height:100svh;
+  display:flex; flex-direction:column;
+  align-items:flex-start; justify-content:center;
+  padding:130px 40px 80px 9vw;
+  overflow:hidden;
+}
+.hero-text { max-width:760px; }
+.cta-row { display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+.cta-row .share-btn { margin-top:0; }
+.hero-num {
+  position:absolute; top:8%; right:-3%; z-index:-1;
+  font-family:var(--font-impact); font-weight:400;
+  font-size:clamp(10rem,32vw,26rem); line-height:1;
+  color:transparent; -webkit-text-stroke:1px rgba(255,255,255,.05);
+  pointer-events:none; user-select:none;
+}
+@media(max-width:900px){ .hero-num { display:none; } }
+.hero::before {
+  content:'';
+  position:absolute; inset:0; z-index:-1;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 0%, rgba(255,255,255,.05) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 45% at 50% 100%, rgba(0,0,0,.55) 0%, transparent 70%);
+  pointer-events:none;
+}
+.hero::after {
+  content:'';
+  position:absolute; inset:0; z-index:-1;
+  background: radial-gradient(circle 620px at var(--mx,50%) var(--my,20%), rgba(255,255,255,.035), transparent 72%);
+  pointer-events:none;
+  transition: opacity .4s ease;
+  opacity: 0;
+}
+.hero:hover::after { opacity:1; }
+@media (hover:none) { .hero::after { display:none; } }
+
+.hero-tag { margin-bottom:24px; justify-content:flex-start; }
+
+h1 {
+  font-family: var(--font-impact);
+  font-weight:400;
+  font-size: clamp(3.4rem,10.5vw,9rem);
+  line-height:1.02; text-transform:uppercase;
+  text-align:left; letter-spacing:.005em;
+  margin-bottom:28px; margin-left:-.03em;
+}
+h1 .hl {
+  display:block;
+  opacity:0; transform:translateY(28px);
+  animation: line-up .8s var(--ease) forwards;
+}
+h1 .hl:nth-child(2) { animation-delay:.12s; }
+@keyframes line-up { to { opacity:1; transform:translateY(0); } }
+h1 em { font-style:normal; color: var(--orange); }
+@media (prefers-reduced-motion: reduce) {
+  h1 .hl { opacity:1; transform:none; animation:none; }
+}
+
+.hero-sub {
+  font-size:1.05rem; color:var(--mid);
+  text-align:left; max-width:480px;
+  line-height:1.8; margin-bottom:44px;
+}
+
+/* ── DASHBOARD MOCKUP ── */
+.mockup-wrap { width:100%; max-width:900px; margin:68px auto 0 auto; perspective:1400px; align-self:center; }
+
+.mockup-win {
+  background:var(--bg-1);
+  border:1px solid var(--line);
+  border-radius: 12px;
+  overflow:hidden;
+  position:relative;
+  box-shadow: 0 50px 120px -30px rgba(0,0,0,.75), 0 0 0 1px rgba(255,255,255,.03), 0 1px 0 rgba(255,255,255,.06) inset;
+  transform: rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(var(--ty,0px));
+  transition: transform .4s var(--ease), box-shadow .5s var(--ease);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.mockup-win:hover {
+  --ty: -4px;
+  box-shadow: 0 60px 140px -30px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.05), 0 1px 0 rgba(255,255,255,.08) inset;
+}
+@media (hover:none), (prefers-reduced-motion: reduce) {
+  .mockup-win { transform:none !important; transition:none; }
+}
+.mockup-win::after {
+  content:'';
+  position:absolute; inset:0; pointer-events:none; z-index:2;
+  background: linear-gradient(180deg, rgba(255,255,255,.05) 0%, transparent 14%);
+}
+/* HUD targeting brackets — 4 corner marks overlaid on the live telemetry screen */
+.mockup-win::before {
+  content:'';
+  position:absolute; inset:16px; z-index:3; pointer-events:none;
+  opacity:.5;
+  background-repeat:no-repeat;
+  background-image:
+    linear-gradient(var(--orange-2), var(--orange-2)), linear-gradient(var(--orange-2), var(--orange-2)),
+    linear-gradient(var(--orange-2), var(--orange-2)), linear-gradient(var(--orange-2), var(--orange-2)),
+    linear-gradient(var(--orange-2), var(--orange-2)), linear-gradient(var(--orange-2), var(--orange-2)),
+    linear-gradient(var(--orange-2), var(--orange-2)), linear-gradient(var(--orange-2), var(--orange-2));
+  background-size:
+    14px 2px, 2px 14px, 14px 2px, 2px 14px,
+    14px 2px, 2px 14px, 14px 2px, 2px 14px;
+  background-position:
+    top left, top left, top right, top right,
+    bottom left, bottom left, bottom right, bottom right;
+}
+
+.mockup-titlebar {
+  background:var(--bg-2);
+  border-bottom:2px solid var(--blue);
+  padding:11px 18px;
+  display:flex; align-items:center; gap:8px;
+}
+.m-dot { width:9px; height:9px; border-radius:50%; }
+.m-dot:nth-child(1){ background:var(--orange); }
+.m-dot:nth-child(2){ background:var(--gold); }
+.m-dot:nth-child(3){ background:var(--green); }
+.m-wtitle {
+  font-family:'JetBrains Mono', monospace;
+  font-size:.62rem; letter-spacing:.2em; color:var(--dim);
+  margin-left:10px;
+}
+.m-live {
+  margin-left:auto;
+  font-family:'JetBrains Mono', monospace;
+  font-size:.6rem; letter-spacing:.15em; color:var(--green);
+  display:flex; align-items:center; gap:6px;
+}
+.m-live::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--green); animation:live-pulse 1.8s ease-in-out infinite; }
+@keyframes live-pulse {
+  0%, 100% { opacity:1; }
+  50%      { opacity:.4; }
+}
+
+/* ── SCROLL CUE ── */
+.scroll-cue {
+  position:absolute; left:50%; bottom:28px; transform:translateX(-50%);
+  width:38px; height:38px; border-radius:50%;
+  background:transparent; border:1px solid var(--line-2); color:var(--mid);
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
+  animation:scroll-bounce 2.2s ease-in-out infinite;
+  transition:border-color .2s, color .2s;
+}
+.scroll-cue:hover { border-color:var(--blue-2); color:var(--txt); }
+.scroll-cue svg { width:16px; height:16px; }
+@keyframes scroll-bounce {
+  0%, 100% { transform:translate(-50%,0); }
+  50%      { transform:translate(-50%,7px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .m-live::before, .scroll-cue, .ls-live::before { animation:none !important; }
+}
+
+/* ── LIVE STATS ── */
+.live-stats { padding:64px 52px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:var(--bg-1); }
+.ls-inner { max-width:900px; margin:0 auto; }
+.ls-head { display:flex; align-items:center; gap:12px; margin-bottom:28px; justify-content:center; }
+.ls-live {
+  font-family:'JetBrains Mono', monospace; font-size:.62rem; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--green); display:flex; align-items:center; gap:6px;
+}
+.ls-live::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--green); animation:live-pulse 1.8s ease-in-out infinite; }
+.ls-title { font-family:'Sora', sans-serif; font-weight:600; font-size:1rem; letter-spacing:.06em; text-transform:uppercase; color:var(--mid); }
+.ls-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:10px; overflow:hidden; margin-bottom:22px; }
+.ls-tile { background:var(--bg-1); padding:26px 16px; text-align:center; transition:background .3s var(--ease); position:relative; }
+.ls-tile:hover { background:var(--bg-2); }
+.ls-n { font-family:var(--font-impact); font-weight:400; font-size:2.4rem; line-height:1; color:var(--txt); font-variant-numeric:tabular-nums; }
+.ls-l { font-family:'JetBrains Mono', monospace; font-size:.6rem; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); margin-top:8px; }
+.ls-pypi-badge { display:flex; justify-content:center; }
+.ls-pypi-badge img { border-radius:3px; }
+
+@media(max-width:780px){
+  .live-stats { padding:44px 20px; }
+  .ls-grid { grid-template-columns:1fr 1fr; }
+}
+
+.mockup-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); grid-auto-flow:dense;
+  gap:1px; background:var(--line); padding:1px;
+}
+
+.mc { background:var(--bg-1); padding:18px 20px; }
+.mc-label {
+  font-family:'JetBrains Mono', monospace;
+  font-size:.56rem; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--dim); margin-bottom:8px;
+}
+.mc-val {
+  font-family:var(--font-impact);
+  font-weight:400; font-size:2.9rem; line-height:1; color:var(--txt);
+  font-variant-numeric: tabular-nums;
+}
+.mc-val .u { font-size:.82rem; color:var(--dim); margin-left:4px; }
+.mc-val.blue { color:var(--blue-2); }
+.mc-val.orange { color:var(--orange); }
+
+.rpm-segs { display:flex; gap:2px; margin-top:10px; height:16px; align-items:flex-end; }
+.rpm-segs span { flex:1; height:100%; background:rgba(255,255,255,.05); transition:background .15s ease; }
+
+.mc-gear { display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.gear-big {
+  font-family:var(--font-impact);
+  font-weight:400; font-size:6.8rem; line-height:1; color:var(--orange);
+  font-variant-numeric: tabular-nums;
+}
+
+.mc-track { grid-column:span 2; }
+.mc-track svg { width:100%; height:130px; display:block; }
+
+.tyre-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:10px; }
+.tb {
+  padding:7px 5px; border-radius:2px;
+  font-family:'JetBrains Mono', monospace; font-size:.72rem;
+  text-align:center; border:1px solid var(--line);
+  transition:border-color .3s, color .3s, background .3s;
+}
+.tb.hot  { border-color:rgba(200, 16, 46,.5);  color:#ff8a5c; background:rgba(200, 16, 46,.08); }
+.tb.warm { border-color:rgba(201, 162, 75,.4);  color:var(--gold); background:rgba(201, 162, 75,.07); }
+.tb.cool { border-color:rgba(95, 179, 168,.35); color:var(--blue-2); background:rgba(95, 179, 168,.07); }
+
+.input-rows { display:flex; flex-direction:column; gap:10px; margin-top:12px; }
+.irow { display:flex; align-items:center; gap:10px; }
+.ilbl { font-family:'JetBrains Mono', monospace; font-size:.56rem; letter-spacing:.1em; color:var(--dim); width:26px; text-transform:uppercase; }
+.itrack { flex:1; height:7px; background:rgba(255,255,255,.05); overflow:hidden; border-radius:2px; }
+.ifill { height:100%; transition:width .22s ease; }
+.ifill.t { background:var(--green); }
+.ifill.b { background:var(--orange); }
+
+/* ── CREDIT STRIPS ── */
+.credit-strip {
+  background:var(--bg-1);
+  border-top:1px solid var(--line);
+  padding:34px 52px;
+  display:flex; align-items:center; justify-content:space-between;
+  gap:28px; flex-wrap:wrap;
+  transition:background .3s ease;
+}
+.credit-strip:hover { background:var(--bg-2); }
+.cs-left { display:flex; align-items:center; gap:20px; }
+.cs-badge {
+  padding:10px 18px; border-radius:0;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  font-family:'Sora', sans-serif;
+  font-weight:700; font-size:1.05rem;
+  letter-spacing:.1em; text-transform:uppercase;
+  color:#fff; white-space:nowrap;
+  box-shadow: 0 1px 0 rgba(255,255,255,.25) inset, var(--shadow-sm);
+}
+.cs-badge.blue   { background:var(--blue); }
+.cs-badge.green  { background:var(--green); }
+.cs-badge.gold   { background:var(--gold); color:#191204; }
+.cs-text p {
+  font-family:'JetBrains Mono', monospace;
+  font-size:.64rem; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--dim); margin-bottom:4px;
+}
+.cs-text strong {
+  font-family:'Sora', sans-serif;
+  font-weight:700; font-size:1.05rem;
+  letter-spacing:.04em; text-transform:uppercase;
+  color:var(--txt);
+}
+.cs-link {
+  text-decoration:none; color:var(--blue-2);
+  font-family:'Sora', sans-serif;
+  font-weight:700; font-size:.9rem;
+  letter-spacing:.1em; text-transform:uppercase;
+  border:1px solid rgba(95, 179, 168,.3); border-radius:0;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 9px 100%, 0 calc(100% - 9px));
+  padding:10px 20px; overflow-wrap:anywhere; max-width:100%;
+  transition:background .2s, border-color .2s;
+}
+.cs-link:hover { background:rgba(95, 179, 168,.1); border-color:rgba(95, 179, 168,.55); }
+.cs-link.green { color:var(--green); border-color:rgba(60, 154, 95,.3); }
+.cs-link.green:hover { background:rgba(60, 154, 95,.1); border-color:rgba(60, 154, 95,.55); }
+.cs-link.gold { color:var(--gold); border-color:rgba(201, 162, 75,.3); }
+.cs-link.gold:hover { background:rgba(201, 162, 75,.1); border-color:rgba(201, 162, 75,.55); }
+
+/* ── FEATURES ── */
+.features { padding:130px 52px; max-width:1120px; margin:0 auto; }
+.features .eyebrow { margin-bottom:16px; }
+.sec-h {
+  font-family:var(--font-impact);
+  font-weight:400; font-size:clamp(2.4rem,5.4vw,4.2rem);
+  text-transform:uppercase; line-height:1.02;
+  margin-bottom:56px;
+}
+
+.cards { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+.card {
+  padding:40px 34px; background:var(--bg);
+  position:relative; overflow:hidden;
+  transition:background .3s var(--ease), transform .35s var(--ease);
+}
+.card::before {
+  content:'';
+  position:absolute; left:0; top:0; bottom:0; width:2px;
+  background:var(--orange);
+  transform:scaleY(0); transform-origin:top;
+  transition:transform .4s var(--ease);
+}
+.card:hover { background:var(--bg-1); }
+.card:hover::before { transform:scaleY(1); }
+.card:hover .card-n { color:rgba(200,16,46,.4); transform:translateX(2px); }
+
+.card-n {
+  font-family:var(--font-impact); font-weight:400;
+  font-size:3.6rem; line-height:1; color:rgba(255,255,255,.12);
+  margin-bottom:16px; letter-spacing:-.01em;
+  transition:color .35s ease, transform .35s var(--ease);
+}
+.card-t {
+  font-family:'Sora', sans-serif; font-weight:700;
+  font-size:1.25rem; text-transform:uppercase; letter-spacing:.06em;
+  margin-bottom:12px;
+}
+.card-b { font-size:.85rem; color:var(--mid); line-height:1.75; }
+.card-b a { color:var(--green); text-decoration:none; }
+.card-b a:hover { text-decoration:underline; }
+
+/* flagship card — 01 Live Dashboard gets the weight the others don't */
+.card-dash {
+  grid-column: span 3;
+  padding:56px 52px;
+  background: linear-gradient(135deg, rgba(200,16,46,.05), transparent 55%), var(--bg);
+  display:grid; grid-template-columns:auto 1fr; gap:36px; align-items:start;
+}
+.card-dash .card-n { font-size:6.5rem; margin-bottom:0; color:rgba(200,16,46,.22); }
+.card-dash .card-t { font-size:1.9rem; }
+.card-dash .card-b { font-size:.95rem; max-width:640px; }
+.card-dash::before { width:3px; }
+.card-dash:hover { transform:translateY(-3px); box-shadow:var(--shadow-md); }
+@media(max-width:640px){
+  .card-dash { grid-template-columns:1fr; gap:14px; padding:40px 30px; }
+  .card-dash .card-n { font-size:4.4rem; }
+}
+
+/* ── BOTTOM CTA ── */
+.bot-cta {
+  text-align:center; padding:96px 40px;
+  background:
+    radial-gradient(ellipse 60% 70% at 50% 50%, rgba(28, 92, 88,.1) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 50% at 50% 100%, rgba(200, 16, 46,.08) 0%, transparent 70%);
+  border-top:1px solid var(--line);
+}
+.bot-cta .eyebrow { justify-content:center; margin-bottom:28px; }
+
+@media(max-width:780px){
+  .hero { padding:104px 20px 56px; min-height:auto; align-items:center; }
+  .hero-text { max-width:100%; }
+  .hero-tag, h1, .hero-sub { text-align:center; }
+  .hero-tag { justify-content:center; }
+  h1 { margin-left:0; }
+  .cta-row { justify-content:center; }
+  .scroll-cue { display:none; }
+  .mockup-wrap { margin-top:48px; }
+  .mockup-grid { grid-template-columns:1fr 1fr; }
+  .mc-track { grid-column:span 2; }
+  .features { padding:76px 20px; }
+  .cards { grid-template-columns:1fr; }
+  .card-dash { grid-column:span 1; }
+  .credit-strip { padding:26px 20px; }
+  .bot-cta { padding:64px 20px; }
+}
+@media(max-width:480px){
+  .mockup-grid { grid-template-columns:1fr 1fr; }
+  .mc { padding:16px 14px; }
+  .mc-val { font-size:2.1rem; }
+  .gear-big { font-size:4.6rem; }
+  .mc-track svg { height:110px; }
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "TRACE",
+  "alternateName": "TRACE GT7 Telemetry",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Windows, macOS, Linux, Android",
+  "description": "Free, open-source telemetry tool for Gran Turismo 7 with a live dashboard, real-time track map, 19-chart Lap Analyst and full Race Analyst.",
+  "url": "https://gt7trace.netlify.app/",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "creator": {
+    "@type": "Person",
+    "name": "Ransh"
+  }
+}
+</script>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<nav>
+  <a href="/" class="logo">TRACE <span>GT7</span></a>
+  <div class="nav-links">
+    <a href="/about" class="nav-link">About</a>
+    <a href="/features" class="nav-link">Features</a>
+    <a href="/leaderboard" class="nav-link">Leaderboard</a>
+    <a href="/totalfiles" class="nav-link">Files</a>
+    <a href="/privacy" class="nav-link">Privacy</a>
+    <a href="/archived" class="nav-link">Archived</a>
+    <a href="/setup" class="nav-btn orange">Set It Up →</a>
+    <a href="https://ko-fi.com/ransh" target="_blank" rel="noopener noreferrer" class="nav-btn gold">Support</a>
+  </div>
+  <button class="nav-burger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</nav>
+<div class="menu-scrim"></div>
+<div class="mobile-menu">
+  <a href="/about">About</a>
+  <a href="/features">Features</a>
+  <a href="/leaderboard">Leaderboard</a>
+  <a href="/totalfiles">Files</a>
+  <a href="/privacy">Privacy</a>
+  <a href="/archived">Archived</a>
+  <a href="/setup" class="mm-btn orange">Set It Up →</a>
+  <a href="https://ko-fi.com/ransh" target="_blank" rel="noopener noreferrer" class="mm-btn gold">Support</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="main-content">
+  <div class="hero-num" aria-hidden="true">01</div>
+  <div class="hero-text">
+  <div class="eyebrow hero-tag">Built by one driver, for one driver — turns out a few thousand more wanted it too</div>
+  <h1><span class="hl">Your Lap.</span><span class="hl"><em>Your Data.</em></span></h1>
+  <p class="hero-sub">Live dashboard, track map, full lap analysis, and a global lap leaderboard — pulled directly from your console over the network. Free. Open source.</p>
+  <div class="cta-row">
+  <a href="/setup" class="btn btn-primary btn-md btn-arrow">Set It Up</a>
+  <a class="share-btn" target="_blank" rel="noopener noreferrer" href="https://wa.me/?text=Found%20a%20free%2C%20open-source%20GT7%20telemetry%20tool%20%E2%80%94%20live%20dashboard%2C%20full%20lap%20analysis%2C%20and%20a%20global%20leaderboard%2C%20pulled%20straight%20off%20your%20PS4%2FPS5.%20Check%20out%20TRACE%3A%20https%3A%2F%2Fgt7trace.netlify.app%2F">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.31-1.39a9.9 9.9 0 0 0 4.72 1.2h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.13a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.22 8.22 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.55-3.7 8.21-8.25 8.21zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.17.24-.64.81-.78.97-.14.17-.29.19-.53.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.36-.77-1.86-.2-.48-.41-.42-.56-.43-.14-.01-.31-.01-.48-.01a.92.92 0 0 0-.67.31c-.23.25-.87.85-.87 2.08 0 1.22.89 2.4 1.01 2.57.13.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.23-.16-.48-.28z"/></svg>
+    Share TRACE
+  </a>
+  </div>
+
+  <!-- ANIMATED DASHBOARD MOCKUP -->
+  </div><!-- /hero-text -->
+  <div class="mockup-wrap">
+    <div class="mockup-win">
+
+      <div class="mockup-titlebar">
+        <div class="m-dot"></div>
+        <div class="m-dot"></div>
+        <div class="m-dot"></div>
+        <span class="m-wtitle">TRACE  LIVE DASHBOARD</span>
+        <span class="m-live">LIVE</span>
+      </div>
+
+      <div class="mockup-grid">
+
+        <!-- Speed -->
+        <div class="mc">
+          <div class="mc-label">Speed</div>
+          <div class="mc-val" id="v-spd">188<span class="u">km/h</span></div>
+        </div>
+
+        <!-- RPM -->
+        <div class="mc">
+          <div class="mc-label">Engine RPM</div>
+          <div class="mc-val blue" id="v-rpm">6,240</div>
+          <div class="rpm-segs" id="rpm-bar"></div>
+        </div>
+
+        <!-- Gear -->
+        <div class="mc mc-gear">
+          <div class="mc-label">Gear</div>
+          <div class="gear-big" id="v-gear">4</div>
+        </div>
+
+        <!-- Track Map -->
+        <div class="mc mc-track">
+          <div class="mc-label">Track Map</div>
+          <svg viewBox="0 0 420 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path id="t-bg"
+              d="M 38 115 Q 38 104 66 104 L 278 104 Q 362 104 362 62
+                 Q 362 22 324 22 L 242 22 Q 222 22 218 42 Q 214 62 198 58
+                 Q 184 54 182 38 Q 178 18 158 20 Q 132 22 122 40
+                 Q 112 56 94 62 Q 68 68 52 84 Q 38 96 38 115 Z"
+              stroke="rgba(255,255,255,0.05)" stroke-width="14"
+              fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <path id="t-line"
+              d="M 38 115 Q 38 104 66 104 L 278 104 Q 362 104 362 62
+                 Q 362 22 324 22 L 242 22 Q 222 22 218 42 Q 214 62 198 58
+                 Q 184 54 182 38 Q 178 18 158 20 Q 132 22 122 40
+                 Q 112 56 94 62 Q 68 68 52 84 Q 38 96 38 115 Z"
+              stroke="rgba(28, 92, 88,0.32)" stroke-width="14"
+              fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="278" y1="98" x2="278" y2="110" stroke="rgba(255,255,255,0.13)" stroke-width="1.5"/>
+            <line x1="158" y1="15" x2="158" y2="28" stroke="rgba(255,255,255,0.13)" stroke-width="1.5"/>
+            <circle id="car-dot" cx="38" cy="115" r="5.5" fill="#c8102e"/>
+            <circle id="car-glow" cx="38" cy="115" r="9" fill="rgba(200, 16, 46,0.25)"/>
+          </svg>
+        </div>
+
+        <!-- Tyre Temps -->
+        <div class="mc">
+          <div class="mc-label">Tyre Temps</div>
+          <div class="tyre-grid">
+            <div class="tb hot"  id="t-fl">FL 92°</div>
+            <div class="tb warm" id="t-fr">FR 88°</div>
+            <div class="tb warm" id="t-rl">RL 85°</div>
+            <div class="tb cool" id="t-rr">RR 79°</div>
+          </div>
+        </div>
+
+        <!-- Inputs -->
+        <div class="mc">
+          <div class="mc-label">Inputs</div>
+          <div class="input-rows">
+            <div class="irow">
+              <div class="ilbl">THR</div>
+              <div class="itrack"><div class="ifill t" id="v-thr" style="width:78%"></div></div>
+            </div>
+            <div class="irow">
+              <div class="ilbl">BRK</div>
+              <div class="itrack"><div class="ifill b" id="v-brk" style="width:0%"></div></div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- mockup-grid -->
+    </div><!-- mockup-win -->
+  </div><!-- mockup-wrap -->
+
+  <button type="button" class="scroll-cue" aria-label="Scroll to content">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+  </button>
+</section>
+
+<!-- LIVE STATS -->
+<section class="live-stats" id="after-hero">
+  <div class="ls-inner">
+    <div class="ls-head">
+      <span class="ls-live">Live</span>
+      <span class="ls-title">Project Stats</span>
+    </div>
+    <div class="ls-grid">
+      <div class="ls-tile">
+        <svg class="ls-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polygon points="12 2 15 9 22 9 16.5 13.5 18.5 21 12 16.5 5.5 21 7.5 13.5 2 9 9 9"/></svg>
+        <div class="ls-n" id="ls-stars">—</div>
+        <div class="ls-l">GitHub Stars</div>
+      </div>
+      <div class="ls-tile">
+        <svg class="ls-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 13.5 12.5 21 3 11.5V3h8.5L20 11.5a2 2 0 0 1 0 2Z"/><circle cx="7.5" cy="7.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+        <div class="ls-n" id="ls-version">—</div>
+        <div class="ls-l">Latest PyPI Version</div>
+      </div>
+      <div class="ls-tile">
+        <svg class="ls-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 13l1.5-5A2 2 0 0 1 6.4 6.5h11.2A2 2 0 0 1 19.5 8L21 13v5a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1H6v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><circle cx="7" cy="17" r="1.4" fill="currentColor" stroke="none"/><circle cx="17" cy="17" r="1.4" fill="currentColor" stroke="none"/></svg>
+        <div class="ls-n" id="ls-cars">—</div>
+        <div class="ls-l">Cars Tracked</div>
+      </div>
+      <div class="ls-tile">
+        <svg class="ls-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 3v18"/><path d="M5 4h11l-2.5 3.5L16 11H5"/></svg>
+        <div class="ls-n" id="ls-tracks">—</div>
+        <div class="ls-l">Tracks Tracked</div>
+      </div>
+    </div>
+    <a href="https://pypi.org/project/gt7tracetelem/" target="_blank" rel="noopener noreferrer" class="ls-pypi-badge">
+      <img src="https://img.shields.io/pypi/dm/gt7tracetelem?color=ff5c8a&label=PyPI%20downloads&cacheSeconds=300" alt="PyPI monthly downloads" width="150" height="20" loading="lazy" decoding="async">
+    </a>
+  </div>
+</section>
+
+<!-- CREDIT ROW (Bornhall / ddm999 / Support, side by side) -->
+<div class="credit-row">
+  <div class="credit-card">
+    <div class="cs-badge blue">Built On</div>
+    <div class="cs-text">
+      <p>Original protocol by</p>
+      <strong>Bornhall</strong>
+    </div>
+    <a href="/about" class="cs-link">Full Story →</a>
+  </div>
+  <div class="credit-card">
+    <div class="cs-badge green">Powered By</div>
+    <div class="cs-text">
+      <p>Car &amp; track database by</p>
+      <strong>ddm999 — gt7info</strong>
+    </div>
+    <a href="https://github.com/ddm999/gt7info" target="_blank" rel="noopener noreferrer" class="cs-link green">gt7info ↗</a>
+  </div>
+  <div class="credit-card">
+    <div class="cs-badge gold">Enjoying TRACE?</div>
+    <div class="cs-text">
+      <p>Free, and always will be</p>
+      <strong>Support the Project</strong>
+    </div>
+    <a href="https://ko-fi.com/ransh" target="_blank" rel="noopener noreferrer" class="cs-link gold">Ko-fi ↗</a>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="eyebrow">What's Inside</div>
+  <h2 class="sec-h">Four Tools.<br>One Package.</h2>
+  <div class="cards">
+    <div class="card card-dash reveal reveal-scale">
+      <div class="card-n">01</div>
+      <div>
+      <div class="card-t">Live Dashboard</div>
+      <p class="card-b">Real-time telemetry from GT7 over UDP — speed, RPM, gear, tyre temps, fuel, G-forces, and 40+ more channels. All live, all in one window. Cars and tracks are shown by name via <a href="https://github.com/ddm999/gt7info" target="_blank" rel="noopener noreferrer">ddm999's gt7info</a> database, not a raw ID.</p>
+      </div>
+    </div>
+    <div class="card card-map reveal reveal-l" style="transition-delay:.08s">
+      <div class="card-n">02</div>
+      <div class="card-t">Track Map</div>
+      <p class="card-b">Live mini map drawn from world coordinates. Your position traces the circuit in real time as you drive.</p>
+    </div>
+    <div class="card card-lap reveal" style="transition-delay:.16s">
+      <div class="card-n">03</div>
+      <div class="card-t">Lap Analyst</div>
+      <p class="card-b">19 chart groups post-session — inputs, tyres, engine, braking, G-force, sector timing, heat maps, driver ratings, and A vs B lap comparison. Submit to a global per-car, per-track leaderboard, download any Top-10 lap as a ghost, or overlay a community-average racing line. See <a href="/privacy">Privacy</a> for what's submitted.</p>
+    </div>
+      <div class="card card-race reveal reveal-r" style="transition-delay:.24s">
+      <div class="card-n">04</div>
+      <div class="card-t">Race Analyst</div>
+      <p class="card-b">Full-race replay and comparison - load two complete race sessions side by side, replay them synced, score every lap corner by corner, check how consistent you were, and export the breakdown to CSV, HTML or a shareable race card.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BOTTOM CTA -->
+<div class="bot-cta">
+  <div class="eyebrow dim">Free · Open Source · Windows / macOS / Linux / Android</div>
+  <a href="/setup" class="btn btn-primary btn-lg btn-arrow">Set It Up</a>
+</div>
+
+<footer>
+  <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=8&color=246-244-240&bgcolor=11-11-13&data=https://gt7trace.netlify.app" alt="Scan to open TRACE on your phone" width="110" height="110" loading="lazy" decoding="async" style="display:block;margin:0 auto 10px;">
+  TRACE — community tool, not affiliated with Polyphony Digital or Sony Interactive Entertainment<br>
+  Original UDP protocol by <a href="https://github.com/Bornhall/gt7telemetry" target="_blank" rel="noopener noreferrer">Bornhall</a> · Car &amp; track database by <a href="https://github.com/ddm999/gt7info" target="_blank" rel="noopener noreferrer">ddm999</a> &middot; <a href="/features">Features</a>
+  <a href="/leaderboard">Leaderboard</a>
+  <a href="/totalfiles">Files</a> &middot; <a href="/about">About</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/setup">Setup</a> &middot; <a href="/archived">Archived</a> &middot; <a href="https://github.com/ransh2014/gt7telemtrace" target="_blank" rel="noopener noreferrer">GitHub</a> &middot; <a href="https://ko-fi.com/ransh" target="_blank" rel="noopener noreferrer" style="color:var(--gold);">Support on Ko-fi</a>
+</footer>
+
+<script src="/assets/site.js"></script>
+<script src="/assets/trace-chat.js" data-endpoint="https://trace-support-bot.shruthi-rai.workers.dev" defer></script>
+<script>
+const states = [
+  { spd:182, rpm:5800, gear:4, thr:78, brk:0,  ty:[91,87,84,78] },
+  { spd:188, rpm:6240, gear:4, thr:83, brk:0,  ty:[92,88,85,79] },
+  { spd:195, rpm:6700, gear:4, thr:88, brk:0,  ty:[93,89,86,80] },
+  { spd:201, rpm:7100, gear:5, thr:92, brk:0,  ty:[94,90,87,81] },
+  { spd:208, rpm:7560, gear:5, thr:95, brk:0,  ty:[95,91,88,82] },
+  { spd:212, rpm:7780, gear:5, thr:97, brk:0,  ty:[96,92,89,83] },
+  { spd:197, rpm:6300, gear:5, thr:28, brk:38, ty:[95,91,88,82] },
+  { spd:172, rpm:4700, gear:4, thr:0,  brk:82, ty:[93,90,87,81] },
+  { spd:140, rpm:3800, gear:3, thr:0,  brk:92, ty:[91,88,86,80] },
+  { spd:116, rpm:3100, gear:3, thr:18, brk:42, ty:[90,87,85,79] },
+  { spd:110, rpm:4000, gear:3, thr:72, brk:0,  ty:[90,87,84,78] },
+  { spd:128, rpm:5100, gear:4, thr:84, brk:0,  ty:[91,87,84,78] },
+];
+
+const SEG = 24;
+const MAX_RPM = 8200;
+const TYRE_IDS  = ['t-fl','t-fr','t-rl','t-rr'];
+const TYRE_LBLS = ['FL','FR','RL','RR'];
+
+const rpmBar = document.getElementById('rpm-bar');
+for (let i = 0; i < SEG; i++) { rpmBar.appendChild(document.createElement('span')); }
+
+function tyreClass(t) { return t >= 90 ? 'hot' : t >= 82 ? 'warm' : 'cool'; }
+
+function updateRpm(rpm) {
+  const segs = rpmBar.querySelectorAll('span');
+  const filled = Math.round((rpm / MAX_RPM) * SEG);
+  segs.forEach((s, i) => {
+    if (i < filled) {
+      const r = i / SEG;
+      s.style.background = r > .87 ? '#c8102e' : r > .68 ? '#c9a24b' : '#5fb3a8';
+    } else {
+      s.style.background = '';
+    }
+  });
+}
+
+let frame = 0;
+function tick() {
+  const s = states[frame % states.length];
+  document.getElementById('v-spd').innerHTML = `${s.spd}<span class="u">km/h</span>`;
+  document.getElementById('v-rpm').textContent = s.rpm.toLocaleString();
+  document.getElementById('v-gear').textContent = s.gear;
+  document.getElementById('v-thr').style.width = s.thr + '%';
+  document.getElementById('v-brk').style.width = s.brk + '%';
+  updateRpm(s.rpm);
+  TYRE_IDS.forEach((id, i) => {
+    const el = document.getElementById(id);
+    el.textContent = `${TYRE_LBLS[i]} ${s.ty[i]}°`;
+    el.className = 'tb ' + tyreClass(s.ty[i]);
+  });
+  frame++;
+}
+let tickTimer = setInterval(tick, 700);
+tick();
+
+const tLine  = document.getElementById('t-line');
+const dot    = document.getElementById('car-dot');
+const glow   = document.getElementById('car-glow');
+let progress = 0;
+let pathLen;
+let rafId;
+
+function animateDot() {
+  progress = (progress + 0.0018) % 1;
+  const pt = tLine.getPointAtLength(progress * pathLen);
+  dot.setAttribute('cx', pt.x);
+  dot.setAttribute('cy', pt.y);
+  glow.setAttribute('cx', pt.x);
+  glow.setAttribute('cy', pt.y);
+  rafId = requestAnimationFrame(animateDot);
+}
+
+window.addEventListener('load', () => {
+  pathLen = tLine.getTotalLength();
+  animateDot();
+});
+
+(function () {
+  const section = document.querySelector('.live-stats');
+  if (!section) return;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function animateNumber(el, target) {
+    if (reduceMotion) { el.textContent = target.toLocaleString(); return; }
+    const start = performance.now();
+    const dur = 900;
+    function step(now) {
+      const p = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(eased * target).toLocaleString();
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function countCsvRows(text) {
+    return Math.max(0, text.trim().split('\n').length - 1);
+  }
+
+  async function loadStats() {
+    const [repo, pkg, carsCsv, tracksCsv] = await Promise.allSettled([
+      fetch('https://api.github.com/repos/ransh2014/gt7telemtrace').then(r => r.json()),
+      fetch('https://pypi.org/pypi/gt7tracetelem/json').then(r => r.json()),
+      fetch('https://raw.githubusercontent.com/ransh2014/gt7telemtrace/main/src/gt7telem/car_ids.csv').then(r => r.text()),
+      fetch('https://raw.githubusercontent.com/ransh2014/gt7telemtrace/main/src/gt7telem/course_ids.csv').then(r => r.text()),
+    ]);
+
+    const starsEl = document.getElementById('ls-stars');
+    if (repo.status === 'fulfilled' && typeof repo.value.stargazers_count === 'number') {
+      animateNumber(starsEl, repo.value.stargazers_count);
+    }
+
+    const versionEl = document.getElementById('ls-version');
+    if (pkg.status === 'fulfilled' && pkg.value?.info?.version) {
+      versionEl.textContent = 'v' + pkg.value.info.version;
+    }
+
+    const carsEl = document.getElementById('ls-cars');
+    if (carsCsv.status === 'fulfilled') {
+      animateNumber(carsEl, countCsvRows(carsCsv.value));
+    }
+
+    const tracksEl = document.getElementById('ls-tracks');
+    if (tracksCsv.status === 'fulfilled') {
+      animateNumber(tracksEl, countCsvRows(tracksCsv.value));
+    }
+  }
+
+  if (!('IntersectionObserver' in window)) {
+    loadStats();
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(en => { if (en.isIntersecting) { loadStats(); io.unobserve(en.target); } });
+    }, { threshold: 0.2 });
+    io.observe(section);
+  }
+})();
+
+document.querySelector('.scroll-cue')?.addEventListener('click', () => {
+  document.getElementById('after-hero')?.scrollIntoView({
+    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+    block: 'start'
+  });
+});
+
+// Pause the mockup + track-map animation when the tab isn't visible.
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    clearInterval(tickTimer);
+    cancelAnimationFrame(rafId);
+  } else {
+    tickTimer = setInterval(tick, 700);
+    if (pathLen) animateDot();
+  }
+});
+
+// Cursor-reactive spotlight behind the hero + a subtle 3D tilt on the mockup window.
+(function () {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hasHover = window.matchMedia('(hover: hover)').matches;
+  if (reduceMotion || !hasHover) return;
+
+  const hero = document.querySelector('.hero');
+  const wrap = document.querySelector('.mockup-wrap');
+  const win  = document.querySelector('.mockup-win');
+  if (!hero) return;
+
+  let raf = null, px = 0, py = 0;
+  function apply() {
+    hero.style.setProperty('--mx', px + 'px');
+    hero.style.setProperty('--my', py + 'px');
+    if (win && wrap) {
+      const r = wrap.getBoundingClientRect();
+      const nx = (px - r.left) / r.width;   // 0..1 across the mockup
+      const ny = (py - r.top) / r.height;
+      if (nx >= 0 && nx <= 1 && ny >= 0 && ny <= 1) {
+        win.style.setProperty('--ry', ((nx - 0.5) * 10).toFixed(2) + 'deg');
+        win.style.setProperty('--rx', ((0.5 - ny) * 8).toFixed(2) + 'deg');
+      }
+    }
+    raf = null;
+  }
+  hero.addEventListener('mousemove', (e) => {
+    const r = hero.getBoundingClientRect();
+    px = e.clientX - r.left;
+    py = e.clientY - r.top;
+    if (!raf) raf = requestAnimationFrame(apply);
+  });
+  hero.addEventListener('mouseleave', () => {
+    if (win) { win.style.setProperty('--rx', '0deg'); win.style.setProperty('--ry', '0deg'); }
+  });
+})();
+</script>
+</body>
+</html>

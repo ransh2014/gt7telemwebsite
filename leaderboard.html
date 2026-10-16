@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1DRKJH6JTG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1DRKJH6JTG');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leaderboard — TRACE for Gran Turismo 7</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%2308080a'/><path d='M7 6 L19 6 L27 16 L19 26 L7 26 L15 16 Z' fill='%23c8102e'/></svg>">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/styles.css">
+<meta name="description" content="Browse TRACE's global GT7 lap leaderboard by car and track, or request a track that isn't listed yet.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://gt7trace.netlify.app/leaderboard">
+<meta name="theme-color" content="#050505">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TRACE">
+<meta property="og:title" content="Leaderboard — TRACE for Gran Turismo 7">
+<meta property="og:description" content="Browse TRACE's global GT7 lap leaderboard by car and track, or request a track that isn't listed yet.">
+<meta property="og:url" content="https://gt7trace.netlify.app/leaderboard">
+<meta property="og:image" content="https://gt7trace.netlify.app/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Leaderboard — TRACE for Gran Turismo 7">
+<meta name="twitter:description" content="Browse TRACE's global GT7 lap leaderboard by car and track, or request a track that isn't listed yet.">
+<meta name="twitter:image" content="https://gt7trace.netlify.app/og-image.png">
+<style>
+/* ── PICKERS ── */
+.picker-row {
+  max-width:820px; margin:0 auto; padding:36px 52px 0;
+  display:grid; grid-template-columns:1fr 1fr; gap:16px;
+}
+.combo { position:relative; }
+.combo-label {
+  font-family:'JetBrains Mono', monospace; font-size:.62rem; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--dim); margin-bottom:8px; display:block;
+}
+.combo input {
+  width:100%; background:var(--bg-1); border:1px solid var(--line); border-radius:var(--radius);
+  color:var(--txt); font-family:'Sora', sans-serif; font-size:.95rem; font-weight:600;
+  padding:14px 16px; outline:none; transition:border-color .2s;
+}
+.combo input:focus { border-color:var(--blue); }
+.combo-list {
+  position:absolute; left:0; right:0; top:calc(100% + 6px); z-index:20;
+  max-height:280px; overflow-y:auto;
+  background:var(--bg-2); border:1px solid var(--line-2); border-radius:var(--radius);
+  box-shadow:var(--shadow-md); display:none;
+}
+.combo-list.open { display:block; }
+.combo-item {
+  padding:10px 16px; font-size:.88rem; color:var(--mid); cursor:pointer;
+  transition:background .15s, color .15s;
+}
+.combo-item:hover, .combo-item.active { background:var(--bg-3); color:var(--txt); }
+.combo-empty { padding:12px 16px; font-size:.82rem; color:var(--dim); }
+@media(max-width:780px){ .picker-row { grid-template-columns:1fr; padding:26px 20px 0; } }
+
+/* ── LEADERBOARD TABLE ── */
+.lb-wrap { max-width:820px; margin:0 auto; padding:36px 52px 0; }
+.lb-status {
+  font-family:'JetBrains Mono', monospace; font-size:.68rem; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--dim); margin-bottom:14px; min-height:1.2em;
+}
+.lb-table { width:100%; border-collapse:collapse; background:var(--bg-1); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; }
+.lb-table th {
+  text-align:left; font-family:'JetBrains Mono', monospace; font-size:.6rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--dim); padding:12px 16px; border-bottom:1px solid var(--line);
+}
+.lb-table td { padding:13px 16px; font-size:.9rem; border-bottom:1px solid var(--line); }
+.lb-table tr:last-child td { border-bottom:none; }
+.lb-table tr:hover td { background:var(--bg-2); }
+.lb-rank { font-family:var(--font-impact); font-size:1.3rem; color:var(--dim); width:44px; }
+.lb-table tr:nth-child(1) .lb-rank { color:var(--gold); }
+.lb-table tr:nth-child(2) .lb-rank { color:var(--blue-2); }
+.lb-table tr:nth-child(3) .lb-rank { color:var(--orange-2); }
+.lb-time { font-family:'JetBrains Mono', monospace; font-weight:700; color:var(--txt); font-variant-numeric:tabular-nums; }
+.lb-name { font-weight:600; }
+.lb-date { color:var(--dim); font-size:.78rem; }
+.lb-empty-state {
+  padding:44px 20px; text-align:center; color:var(--dim); font-size:.9rem;
+  border:1px dashed var(--line-2); border-radius:var(--radius);
+}
+@media(max-width:780px){
+  .lb-wrap { padding:26px 20px 0; }
+  .lb-date { display:none; }
+}
+
+/* ── TRACK REQUEST ── */
+.track-request { max-width:820px; margin:52px auto 0; padding:0 52px 60px; }
+.tr-inner {
+  background:var(--bg-1); border:1px solid var(--line); border-radius:var(--radius);
+  padding:26px 30px;
+}
+.tr-inner h3 { font-family:'Sora', sans-serif; font-weight:700; font-size:1.1rem; text-transform:uppercase; margin-bottom:8px; }
+.tr-inner p { font-size:.85rem; color:var(--mid); line-height:1.7; margin-bottom:16px; }
+.tr-row { display:flex; gap:10px; flex-wrap:wrap; }
+.tr-row input[type=text] {
+  flex:1; min-width:220px; background:var(--cbg); border:1px solid var(--line); border-radius:var(--radius);
+  color:var(--txt); font-family:'Sora', sans-serif; font-size:.9rem; padding:12px 16px; outline:none;
+}
+.tr-row input[type=text]:focus { border-color:var(--blue); }
+.tr-row button {
+  background: linear-gradient(180deg, var(--orange-2) 0%, var(--orange) 55%, var(--orange-dim) 100%);
+  color:#fbf3ef; border:none; cursor:pointer;
+  font-family:'Sora', sans-serif; font-weight:700; font-size:.85rem; letter-spacing:.06em; text-transform:uppercase;
+  padding:12px 24px; border-radius:0;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.22), inset 0 -2px 3px rgba(0,0,0,.28), 0 1px 0 rgba(0,0,0,.4), var(--shadow-sm);
+  transition:filter .2s, transform .15s, box-shadow .25s;
+}
+.tr-row button:hover { filter:brightness(1.06); transform:translateY(-2px); box-shadow: inset 0 1px 0 rgba(255,255,255,.26), inset 0 -2px 3px rgba(0,0,0,.26), 0 1px 0 rgba(0,0,0,.4), 0 14px 28px -12px var(--orange-glow), var(--shadow-sm); }
+.tr-row button:active { transform:translateY(1px); filter:brightness(.94); box-shadow: inset 0 1px 2px rgba(0,0,0,.35), inset 0 -1px 0 rgba(255,255,255,.08); }
+.tr-row button:disabled { opacity:.5; cursor:default; filter:none; transform:none; box-shadow:none; }
+.tr-msg { margin-top:12px; font-size:.82rem; }
+.tr-msg.ok { color:var(--green); }
+.tr-msg.err { color:var(--orange-2); }
+
+.tr-inner { isolation:isolate; overflow:hidden; position:relative; }
+.tr-inner > * { position:relative; z-index:1; }
+.tr-inner::after {
+  content:'';
+  position:absolute; right:-20px; bottom:-20px; z-index:0;
+  width:140px; height:140px;
+  background-repeat:no-repeat; background-position:bottom right; background-size:contain;
+  opacity:.045; pointer-events:none;
+  transition:opacity .35s ease;
+}
+.tr-inner:hover::after { opacity:.09; }
+.tri-track::after { background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M10 82 Q10 62 30 62 L68 62 Q90 62 90 40 Q90 18 68 18 L40 18' stroke='white' stroke-width='6' fill='none' stroke-linecap='round'/></svg>"); }
+.tri-car::after { background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M14 62 L22 36 A6 6 0 0128 32 H72 A6 6 0 0178 36 L86 62' stroke='white' stroke-width='5' fill='none' stroke-linejoin='round'/><rect x='10' y='62' width='80' height='18' rx='4' stroke='white' stroke-width='5' fill='none'/><circle cx='28' cy='80' r='7' stroke='white' stroke-width='5' fill='none'/><circle cx='72' cy='80' r='7' stroke='white' stroke-width='5' fill='none'/></svg>"); }
+
+@media(max-width:780px){ .track-request { padding:0 20px 40px; } }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Leaderboard — TRACE for Gran Turismo 7",
+  "description": "Browse TRACE's global GT7 lap leaderboard by car and track, or request a track that isn't listed yet.",
+  "url": "https://gt7trace.netlify.app/leaderboard",
+  "isPartOf": {
+    "@type": "SoftwareApplication",
+    "name": "TRACE",
+    "url": "https://gt7trace.netlify.app/"
+  },
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://gt7trace.netlify.app/" },
+      { "@type": "ListItem", "position": 2, "name": "Leaderboard", "item": "https://gt7trace.netlify.app/leaderboard" }
+    ]
+  }
+}
+</script>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<nav>
+  <a href="/" class="logo">TRACE <span>GT7</span></a>
+  <div class="nav-links">
+    <a href="/about" class="nav-link">About</a>
+    <a href="/features" class="nav-link">Features</a>
+    <a href="/leaderboard" class="nav-link active">Leaderboard</a>
+    <a href="/totalfiles" class="nav-link">Files</a>
+    <a href="/privacy" class="nav-link">Privacy</a>
+    <a href="/archived" class="nav-link">Archived</a>
+    <a href="/setup" class="nav-btn orange">Set It Up →</a>
+    <a href="https://ko-fi.com/ransh" target="_blank" rel="noopener noreferrer" class="nav-btn gold">Support</a>
+  </div>
+  <button class="nav-burger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</nav>
+<div class="menu-scrim"></div>
+<div class="mobile-menu">
+  <a href="/about">About</a>
+  <a href="/features">Features</a>
+  <a href="/leaderboard">Leaderboard</a>
+  <a href="/totalfiles">Files</a>
+  <a href="/privacy">Privacy</a>
+  <a href="/archived">Archived</a>
+  <a href="/setup" class="mm-btn orange">Set It Up →</a>
+  <a href="https://ko-fi.com/ransh" target="_blank" rel="noopener noreferrer" class="mm-btn gold">Support</a>
+</div>
+
+<div class="page-hdr" id="main-content">
+  <div class="eyebrow">Global Lap Leaderboard</div>
+  <h1>Pick A Car.<br>Pick A <em>Track.</em></h1>
+  <p>Every public Top-10 time submitted from Lap Analyst, for every car and every track. Pick both below to see who's fastest.</p>
+</div>
+
+<div class="picker-row">
+  <div class="combo" id="car-combo">
+    <label class="combo-label" for="car-input">Car</label>
+    <input type="text" id="car-input" placeholder="Search 590 cars…" autocomplete="off">
+    <div class="combo-list" id="car-list"></div>
+  </div>
+  <div class="combo" id="track-combo">
+    <label class="combo-label" for="track-input">Track</label>
+    <input type="text" id="track-input" placeholder="Search 123 tracks…" autocomplete="off">
+    <div class="combo-list" id="track-list"></div>
+  </div>
+</div>
+
+<div class="lb-wrap">
+  <div class="lb-status" id="lb-status">Pick a car and track above to load the leaderboard.</div>
+  <div id="lb-body"></div>
+</div>
+
+<div class="track-request">
+  <div class="tr-inner tri-track">
+    <h2>Can't find your track?</h2>
+    <p>GT7's telemetry never reports a track ID, so new circuits only get added when someone tells us the name. Type it below — it goes straight into the review queue and gets added to this picker (and the app's own TRACK dropdown) once confirmed.</p>
+    <div class="tr-row">
+      <input type="text" id="tr-name" placeholder="e.g. Circuit de Barcelona-Catalunya National" maxlength="120">
+      <button id="tr-submit" type="button">Submit</button>
+    </div>
+    <div class="tr-msg" id="tr-msg"></div>
+  </div>
+</div>
+
+<div class="track-request" style="margin-top:20px;">
+  <div class="tr-inner tri-car">
+    <h2>Can't find your car?</h2>
+    <p>Missing a car from the list above? Type its name below, plus its numeric Car ID if you have it — that's the fastest way for it to get added correctly.
+    <br><strong style="color:var(--txt);">Where to find the Car ID:</strong> open TRACE's <strong>Live Dashboard</strong> while that car is on track — the <strong>SESSION / MISC</strong> panel has a "CAR ID" box showing the number. No dashboard handy? Leave it blank and just submit the name.</p>
+    <div class="tr-row">
+      <input type="text" id="cr-name" placeholder="e.g. Toyota GR86 RZ '21" maxlength="120">
+      <input type="text" id="cr-id" placeholder="Car ID (optional)" maxlength="12" style="max-width:180px;" inputmode="numeric">
+      <button id="cr-submit" type="button">Submit</button>
+    </div>
+    <div class="tr-msg" id="cr-msg"></div>
+  </div>
+</div>
+
+<footer>
+  TRACE — community tool, not affiliated with Polyphony Digital or Sony Interactive Entertainment<br>
+  Original UDP protocol by <a href="https://github.com/Bornhall/gt7telemetry" target="_blank" rel="noopener noreferrer">Bornhall</a> · Car &amp; track database by <a href="https://github.com/ddm999/gt7info" target="_blank" rel="noopener noreferrer">ddm999</a> &middot; <a href="/features">Features</a>
+  <a href="/totalfiles">Files</a> &middot; <a href="/about">About</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/setup">Setup</a> &middot; <a href="/archived">Archived</a> &middot; <a href="https://github.com/ransh2014/gt7telemtrace" target="_blank" rel="noopener noreferrer">GitHub</a> &middot; <a href="https://ko-fi.com/ransh" target="_blank" rel="noopener noreferrer" style="color:var(--gold);">Support on Ko-fi</a>
+</footer>
+
+<script src="/assets/site.js"></script>
+<script src="/assets/trace-chat.js" data-endpoint="https://trace-support-bot.shruthi-rai.workers.dev" defer></script>
+<script>
+/* ── embedded car/track name lists (mirrors car_ids.csv / course_ids.csv
+   ShortName/Name columns exactly -- these are the strings `laps.car_name`
+   and `laps.track_name` are stored as, so filters below must match verbatim) ── */
+const CARS = ["1500 Biposto Bertone B.A.T 1 '52", "155 2.5 V6 TI '93", "180SX Type X '96", "190 E 2.5-16 Evolution II '91", "1932 Ford Roadster Hot Rod", "2 CV 6 Charleston '86", "2&4 powered by RC213V", "2000GT '67", "205 GTI '88", "205 Turbo 16 Evolution 2 '86", "208 GTi by Peugeot Sport '14", "240 SE Estate '93", "250 GT Berlinetta passo corto '61", "250 GTO '62", "296 GT3 '23", "296 GTB '22", "2J '70", "3.0 CSL '71", "3.0 CSL '73", "300 SEL 6.8 AMG '71", "300 SL (W194) '52", "300 SL Coupe '54", "308 GTB '75", "330 P4 '67", "356 A/1500 GS Carrera '56", "356 A/1500 GS GT Carrera Speedster '56", "365 GTB4 '71", "400R '95", "430 Scuderia '07", "458 Italia '09", "458 Italia Gr.4", "458 Italia GT3 '13", "499P '23", "4C '14", "4C Gr.3", "4C Gr.3 Road Car", "4C Gr.4", "500 1.2 8V Lounge SS '08", "500 F '68", "500 Mondial Pinin Farina Coupe '54", "512 BB '76", "650S '14", "650S Gr.4", "650S GT3 '15", "787B '91", "812 Superfast '17", "86 Gr.4", "86 Gr.B Rally Car", "86 GRMN '16", "86 GT '15", "86 GT 'Limited' '16", "8C 2900B Touring Berlinetta '38", "8C Competizione '08", "908 HDi FAP '10", "911 Carrera RS (901) '73", "911 Carrera RS (964) '92", "911 Carrera RS (993) '95", "911 Carrera RS CS (993) '95", "911 GT1 Strassenversion '97", "911 GT3 (996) '01", "911 GT3 (997) '09", "911 GT3 R (992) '22", "911 GT3 RS (991) '16", "911 GT3 RS (992) '22", "911 RSR (991) '17", "911 Turbo (930) '81", "911 Turbo Rally (930)", "911 Turbo S (992) '20", "911 Turbo S Leichtbau (964) '93", "911 Turbo S Safety Car (992)", "917 LIVING LEGEND", "917K '70", "918 Spyder '13", "919 Hybrid '16", "959 '87", "962 C '88", "963 '24", "9X8 '25", "A 45 AMG '13", "A110 '17", "A110 '72", "A112 Abarth '85", "A220 Race Car '68", "A6GCS/53 Spyder '54", "Abarth 500 '09", "Abarth 595 SS '70", "AE86 Levin D-Tuned", "AFEELA 1 '26", "AFEELA Prototype 2024", "Alphard Executive Lounge '18", "Alpine VGT", "Alpine VGT '17", "Alpine VGT Race", "Ambulance Himedic '21", "Amuse NISMO 380RS Super Leggera", "Amuse S2000 GT1 Turbo", "Aqua S '11", "Atenza Gr.3", "Atenza Gr.3 Road Car", "Atenza Gr.4", "Atenza Sedan XD L Package '15", "Audi e-tron VGT", "Audi VGT", "Avantime 3.0 V6 24V '02", "Aventador LP 700-4 '11", "Aventador LP 750-4 SV '15", "Beat '91", "Beetle 1966 Desert Racer", "Beetle Gr.3", "BMW VGT", "BNR34 GT-R N1 base", "BRZ Drift Car '17", "BRZ GT300 '21", "BRZ S '15", "BRZ S '21", "BRZ STI Sport '18", "Bugatti VGT", "Bugatti VGT (Gr.1)", "BVLGARI Aluminium VGT", "BX 19 TRS '87", "C-HR S '18", "Camaro 1969 Race-Mod", "Camaro SS '16", "Camaro Z28 '69", "Camaro ZL1 1LE Package '18", "Cappuccino (EA11R) '91", "Captur S Edition TCe 140 '21", "Carrera GT '04", "Carrera GTS (904) '64", "Carry KC '12", "Cayman GT4 '16", "Cayman GT4 Clubsport '16", "Celica GT-Four (ST205) '94", "Celica GT-FOUR Rally Car (ST205) '95", "Challenger R/T '70", "Challenger SRT Demon '18", "Chaparral 2X VGT", "Charger R/T 426 Hemi '68", "Charger SRT Hellcat '15", "Charger SRT Hellcat Safety Car", "Chaser Tourer V '97", "CHC 1967 Chevy Nova", "Chevelle SS 454 Sport Coupé '70", "Chiron '16", "Civic", "Civic Si Extra (EF) '87", "Civic Si Group A version '87", "Civic SiR-II (EG) '93", "Civic Type R (EK) '97", "Civic Type R (EK) '98", "Civic Type R (EK) Touring Car", "Civic Type R (FK2) '15", "Civic Type R (FL5) '22", "Civic Type R Limited Edition (FK8) '20", "Clio R.S. 220 Trophy '15", "Clio R.S. 220 Trophy '16", "Clio V6 24V '00", "CLK-LM '98", "Cobra 427 '66", "Cobra Daytona Coupe '64", "Concept XR-PHEV EVOLUTION VGT", "Copen '02", "COPEN RJ VGT", "Corolla Levin 1600GT APEX (AE86) '83", "Corsa GSE Vision Gran Turismo", "Corvette (C1) '58", "Corvette (C2) '63", "Corvette C7 '14", "Corvette C7 Gr.3", "Corvette C7 Gr.3 Road Car", "Corvette C7 Gr.4", "Corvette C7 ZR1 '19", "Corvette C8 Stingray '20", "Corvette Convertible (C3) '69", "Corvette CX Concept '25", "Corvette CX.R Vision Gran Turismo Concept", "Corvette Stingray (C3) '69", "Corvette Stingray Racer Concept '59", "Corvette Z06 (C5) '01", "Corvette ZR-1 (C4) '89", "Corvette ZR1 (C6) '09", "Countach 25th Anniversary '88", "Countach LP400 '74", "CR-V e:HEV EX Black Edition '21", "Crown Athlete G '13", "Crown Athlete G Safety Car", "CTR3 '07", "CX-30 X Smart Edition '21", "D-type '54", "DB11 '16", "DB3S '53", "DB5 '64", "DBR9 GT1 '10", "DeLorean S2 '04", "Delta HF Integrale Evoluzione '91", "Demio XD Touring '15", "Diablo GT '00", "Dino 246 GT '71", "DP-100 VGT", "DS 21 Pallas '70", "DS 3 Racing '11", "E-type Coupe '61", "efini RX-7 Type R (FD) '91", "ELANTRA N '23", "ELANTRA N TC '24", "Enzo Ferrari '02", "Escort RS Cosworth '92", "Espace F1 '95", "Eunos Roadster (NA) '89", "F-150 SVT Raptor '11", "F-type Gr.3", "F-type Gr.4", "F-type R '14", "F12berlinetta '12", "F1500T-A", "F3500-A", "F3500-B", "F355 Berlinetta '94", "F40 '92", "F430 '06", "F50 '95", "F8 Tributo '19", "Fairlady 240ZG (HS30) '71", "Fairlady Z (Z34) '08", "Fairlady Z 300ZX TT 2seater '89", "Fairlady Z 432 '69", "Fairlady Z Version S (Z33) '07", "Ferrari Vision Gran Turismo", "Firebird Trans Am '78", "Fit Hybrid '14", "Focus Gr.B Rally Car", "Focus RS '18", "Focus ST '15", "Ford GT '06", "Ford GT '17", "Ford GT LM Race Car Spec II", "Ford GT LM Spec II Test Car", "Ford GT Race Car '18", "FT-1", "FT-1 VGT", "FT-1 VGT (Gr.3)", "FTO GP Version R '97", "FXX K '14", "G.T.350 '65", "G70 3.3T AWD Prestige Package '22", "G70 GR4", "Gallardo LP 560-4 '08", "Genesis Coupe 3.8 '13", "Genesis Gr.3", "Genesis Gr.4", "Genesis Gr.B Rally Car", "Genesis X GR3", "Genesis X Gran Berlinetta VGT Concept", "Genesis X Gran Racer Vision Gran Turismo Concept", "Giulia GTAm '20", "Giulia Sprint GT Veloce '67", "GIULIA TZ2 carrozzata da ZAGATO '65", "Golf I GTI '83", "Golf VII GTI '14", "GR Corolla MORIZO Edition '22", "GR Supra Race Car '19", "GR Supra Racing Concept '18", "GR Supra RZ '19", "GR Supra RZ '20", "GR Yaris RZ 'High performance' '20", "GR010 HYBRID '21", "GR010 HYBRID (Olympic Esports Series) '21", "GR86 RZ '21", "GranTurismo S '08", "Greddy Fugu Z", "GT by Citroen Gr.4", "GT by Citroen Race Car (Gr.3)", "GT by Citroen Road Car", "GT-One (TS020) '99", "GT-R '17", "GT-R Gr.4", "GT-R Gr.B Rally Car", "GT-R GT500 '08", "GT-R GT500 '99", "GT-R LM NISMO '15", "GT-R NISMO '17", "GT-R NISMO (R32) '90", "GT-R NISMO GT3 '13", "GT-R NISMO GT3 '18", "GT-R NISMO GT500 '16", "GT-R Premium edition T-spec '24", "GT-R Safety Car", "GT3 '20", "GT40 Mark I '66", "GTI Roadster VGT", "GTI Supersport VGT", "GTO '84", "GTO 'The Judge' '69", "GTO Twin Turbo '91", "Hiace Van DX '16", "Honda Sports VGT", "Huayra '13", "Huracan Gr.4", "Huracan GT3 '15", "Huracan LP 610-4 '15", "HYUNDAI N 2025 VGT", "HYUNDAI N 2025 VGT (Gr.1)", "i3 '15", "ID.R '19", "Impreza 22B-STi '98", "Impreza Coupe WRX Type R STi Ver.VI '99", "Impreza Rally Car '98", "Impreza Sedan WRX STi '04", "INFINITI CONCEPT VGT", "Integra Type R (DC2) '95", "Integra Type R (DC2) '98", "IONIQ 5 N '24", "IONIQ 6N '25", "IsoRivolta Zagato VGT", "Italdesign VGT Off-road Mode", "Italdesign VGT Street Mode", "Jaguar VGT Coupe", "Jaguar VGT Roadster", "Jaguar VGT SV", "Jimny Sierra JC '18", "Jimny XC '18", "Kangoo 1.4 '01", "L500R HYbrid VGT 2017", "L750R HYbrid VGT 2017", "LaFerrari '13", "Lambo V12 VGT", "Lancer Evolution Final '15", "Lancer Evolution Final Gr.3", "Lancer Evolution Final Gr.4", "Lancer Evolution Final Gr.B Rally Car", "Lancer Evolution Final Gr.B Road Car", "Lancer Evolution III GSR '95", "Lancer Evolution IV GSR '96", "Lancer Evolution IX MR GSR '06", "Lancer Evolution V GSR '98", "Lancer Evolution VI GSR T.M. SCP '99", "Lancer Evolution VIII MR GSR '04", "Lancia Delta HF Integrale Rally Car '92", "Land Cruiser FJ40V '74", "LC500 '17", "LF-LC GT VGT", "LFA '10", "LM55 VGT", "LM55 VGT (Gr.1)", "M Hybrid V8 '25", "M2 Competition '18", "M3 '03", "M3 '07", "M3 '89", "M3 '97", "M3 GT '11", "M3 Sport Evolution '89", "M4 '14", "M4 Gr.4", "M4 Safety Car", "M6 GT3 Endurance Model '16", "M6 GT3 Sprint Model '16", "Mach Forty", "Mangusta '69", "Mangusta (Christian Dior)", "Mark II Tourer V '97", "Mark IV Race Car '67", "Maverick", "MAZDA SPIRIT RACING ROADSTER 12R '25", "Mazda3 '19", "MAZDA3 Gr.4", "MC20 '20", "McLaren F1 '94", "McLaren F1 GTR - BMW '95", "McLaren F1 GTR Race Car '97", "McLaren P1 GTR '16", "McLaren VGT", "McLaren VGT (Gr.1)", "Megane Gr.4", "Megane R.S. Trophy '11", "Megane R.S. Trophy Safety Car", "Megane Trophy '11", "Merak SS '80", "Mercedes-AMG C 63 S '15", "Mercedes-AMG GT Black Series '20", "Mercedes-AMG GT R '17", "Mercedes-AMG GT S '15", "Mercedes-AMG GT Safety Car", "Mercedes-AMG GT3 '16", "Mercedes-Benz AMG VGT", "Mercedes-Benz AMG VGT Racing Series", "MINI Clubman VGT", "MINI Cooper S '05", "Mini-Cooper 'S' '65", "Mission X '23", "MiTo '09", "Miura P400 Bertone Prototype '67", "Model 3 Performance '23", "Model S Signature Performance '12", "Mono '16", "MP4-12C '10", "MP4/4 '88", "MR2 GT-S '97", "Murcielago LP 640 '09", "Mustang 2015 American Racer", "Mustang Boss 429 '69", "Mustang Gr.3", "Mustang Gr.3 Road Car", "Mustang Gr.4", "Mustang Gr.B Rally Car", "Mustang GT '15", "Mustang Mach 1 '71", "N-ONE RS '22", "NISSAN CONCEPT 2020 VGT", "NSX '17", "NSX CONCEPT-GT '16", "NSX Gr.3", "NSX Gr.4", "NSX Gr.B Rally Car", "NSX GT500 '00", "NSX GT500 '08", "NSX Type R '02", "NSX Type R '92", "One-77 '11", "Panda 30 CL '85", "Pantera '71", "PEUGEOT VGT", "PEUGEOT VGT (Gr.3)", "Polestar 5 Performance", "Polo GTI '14", "Porsche VGT", "Porsche VGT Spyder", "Prius G '09", "Qashqai Tekna 190 2wd e-Power '22", "R.S.01 '16", "R.S.01 GT3 '16", "R18 '16", "R18 TDI '11", "R32 GT-R V-spec II '94", "R33 GT-R V-spec '97", "R34 GT-R V-spec II Nur '02", "R34 GT-R Z-tune '05", "R4 GTL '85", "R5 Turbo '80", "R8 4.2 '07", "R8 Coupé V10 plus '16", "R8 Gordini '66", "R8 LMS '15", "R8 LMS Evo '19", "R92CP '92", "RA272 '65", "Racing Kart 125 Shifter", "RAV4 Adventure '20", "RC F '14", "RC F Gr.4", "RC F GT3 '17", "RC F GT3 prototype '16", "RC F GT500 '16", "RCZ Gr.3", "RCZ Gr.3 Road Car", "RCZ Gr.4", "RCZ Gr.B Rally Car", "RCZ GT Line '15", "RE Amemiya FD3S RX-7", "Red Bull X2014 Junior", "Red Bull X2014 Standard", "Red Bull X2019 25th Anniversary", "Red Bull X2019 Competition", "RGT 4.2 '16", "Roadster NR-A (ND) '22", "Roadster S (ND) '15", "Roadster Shop Rampage", "Roadster Touring Car", "RS 5 Turbo DTM '19", "RX-7 GT-X (FC) '90", "RX-7 Spirit R Type A (FD) '02", "RX-8 Spirit R '12", "RX-VISION '15", "RX-VISION GT3 CONCEPT", "RX-VISION GT3 CONCEPT Stealth Model", "RX-VISION GT3 EVO '26", "RX500 '70", "S Barker Tourer '29", "S-FR '15", "S-FR Racing Concept '16", "S2000 '99", "S660 '15", "S800 '66", "Sambabus Typ 2 '62", "Sauber Mercedes C9 '89", "SC430 GT500 '08", "Scirocco Gr.4", "Scirocco R '10", "Seven Superlight R500 '08", "SF19 Super Formula / Honda '19", "SF19 Super Formula / Toyota '19", "SF23 Super Formula / Honda '23", "SF23 Super Formula / Toyota '23", "Shelby GT350R '16", "Sierra RS 500 Cosworth '87", "Sileighty '98", "Silvia K's Aero (S14) '96", "Silvia K's Dia Selection (S13) '90", "Silvia K's Type S (S14) '94", "Silvia Q's (S13) '88", "SILVIA spec-R Aero (S15) '02", "Silvia spec-R Aero (S15) Touring Car", "SKODA Vision Gran Turismo", "Skyline 2000GT-R (KPGC110) '73", "Skyline GT-R GP-Tuned (KPGC10)", "Skyline GTS-R (R31) '87", "Skyline Hard Top 2000GT-R (KPGC10) '70", "Skyline Super Silhouette Group 5 '84", "SLR McLaren '09", "SLS AMG '10", "SLS AMG Gr.4", "SLS AMG GT3 '11", "Sport quattro S1 Pikes Peak '87", "Sports 800 '65", "Sprinter Trueno 1600GT APEX (AE86) '83", "Sprinter Trueno 1600GT APEX (S.Shigeno Version)", "Spyder type 550/1500RS '55", "SR3 SL '13", "SRT Tomahawk GTS-R VGT", "SRT Tomahawk S VGT", "SRT Tomahawk VGT (Gr.1)", "SRT Tomahawk X VGT", "Step WGN Spada Premium Line '23", "Stratos '73", "SU7 Ultra '25", "Super Bee '70", "Superbird '70", "Supra 3.0GT Turbo A '88", "Supra GT Road Car (JZA80)", "Supra GT500 '97", "Supra RZ '97", "SUV 2008 Allure '21", "Suzuki Vision Gran Turismo", "SUZUKI Vision Gran Turismo (Gr.3 Version)", "Swift Sport '07", "Swift Sport '17", "Swift Sport Gr.4", "Taycan Turbo S '19", "Testarossa '91", "TS030 Hybrid '12", "TS050 - Hybrid '16", "TT Coupe 3.2 quattro '03", "TT Cup '16", "TTS Coupe '09", "TTS Coupe '14", "Tundra TRD Pro '19", "Tuscan Speed 6 '00", "Twingo '93", "U9 '24", "Unimog Type 411 '62", "Urus '18", "V12 Vantage GT3 '12", "V40 T5 R-Design '13", "V6 Escudo Pikes Peak Special spec.98", "V8 Vantage Gr.4", "V8 Vantage S '15", "Valkyrie '21", "Vantage '18", "Veneno '14", "Veyron 16.4 '13", "Veyron Gr.4", "Viper Gr.4", "Viper GTS '02", "Viper GTS '13", "Viper SRT GT3-R '15", "Viper SRT10 Coupe '06", "VIZIV GT VGT", "Volkswagen 1200 '66", "Volkswagen GTI VGT (Gr.3)", "Vulcan '16", "W 196 R '55", "Wicked Fabrication GT 51", "Willys MB '45", "WRX Gr.3", "WRX Gr.4", "WRX Gr.B Rally Car", "WRX Gr.B Road Car", "WRX STI Isle of Man '16", "WRX STI Type S '14", "X-BOW R '12", "Xiaomi VGT", "XJ13 '66", "XJ220 '92", "XJR-9 '88", "XNR Ghia Roadster '60", "Z Performance '23", "Z4 3.0i '03", "Z4 GT3 '11", "Z8 '01", "Zonda R '09"];
+const TRACKS = ["24 Heures du Mans Racing Circuit", "24 Heures du Mans Racing Circuit No Chicane", "Alsace - Test Course", "Alsace - Test Course Reverse", "Alsace - Village", "Alsace - Village Reverse", "Autodrome Lago Maggiore - Centre", "Autodrome Lago Maggiore - Centre Reverse", "Autodrome Lago Maggiore - East", "Autodrome Lago Maggiore - East End", "Autodrome Lago Maggiore - East End Reverse", "Autodrome Lago Maggiore - East Reverse", "Autodrome Lago Maggiore - Full Course", "Autodrome Lago Maggiore - Full Course Reverse", "Autodrome Lago Maggiore - West", "Autodrome Lago Maggiore - West End", "Autodrome Lago Maggiore - West End Reverse", "Autodrome Lago Maggiore - West Reverse", "Autodromo de Interlagos", "Autodromo Nazionale Monza", "Autodromo Nazionale Monza No Chicane", "Autopolis International Racing Course", "Autopolis International Racing Course - Short Course", "BB Raceway", "BB Raceway Reverse", "Blue Moon Bay Speedway", "Blue Moon Bay Speedway - Infield A", "Blue Moon Bay Speedway - Infield A Reverse", "Blue Moon Bay Speedway - Infield B", "Blue Moon Bay Speedway - Infield B Reverse", "Blue Moon Bay Speedway Reverse", "Brands Hatch Grand Prix Circuit", "Brands Hatch Indy Circuit", "Circuit de Barcelona-Catalunya GP Layout No Chicane", "Circuit de Barcelona-Catalunya Grand Prix Layout", "Circuit de Barcelona-Catalunya National", "Circuit de Barcelona-Catalunya Rallycross", "Circuit de Sainte-Croix - A", "Circuit de Sainte-Croix - A Reverse", "Circuit de Sainte-Croix - B", "Circuit de Sainte-Croix - B Reverse", "Circuit de Sainte-Croix - C", "Circuit de Sainte-Croix - C Reverse", "Circuit de Spa-Francorchamps", "Circuit Gilles-Villeneuve", "Colorado Springs - Lake", "Colorado Springs - Lake Reverse", "Daytona Road Course", "Daytona Tri-Oval", "Deep Forest Raceway", "Deep Forest Raceway Reverse", "Dragon Trail - Gardens", "Dragon Trail - Gardens Reverse", "Dragon Trail - Seaside", "Dragon Trail - Seaside Reverse", "Eiger Nordwand", "Eiger Nordwand Reverse", "Fishermans Ranch", "Fishermans Ranch Reverse", "Fuji International Speedway", "Fuji International Speedway (Short)", "Goodwood Motor Circuit", "Grand Valley - Highway 1", "Grand Valley - Highway 1 Reverse", "Grand Valley - South", "Grand Valley - South Reverse", "High Speed Ring", "High Speed Ring Reverse", "Kyoto Driving Park - Miyabi", "Kyoto Driving Park - Yamagiwa", "Kyoto Driving Park - Yamagiwa Reverse", "Kyoto Driving Park - Yamagiwa+Miyabi", "Kyoto Driving Park - Yamagiwa+Miyabi Reverse", "Lake Louise Long Track", "Lake Louise Long Track Reverse", "Lake Louise Short Track", "Lake Louise Short Track Reverse", "Lake Louise Tri-Oval", "Lake Louise Tri-Oval Reverse", "Michelin Raceway Road Atlanta", "Mount Panorama Motor Racing Circuit", "Northern Isle Speedway", "Nurburgring 24h", "Nurburgring Endurance", "Nurburgring GP", "Nurburgring Nordschleife", "Nurburgring Nordschleife Tourist Layout", "Nurburgring Sprint", "Red Bull Ring", "Red Bull Ring Short Track", "Sardegna - Road Track - A", "Sardegna - Road Track - A Reverse", "Sardegna - Road Track - B", "Sardegna - Road Track - B Reverse", "Sardegna - Road Track - C", "Sardegna - Road Track - C Reverse", "Sardegna - Windmills", "Sardegna - Windmills Reverse", "Spa 24h Layout", "Special Stage Route X", "Special Stage Route X 1000", "Special Stage Route X 400", "SUGO International Racing Course", "Suzuka Circuit", "Suzuka Circuit East Course", "Tokyo Expressway - Central Clockwise", "Tokyo Expressway - Central Counterclockwise", "Tokyo Expressway - East Clockwise", "Tokyo Expressway - East Counterclockwise", "Tokyo Expressway - South Clockwise", "Tokyo Expressway - South Counterclockwise", "Trial Mountain Circuit", "Trial Mountain Circuit - Reverse", "Tsukuba Circuit", "Watkins Glen Long Course", "Watkins Glen Short Course", "WeatherTech Raceway Laguna Seca", "Willow Springs International Raceway: Big Willow", "Willow Springs International Raceway: Horse Thief Mile", "Willow Springs International Raceway: Horse Thief Mile Reverse", "Willow Springs International Raceway: Streets of Willow Springs", "Willow Springs International Raceway: Streets of Willow Springs Reverse", "Yas Marina Circuit"];
+
+const SUPABASE_URL = 'https://hignsvyojdqsjoidgkud.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_OdzGvcypa0GI7TVxxUkusQ_KJ_Apa8i';
+
+/* GT7 update 1.71 (20 Aug 2026) overhauled the physics and Polyphony reset its
+   own leaderboards -- older times aren't comparable, so only show laps set
+   since then. Mirrors leaderboard.PHYSICS_EPOCH in the desktop app. */
+const PHYSICS_ERA = '1.71';
+const PHYSICS_EPOCH_ISO = '2026-08-20T00:00:00Z';
+
+const escapeHtml = (v) => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+let selectedCar = null;
+let selectedTrack = null;
+
+/* ── searchable combobox (shared by car + track pickers) ── */
+function makeCombo(inputId, listId, items, onSelect) {
+  const input = document.getElementById(inputId);
+  const list = document.getElementById(listId);
+  let activeIndex = -1;
+  let filtered = [];
+
+  function render(query) {
+    const q = query.trim().toLowerCase();
+    filtered = q
+      ? items.filter(name => name.toLowerCase().includes(q)).slice(0, 60)
+      : items.slice(0, 60);
+    activeIndex = -1;
+    if (!filtered.length) {
+      list.innerHTML = '<div class="combo-empty">No matches.</div>';
+    } else {
+      list.innerHTML = filtered.map((name, i) =>
+        `<div class="combo-item" data-i="${i}">${escapeHtml(name)}</div>`
+      ).join('');
+    }
+    list.classList.add('open');
+  }
+
+  input.addEventListener('focus', () => render(input.value));
+  input.addEventListener('input', () => { onSelect(null); render(input.value); });
+  input.addEventListener('keydown', (e) => {
+    if (!list.classList.contains('open')) return;
+    if (e.key === 'ArrowDown') { e.preventDefault(); activeIndex = Math.min(activeIndex + 1, filtered.length - 1); highlight(); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); activeIndex = Math.max(activeIndex - 1, 0); highlight(); }
+    else if (e.key === 'Enter') { e.preventDefault(); if (activeIndex >= 0) pick(filtered[activeIndex]); }
+    else if (e.key === 'Escape') { list.classList.remove('open'); }
+  });
+  list.addEventListener('mousedown', (e) => {
+    const item = e.target.closest('.combo-item');
+    if (item) pick(filtered[Number(item.dataset.i)]);
+  });
+  document.addEventListener('click', (e) => {
+    if (!input.contains(e.target) && !list.contains(e.target)) list.classList.remove('open');
+  });
+
+  function highlight() {
+    [...list.children].forEach((el, i) => el.classList.toggle('active', i === activeIndex));
+  }
+  function pick(name) {
+    input.value = name;
+    list.classList.remove('open');
+    onSelect(name);
+  }
+}
+
+makeCombo('car-input', 'car-list', CARS, (name) => { selectedCar = name; maybeLoad(); });
+makeCombo('track-input', 'track-list', TRACKS, (name) => { selectedTrack = name; maybeLoad(); });
+
+/* The embedded CARS / TRACKS arrays above are only a fallback snapshot. The
+   live lists come from the same CSVs the app ships (the homepage stats read
+   them too), so cars/tracks added in a GT7 update show up here as soon as
+   the CSVs are refreshed -- no hand-edit of this page needed. Arrays are
+   updated in place, so the pickers built above pick the new names up. */
+function csvColumn(text, colName) {
+  const rows = [];
+  let row = [], field = '', q = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) {
+      if (c === '"' && text[i + 1] === '"') { field += '"'; i++; }
+      else if (c === '"') q = false;
+      else field += c;
+    } else if (c === '"') q = true;
+    else if (c === ',') { row.push(field); field = ''; }
+    else if (c === '\n' || c === '\r') {
+      if (c === '\r' && text[i + 1] === '\n') i++;
+      row.push(field); rows.push(row); row = []; field = '';
+    } else field += c;
+  }
+  if (field || row.length) { row.push(field); rows.push(row); }
+  const idx = (rows[0] || []).indexOf(colName);
+  if (idx < 0) return [];
+  return rows.slice(1).map(r => (r[idx] || '').trim()).filter(Boolean);
+}
+async function refreshLists() {
+  const base = 'https://raw.githubusercontent.com/ransh2014/gt7telemtrace/main/src/gt7telem/';
+  const [cars, tracks] = await Promise.allSettled([
+    fetch(base + 'car_ids.csv').then(r => r.ok ? r.text() : Promise.reject()),
+    fetch(base + 'course_ids.csv').then(r => r.ok ? r.text() : Promise.reject()),
+  ]);
+  const apply = (arr, names) => {
+    const uniq = [...new Set(names)].sort((x, y) => x.localeCompare(y, undefined, { sensitivity: 'base' }));
+    if (uniq.length > arr.length * 0.9) { arr.length = 0; arr.push(...uniq); }
+  };
+  if (cars.status === 'fulfilled') apply(CARS, csvColumn(cars.value, 'ShortName'));
+  if (tracks.status === 'fulfilled') apply(TRACKS, csvColumn(tracks.value, 'Name'));
+}
+refreshLists();
+
+function maybeLoad() {
+  if (selectedCar && selectedTrack) loadLeaderboard(selectedCar, selectedTrack);
+  else {
+    document.getElementById('lb-body').innerHTML = '';
+    document.getElementById('lb-status').textContent = 'Pick a car and track above to load the leaderboard.';
+  }
+}
+
+function formatLapTime(ms) {
+  const m = Math.floor(ms / 60000);
+  const s = ((ms % 60000) / 1000).toFixed(3).padStart(6, '0');
+  return `${m}:${s}`;
+}
+
+async function loadLeaderboard(carName, trackName) {
+  const statusEl = document.getElementById('lb-status');
+  const bodyEl = document.getElementById('lb-body');
+  statusEl.textContent = `Loading Top-10 · ${carName} · ${trackName} …`;
+  bodyEl.innerHTML = '';
+
+  const eq = (v) => `eq."${String(v).replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`;
+  const params = new URLSearchParams({
+    car_name: eq(carName),
+    track_name: eq(trackName),
+    created_at: `gte.${PHYSICS_EPOCH_ISO}`,
+    select: 'psn_name,lap_time_ms,created_at',
+    order: 'lap_time_ms.asc',
+    limit: '10',
+  });
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/laps?${params}`, {
+      headers: {
+        apikey: SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      },
+    });
+    if (!res.ok) throw new Error('request failed');
+    const rows = await res.json();
+
+    if (!rows.length) {
+      statusEl.textContent = `${carName} · ${trackName}`;
+      bodyEl.innerHTML = `<div class="lb-empty-state">No times yet for this car and track since GT7 update ${PHYSICS_ERA}'s physics reset. Be the first — submit one from Lap Analyst.</div>`;
+      return;
+    }
+
+    statusEl.textContent = `Top ${rows.length} · ${carName} · ${trackName} · GT7 ${PHYSICS_ERA}+ physics`;
+    bodyEl.innerHTML = `
+      <table class="lb-table">
+        <thead><tr><th></th><th>Driver</th><th>Time</th><th>Date</th></tr></thead>
+        <tbody>
+          ${rows.map((r, i) => `
+            <tr>
+              <td class="lb-rank">${i + 1}</td>
+              <td class="lb-name">${escapeHtml(r.psn_name || 'Anonymous')}</td>
+              <td class="lb-time">${formatLapTime(r.lap_time_ms)}</td>
+              <td class="lb-date">${new Date(r.created_at).toLocaleDateString()}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>`;
+  } catch (err) {
+    statusEl.textContent = `${carName} · ${trackName}`;
+    bodyEl.innerHTML = '<div class="lb-empty-state">Couldn\'t reach the leaderboard right now — try again in a moment.</div>';
+  }
+}
+
+/* ── missing car/track request -> car_track_submissions (anon insert allowed by RLS) ──
+   Shared by both forms: kind differs, guessed_name is always null since a
+   website visitor (unlike the desktop app reading telemetry) never has a
+   numeric car ID to offer -- raw_id is just the typed name either way. */
+function wireRequestForm({ kind, inputId, idInputId, btnId, msgId, knownList, placeholderNoun }) {
+  const input = document.getElementById(inputId);
+  const idInput = idInputId ? document.getElementById(idInputId) : null;
+  const btn = document.getElementById(btnId);
+  const msg = document.getElementById(msgId);
+  if (!input || !btn || !msg) return;
+
+  btn.addEventListener('click', async () => {
+    const name = input.value.trim();
+    const idVal = idInput ? idInput.value.trim() : '';
+    msg.textContent = '';
+    msg.className = 'tr-msg';
+
+    if (name.length < 2) {
+      msg.textContent = `Type the full ${placeholderNoun} name first.`;
+      msg.classList.add('err');
+      return;
+    }
+    if (idVal && !/^\d+$/.test(idVal)) {
+      msg.textContent = 'Car ID should be numbers only — leave it blank if unsure.';
+      msg.classList.add('err');
+      return;
+    }
+    if (knownList.some(t => t.toLowerCase() === name.toLowerCase())) {
+      msg.textContent = `That ${placeholderNoun} is already in the list above — try searching for it.`;
+      msg.classList.add('err');
+      return;
+    }
+
+    // Mirrors the desktop app's submission contract: for cars with a known
+    // numeric ID, raw_id is the ID and guessed_name is the typed name (same
+    // as submit_car_id() in leaderboard.py). Without an ID -- or for tracks,
+    // which never have one -- raw_id is just the name and guessed_name is null.
+    const payload = idVal
+      ? { kind, raw_id: idVal, guessed_name: name }
+      : { kind, raw_id: name, guessed_name: null };
+
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/car_track_submissions`, {
+        method: 'POST',
+        headers: {
+          apikey: SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+          'Content-Type': 'application/json',
+          Prefer: 'return=minimal',
+        },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error('request failed');
+      msg.textContent = 'Thanks — sent for review. It\'ll show up here once added.';
+      msg.classList.add('ok');
+      input.value = '';
+      if (idInput) idInput.value = '';
+    } catch (err) {
+      msg.textContent = 'Couldn\'t submit that — try again in a moment.';
+      msg.classList.add('err');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Submit';
+    }
+  });
+}
+
+wireRequestForm({ kind: 'track', inputId: 'tr-name', btnId: 'tr-submit', msgId: 'tr-msg', knownList: TRACKS, placeholderNoun: 'track' });
+wireRequestForm({ kind: 'car', inputId: 'cr-name', idInputId: 'cr-id', btnId: 'cr-submit', msgId: 'cr-msg', knownList: CARS, placeholderNoun: 'car' });
+</script>
+</body>
+</html>

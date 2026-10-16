@@ -1,0 +1,17 @@
+# Local Netlify folder
+.netlify
+
+# Claude Code local settings
+.claude
+
+# Netlify CLI console output accidentally saved to a file (leaks local
+# paths/username, shouldn't ever be a publicly-servable site file)
+live_deploy.txt
+
+# Compiled bytecode from the embedded gt7telem-source/ copy -- not part of
+# the downloadable source zip, just clutter that shouldn't be web-servable
+__pycache__/
+*.pyc
+
+# Publish folder built by the deploy workflow
+_site/

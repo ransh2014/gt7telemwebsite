@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1DRKJH6JTG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1DRKJH6JTG');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TRACE Features — GT7 Live Dashboard, Track Map & Lap Analyst</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%2308080a'/><path d='M7 6 L19 6 L27 16 L19 26 L7 26 L15 16 Z' fill='%23c8102e'/></svg>">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/styles.css">
+<meta name="description" content="See what TRACE can do: a live GT7 telemetry dashboard, real-time track map, 19-chart Lap Analyst and a full Race Analyst for replay and comparison.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://gt7trace.netlify.app/features">
+<meta name="theme-color" content="#050505">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TRACE">
+<meta property="og:title" content="TRACE Features — GT7 Live Dashboard, Track Map & Lap Analyst">
+<meta property="og:description" content="See what TRACE can do: a live GT7 telemetry dashboard, real-time track map, 19-chart Lap Analyst and a full Race Analyst for replay and comparison.">
+<meta property="og:url" content="https://gt7trace.netlify.app/features">
+<meta property="og:image" content="https://gt7trace.netlify.app/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="TRACE Features — GT7 Live Dashboard, Track Map & Lap Analyst">
+<meta name="twitter:description" content="See what TRACE can do: a live GT7 telemetry dashboard, real-time track map, 19-chart Lap Analyst and a full Race Analyst for replay and comparison.">
+<meta name="twitter:image" content="https://gt7trace.netlify.app/og-image.png">
+<style>
+/* ── LEGEND ── */
+.legend {
+  max-width:940px; margin:32px auto 0; padding:0 52px 40px;
+  display:flex; gap:14px; flex-wrap:wrap;
+}
+.legend-item {
+  display:flex; align-items:center; gap:12px;
+  background:var(--bg-1); border:1px solid var(--line); border-radius:var(--radius);
+  padding:14px 18px; flex:1; min-width:230px;
+}
+.legend-sub { font-size:.78rem; color:var(--mid); line-height:1.5; }
+.legend-sub strong { color:var(--txt); }
+
+/* ── BADGES ── */
+.badge {
+  display:inline-flex; align-items:center; gap:6px;
+  font-family:'JetBrains Mono', monospace;
+  font-size:.6rem; letter-spacing:.14em; text-transform:uppercase;
+  padding:5px 11px 5px 9px; border:1px solid; white-space:nowrap; border-radius:0;
+  clip-path: polygon(6px 0, 100% 0, 100% 100%, 0 100%, 0 6px);
+  flex-shrink:0;
+}
+.badge.me       { color:var(--orange); border-color:rgba(200, 16, 46,.4); background:rgba(200, 16, 46,.08); }
+.badge.bornhall { color:var(--blue-2); border-color:rgba(95, 179, 168,.4); background:rgba(95, 179, 168,.08); }
+.badge.ddm999   { color:var(--green);  border-color:rgba(60, 154, 95,.4); background:rgba(60, 154, 95,.08); }
+
+/* ── FEATURE GROUPS ── */
+.content { max-width:940px; margin:0 auto; padding:0 52px 40px; }
+.feat-group { padding:52px 0; border-bottom:1px solid var(--line); }
+.feat-group:last-child { border-bottom:none; }
+
+.fg-head { display:flex; align-items:center; gap:14px; margin-bottom:8px; }
+.fg-tag {
+  font-family:'JetBrains Mono', monospace;
+  font-size:.62rem; letter-spacing:.26em; text-transform:uppercase;
+  color:var(--dim);
+}
+.fg-h {
+  font-family:'Sora', sans-serif;
+  font-weight:600; font-size:2.1rem;
+  text-transform:uppercase; letter-spacing:.02em;
+  margin-bottom:28px; line-height:1.05;
+}
+.fg-lead { font-size:.9rem; color:var(--mid); line-height:1.8; margin-bottom:28px; max-width:640px; }
+.fg-lead strong { color:var(--txt); font-weight:500; }
+.fg-lead a { color:var(--blue-2); text-decoration:none; }
+.fg-lead a:hover { text-decoration:underline; }
+
+.fg-sub {
+  font-family:'JetBrains Mono', monospace;
+  font-size:.62rem; letter-spacing:.08em; text-transform:none;
+  color:var(--dim); font-weight:400; margin-left:6px;
+}
+
+.feat-row {
+  display:grid; grid-template-columns:minmax(0,1fr) auto;
+  gap:6px 20px; align-items:start;
+  padding:20px 0; border-top:1px solid var(--line);
+}
+.feat-group .feat-row:first-of-type { border-top:none; }
+.feat-name {
+  font-family:'Sora', sans-serif;
+  font-weight:700; font-size:1.05rem;
+  text-transform:uppercase; letter-spacing:.02em;
+  color:var(--txt);
+}
+.feat-desc {
+  grid-column:1 / -1;
+  font-size:.86rem; color:var(--mid); line-height:1.78;
+}
+.feat-desc a { color:var(--blue-2); text-decoration:none; }
+.feat-desc a:hover { text-decoration:underline; }
+
+/* ── TALLY / SUMMARY ── */
+.tally-wrap { background:var(--bg-1); border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:64px 52px; }
+.tally { max-width:820px; margin:0 auto; }
+.tally-h {
+  font-family:'Sora', sans-serif;
+  font-weight:600; font-size:2.3rem;
+  text-transform:uppercase; letter-spacing:.02em; line-height:1.05;
+  margin:14px 0 32px;
+}
+.tally-bar { display:flex; width:100%; height:14px; overflow:hidden; border-radius:var(--radius); border:1px solid var(--line); margin-bottom:24px; }
+.tb-seg { height:100%; width:0; transition:width 1s cubic-bezier(.22,.9,.35,1); }
+@media (prefers-reduced-motion: reduce) { .tb-seg { transition:none; } }
+.tb-seg.me       { background:var(--orange); }
+.tb-seg.bornhall { background:var(--blue); }
+.tb-seg.ddm999   { background:var(--green); }
+.tally-stats { display:flex; gap:32px; flex-wrap:wrap; margin-bottom:30px; }
+.tally-stat { display:flex; flex-direction:column; }
+.ts-n { font-family:'Sora', sans-serif; font-weight:700; font-size:2.6rem; line-height:1; font-variant-numeric:tabular-nums; }
+.ts-n.me       { color:var(--orange); }
+.ts-n.bornhall { color:var(--blue-2); }
+.ts-n.ddm999   { color:var(--green); }
+.ts-l { font-family:'JetBrains Mono', monospace; font-size:.64rem; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); margin-top:6px; }
+.tally-p { font-size:.9rem; color:var(--mid); line-height:1.85; margin-bottom:16px; max-width:680px; }
+.tally-p:last-child { margin-bottom:0; }
+.tally-p strong { color:var(--txt); font-weight:500; }
+
+/* ── FOUNDATIONS CALLOUT ── */
+.foundations { max-width:940px; margin:0 auto; padding:64px 52px; display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.fnd-card { background:var(--bg-1); border:1px solid var(--line); border-left:3px solid var(--blue); border-radius:var(--radius); padding:26px; }
+.fnd-card.green { border-left-color:var(--green); }
+.fnd-eyebrow { font-family:'JetBrains Mono', monospace; font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:var(--dim); margin-bottom:8px; }
+.fnd-name { font-family:'Sora', sans-serif; font-weight:600; font-size:1.4rem; text-transform:uppercase; color:var(--txt); margin-bottom:10px; }
+.fnd-sub { font-size:.82rem; color:var(--mid); line-height:1.75; margin-bottom:14px; }
+.fnd-link { text-decoration:none; color:var(--blue-2); font-family:'Sora', sans-serif; font-weight:700; font-size:.82rem; letter-spacing:.08em; text-transform:uppercase; }
+.fnd-link:hover { text-decoration:underline; }
+.fnd-card.green .fnd-link { color:var(--green); }
+
+/* ── TALLY ICONS + FOUNDATION CARD WATERMARKS ── */
+.tally-stat { flex-direction:row; align-items:center; gap:10px; }
+.ts-icon { flex-shrink:0; opacity:.75; }
+.ts-icon.me { color:var(--orange); }
+.ts-icon.bornhall { color:var(--blue-2); }
+.ts-icon.ddm999 { color:var(--green); }
+.ts-text { display:flex; flex-direction:column; }
+
+.fnd-card { isolation:isolate; overflow:hidden; }
+.fnd-card > * { position:relative; z-index:1; }
+.fnd-card::after {
+  content:'';
+  position:absolute; right:-20px; bottom:-20px; z-index:0;
+  width:160px; height:160px;
+  background-repeat:no-repeat; background-position:bottom right; background-size:contain;
+  opacity:.045; pointer-events:none;
+  transition:opacity .35s ease;
+}
+.fnd-card:hover::after { opacity:.09; }
+.fnd-bornhall::after { background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50 90 V45' stroke='white' stroke-width='5' stroke-linecap='round'/><path d='M28 45 A22 22 0 0 1 72 45' stroke='white' stroke-width='5' fill='none' stroke-linecap='round'/><path d='M14 45 A36 36 0 0 1 86 45' stroke='white' stroke-width='5' fill='none' stroke-linecap='round' opacity='.6'/><circle cx='50' cy='45' r='6' fill='white'/></svg>"); }
+.fnd-ddm999::after { background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><ellipse cx='50' cy='24' rx='32' ry='11' stroke='white' stroke-width='5' fill='none'/><path d='M18 24 V76 A32 11 0 0 0 82 76 V24' stroke='white' stroke-width='5' fill='none'/><path d='M18 50 A32 11 0 0 0 82 50' stroke='white' stroke-width='5' fill='none'/></svg>"); }
+
+
+@media(max-width:780px){
+  .legend { padding:0 20px 30px; }
+  .content { padding:0 20px 30px; }
+  .foundations { grid-template-columns:1fr; padding:50px 20px; }
+  .feat-row { grid-template-columns:1fr; }
+  .tally-wrap { padding:48px 20px; }
+  .tally-stats { gap:22px; }
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "TRACE Features — GT7 Live Dashboard, Track Map & Lap Analyst",
+  "description": "See what TRACE can do: a live GT7 telemetry dashboard, real-time track map, 19-chart Lap Analyst and a full Race Analyst for replay and comparison.",
+  "url": "https://gt7trace.netlify.app/features",
+  "isPartOf": {
+    "@type": "SoftwareApplication",
+    "name": "TRACE",
+    "url": "https://gt7trace.netlify.app/"
+  },
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://gt7trace.netlify.app/" },
+      { "@type": "ListItem", "position": 2, "name": "Features", "item": "https://gt7trace.netlify.app/features" }
+    ]
+  }
+}
+</script>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<nav>
+  <a href="/" class="logo">TRACE <span>GT7</span></a>
+  <div class="nav-links">
+    <a href="/about" class="nav-link">About</a>
+    <a href="/features" class="nav-link active">Features</a>
+    <a href="/leaderboard" class="nav-link">Leaderboard</a>
+    <a href="/totalfiles" class="nav-link">Files</a>
+    <a href="/privacy" class="nav-link">Privacy</a>
+    <a href="/archived" class="nav-link">Archived</a>
+    <a href="/setup" class="nav-btn orange">Set It Up →</a>
+    <a href="https://ko-fi.com/ransh" target="_blank" rel="noopener noreferrer" class="nav-btn gold">Support</a>
+  </div>
+  <button class="nav-burger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</nav>
+<div class="menu-scrim"></div>
+<div class="mobile-menu">
+  <a href="/about">About</a>
+  <a href="/features" class="active">Features</a>
+  <a href="/leaderboard">Leaderboard</a>
+  <a href="/totalfiles">Files</a>
+  <a href="/privacy">Privacy</a>
+  <a href="/archived">Archived</a>
+  <a href="/setup" class="mm-btn orange">Set It Up →</a>
+  <a href="https://ko-fi.com/ransh" target="_blank" rel="noopener noreferrer" class="mm-btn gold">Support</a>
+</div>
+
+<div class="page-hdr" id="main-content">
+  <div class="eyebrow">Full Feature List</div>
+  <h1>Everything<br>It Does.</h1>
+  <p>Every feature across all four tools, and who actually built it. TRACE only exists on top of two other people's work — this page is about being honest about which parts are which.</p>
+  <p style="font-size:.85rem;color:var(--dim);margin-top:14px;">TRACE is actively maintained - regular releases with bug fixes, car/track database updates and the odd new feature.</p>
+  <a class="share-btn" target="_blank" rel="noopener noreferrer" href="https://wa.me/?text=Full%20feature%20breakdown%20of%20TRACE%20%E2%80%94%20a%20free%2C%20open-source%20GT7%20telemetry%20suite%20with%20a%20live%20dashboard%2C%20lap%20analysis%2C%20and%20a%20global%20leaderboard%3A%20https%3A%2F%2Fgt7trace.netlify.app%2Ffeatures">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.31-1.39a9.9 9.9 0 0 0 4.72 1.2h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.13a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.22 8.22 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.55-3.7 8.21-8.25 8.21zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.17.24-.64.81-.78.97-.14.17-.29.19-.53.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.36-.77-1.86-.2-.48-.41-.42-.56-.43-.14-.01-.31-.01-.48-.01a.92.92 0 0 0-.67.31c-.23.25-.87.85-.87 2.08 0 1.22.89 2.4 1.01 2.57.13.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.23-.16-.48-.28z"/></svg>
+    Share this list
+  </a>
+</div>
+
+<div class="legend">
+  <div class="legend-item">
+    <span class="badge me">Me</span>
+    <span class="legend-sub">Built for <strong>TRACE</strong> itself — the dashboards, analysts, packaging, all of it.</span>
+  </div>
+  <div class="legend-item">
+    <span class="badge bornhall">Bornhall</span>
+    <span class="legend-sub">The GT7 UDP protocol, Salsa20 decryption key, and packet byte structure. <strong>None of this runs without it.</strong></span>
+  </div>
+  <div class="legend-item">
+    <span class="badge ddm999">ddm999</span>
+    <span class="legend-sub">The car ID → name database and the track/course name list (gt7info) — every real car and track name shown anywhere in TRACE.</span>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- BORNHALL -->
+  <div class="feat-group">
+    <div class="fg-head"><div class="fg-tag">// foundation</div><span class="badge bornhall">Bornhall</span></div>
+    <h2 class="fg-h">The Protocol<br>Itself.</h2>
+    <p class="fg-lead">One item in this group, but it's the one nothing else in this list can exist without.</p>
+
+    <div class="feat-row">
+      <div class="feat-name">Salsa20 Decryption &amp; Packet Structure</div>
+      <div class="feat-desc">The decryption key, IV construction, and the byte-offset map for every field in the packet (speed, RPM, gear, tyres, suspension, fuel, and more) come directly from <a href="https://github.com/Bornhall/gt7telemetry" target="_blank" rel="noopener noreferrer">Bornhall's gt7telemetry</a> reverse-engineering work. Every tool below reads a stream that only exists because of this. Two more community projects &mdash; <a href="https://github.com/MacManley/gt7-udp" target="_blank" rel="noopener noreferrer">MacManley's gt7-udp</a> and <a href="https://github.com/Nenkai/PDTools" target="_blank" rel="noopener noreferrer">Nenkai's PDTools</a> &mdash; documented the per-version packet lengths and the extended-field offsets that TRACE's parser cross-references on top of that.</div>
+    </div>
+  </div>
+
+  <!-- DDM999 -->
+  <div class="feat-group">
+    <div class="fg-head"><div class="fg-tag">// foundation</div><span class="badge ddm999">ddm999</span></div>
+    <h2 class="fg-h">The Car &amp; Track<br>Databases.</h2>
+    <p class="fg-lead">The other piece nothing else here can fake. GT7 hands over a number — this is what turns it into a name. And for tracks, where GT7 doesn't even hand over a number, it's the only reason there's a name list to pick from at all.</p>
+
+    <div class="feat-row">
+      <div class="feat-name">Auto Car Name Discovery</div>
+      <div class="feat-desc">GT7's telemetry only ever reports a raw numeric car ID. Every car name shown anywhere in TRACE — Dashboard, Lap Analyst, Race Analyst — is resolved instantly through <a href="https://github.com/ddm999/gt7info" target="_blank" rel="noopener noreferrer">ddm999's gt7info</a> database, shipped as a local <code>car_ids.csv</code> snapshot. No matching logic on this end — it's their data doing the actual work. (The same database backs the track list right below.)</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Track Name Database</div>
+      <div class="feat-desc">GT7's telemetry doesn't expose a track/course ID at all, unlike cars (TRACE guesses the track from the lap's start line instead &mdash; see Track Auto-Detect). The TRACK dropdown in the Live Dashboard is instead seeded from <a href="https://github.com/ddm999/gt7info" target="_blank" rel="noopener noreferrer">ddm999's gt7info</a> course list, shipped as a local <code>course_ids.csv</code> snapshot — 120+ real circuit and layout names (reverse layouts, no-chicane variants, sub-layouts included), kept current as Polyphony adds tracks. No more typo'd/inconsistent track folders either.</div>
+    </div>
+  </div>
+
+  <!-- ME -->
+  <div class="feat-group">
+    <div class="fg-head"><div class="fg-tag">// everything built on top</div><span class="badge me">Me</span></div>
+    <h2 class="fg-h">Everything<br>Else.</h2>
+    <p class="fg-lead">All of this runs on Bornhall's decrypted stream and ddm999's car and track names, but every line below — every panel, chart, detection system, and build — was written for TRACE.</p>
+
+    <div class="feat-row">
+      <div class="feat-name">Heartbeat / UDP Connection Handling</div>
+      <div class="feat-desc">The threads that send the heartbeat to <code>:33739</code> and listen on <code>:33740</code>, plus connection-state tracking, reconnect logic, and — as of the latest build — detailed connection error diagnostics (distinguishing a bad IP, a firewalled port, or another instance already bound to it) instead of a generic "timeout."</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Console Auto-Detect <span class="fg-sub">— Live Dashboard</span></div>
+      <div class="feat-desc">An "Auto-Detect" button next to the console IP field broadcasts a device-discovery query on the local network — the same protocol Sony's own apps use — and fills in whichever console answers, instead of digging through PS4/PS5 network settings to find the IP by hand. Manual entry still works exactly as before, and the remembered-IP dropdown next to it no longer caps out at 3 — every console you've ever successfully connected to stays in it now.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Race Start / End Detection</div>
+      <div class="feat-desc">Detects both rolling starts (sustained speed above threshold) and grid starts (stationary + on-track within an armed window after a loading transition), and fires a race-end event when lap number crosses total laps — or when you quit/restart mid-race. Only real race sessions count: time trial and practice laps never start a race recording.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Pause / Resume Detection</div>
+      <div class="feat-desc">Watches the raw <code>paused</code> flag and fires pause/resume events other parts of the app (like the Lap Analyst's recorder) hook into.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Debug State Event Stream</div>
+      <div class="feat-desc">Fires a snapshot event any time loading, on-track, or lap-count state changes — so a misfire in the start/pause detection can be diagnosed from the exact state that triggered it, without a console window.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Saved Settings</div>
+      <div class="feat-desc">Console IP, recording sample rate, and the analytics, update-check, notification, voice-alert, top-lap-ghost and metrics toggles are all set in the Dashboard header and persist to a <code>settings.json</code>, remembered automatically between runs. (The laps folder lives in the same file but has no in-app control &mdash; move it by editing <code>LAPS_FOLDER</code> directly.) It lives in <code>~/.gt7telem/</code> so an upgrade can&rsquo;t wipe your settings &mdash; except for a standalone .exe/binary unzipped into a folder you can write to, which keeps it next to the executable so it stays portable.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Adjustable Recording Sample Rate <span class="fg-sub">— Live Dashboard</span></div>
+      <div class="feat-desc">Optional <strong>REC RATE</strong> dropdown next to the connection controls — pick how often samples get recorded during Record Lap / Record Race (10 / 20 / 30 / 60 Hz). Lower rates keep saved lap/race files smaller; higher rates capture more detail for the Lap Analyst's finer charts. Recording never invents data between real telemetry packets — it only thins samples down to the rate you pick, never up. Laps and races recorded at different rates compare and sync correctly against each other in the Lap Analyst and Race Analyst, since both key off each sample's actual recorded timestamp rather than assuming a fixed interval.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Auto Lap Recording <span class="fg-sub">&mdash; Live Dashboard</span></div>
+      <div class="feat-desc">Optional <strong>AUTO LAP</strong> checkbox in the Dashboard header (off by default, remembered between runs). In time trial, practice and free run, it arms Record Lap for you once you&rsquo;re driving, then saves every lap from the next start/finish crossing &mdash; no button press. Leaving the session discards the unfinished lap, and stopping it by hand keeps it off until you leave the session. Races already start recording on their own.</div>
+    </div>
+    <div class="feat-row">
+      <div class="feat-name">Low-Battery &amp; No-Track Warnings <span class="fg-sub">&mdash; Live Dashboard</span></div>
+      <div class="feat-desc">If your laptop drops below 20% on battery while a lap or race is recording, the Dashboard shows a red &ldquo;plug in your charger&rdquo; bar and beeps &mdash; and if you ignore it, a loud siren repeats until you charge or acknowledge, so a long recording isn&rsquo;t lost when the laptop dies. It also warns if you start recording with no track selected, and when you save without one it asks &ldquo;are you sure?&rdquo; with a dropdown to pick the track you drove on (or save as unknown).</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Junk-Lap Guard &amp; Duplicate Finder <span class="fg-sub">&mdash; Live Dashboard &amp; Lap Analyst</span></div>
+      <div class="feat-desc">Occasionally a snippet or a second copy of a lap can get saved &mdash; a restarted lap, a parked car, a double save. The Dashboard now skips recordings that are too short, never moved, or identical to the lap it just saved, and says why in the log. For copies that already exist, <strong>Find Duplicate Laps</strong> in the Lap Analyst lists them and, on your OK, moves the extras into a <code>_duplicates</code> folder &mdash; nothing is deleted, and reference and personal-best files are left alone.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Track Auto-Detect <span class="fg-sub">— Live Dashboard</span></div>
+      <div class="feat-desc">GT7 never says which track you're on, so TRACE works it out from where the lap starts and which way you leave the line &mdash; that point repeats within a few metres on every lap. With no track set, a bar a few seconds into a lap says &ldquo;Looks like Suzuka Circuit &mdash; use it?&rdquo; (Use it / Not this; it never fills the box silently). Tracks it hasn't learned yet are shortlisted by lap length, and the save-time &ldquo;no track&rdquo; dropdown lists the best guesses first. It learns from each confirmed lap, and with SHARE USAGE DATA on shares only the start point, heading and lap length to a community table so detection improves for everyone.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Track Picker <span class="fg-sub">— Live Dashboard</span></div>
+      <div class="feat-desc">TRACK field is a searchable dropdown backed by ddm999's course database (see the ddm999 section above) instead of a free-typed box — pick the real name instead of retyping it every session. Still free-typeable for anything not in the list. If GT7 ships a new track before the database catches up, <code>add_track.py</code> (ships with the source) adds it in one prompt — just the name, no ID needed, since telemetry doesn't expose one to look up in the first place.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Real-Time Multi-Channel Display <span class="fg-sub">— Live Dashboard</span></div>
+      <div class="feat-desc">Speed, RPM, gear, throttle/brake, tyre temps, fuel, G-forces, and 40+ other channels updating live at 10Hz.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Live Track Map <span class="fg-sub">— Live Dashboard</span></div>
+      <div class="feat-desc">A mini canvas that draws your position in real time from world X/Z coordinates — no pre-loaded track data needed, it draws itself as you drive.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Tyre &amp; Fuel Alert Banners <span class="fg-sub">— Live Dashboard</span></div>
+      <div class="feat-desc">Flashing hot/cold tyre and low-fuel banners so you don't have to watch the numbers constantly.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Fuel &amp; Tyre Strategy <span class="fg-sub">— Live Dashboard</span></div>
+      <div class="feat-desc">Fuel per lap from the median of your last clean laps (a refuel or restart never skews it), laps of fuel left, a finish check and a suggested pit-by lap. The tyre readout shows stint age, pace lost against your best stint lap, the per-lap trend and last-lap tyre temperatures. GT7 sends no tyre wear, so the tyre figures are estimates and are labelled that way; a refuel starts a new stint, or press NEW TYRES. Race Analyst shows fuel per lap and laps per tank for a recorded race.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Lap History Panel <span class="fg-sub">— Live Dashboard</span></div>
+      <div class="feat-desc">A scrollable, sortable list of every lap in the current session, with car and track names (via ddm999's database) instead of raw IDs.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">19 Chart Groups <span class="fg-sub">— Lap Analyst</span></div>
+      <div class="feat-desc">Inputs, Engine, Tyres, Dynamics, Maps, G-Force, Fuel, Braking, Sectors, Traction, Tele Diff, Ratings, Heat Maps, Timeline, Extended, Consensus, Style, Corners, and Theoretical — all rendered from your recorded laps.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Replay System <span class="fg-sub">— Lap Analyst</span></div>
+      <div class="feat-desc">Scrub through a recorded lap and watch every chart and the track position move together in sync.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">A vs B Lap Comparison <span class="fg-sub">— Lap Analyst</span></div>
+      <div class="feat-desc">Load two laps side by side and compare every metric directly — where time was gained or lost, and why.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Full-Race Replay &amp; Comparison <span class="fg-sub">— Race Analyst</span></div>
+      <div class="feat-desc">Load two complete race sessions and replay them synced, side by side, start to finish. Per-lap splits (a partial final lap is shown but never counted as your best), starting grid slot, and pit stops worked out from refuelling — GT7 itself sends no pit or live-position data.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">CSV / HTML Export <span class="fg-sub">— Race Analyst</span></div>
+      <div class="feat-desc">Export the full breakdown of a session to share or dig into outside the app.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Windows &amp; Linux One-File Builds <span class="fg-sub">— Packaging</span></div>
+      <div class="feat-desc">PyInstaller onefile builds — no Python install required. Produced on GitHub-hosted runners on every release; the exact build commands live in <a href="https://github.com/ransh2014/gt7telemtrace/tree/main/.github/workflows" target="_blank" rel="noopener noreferrer">the build workflows</a> if you want to reproduce one yourself.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Automated macOS Builds <span class="fg-sub">— Packaging</span></div>
+      <div class="feat-desc">TRACE.app is built automatically on every release by a GitHub-hosted Apple Silicon runner — no physical Mac needed on this end, and no more asking the community to build and email one in.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Anonymous Usage Analytics <span class="fg-sub">— All Tools</span></div>
+      <div class="feat-desc">One small anonymous record sent on launch — tool, version, and OS, nothing else — so effort goes toward what people actually use. On by default, one checkbox (SHARE USAGE DATA) to turn off. Full breakdown on the <a href="/privacy">Privacy</a> page.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Global Lap Leaderboard <span class="fg-sub">— Lap Analyst</span></div>
+      <div class="feat-desc">Submit a recorded lap to a public per-car, per-track leaderboard, with a live Top-10 panel right in the sidebar. Submitting needs a free account (see below) — the name that appears on the row is the PSN name you type in the submit dialog, pre-filled from last time and editable each submit. Backed by a Supabase database; see <a href="/privacy">Privacy</a> for exactly what gets submitted.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Public Leaderboard Browser <span class="fg-sub">— Website</span></div>
+      <div class="feat-desc">The same leaderboard, browsable from any browser at <a href="/leaderboard">/leaderboard</a> — no install, no account. Search any of the 590 cars and 123 tracks and see the live Top-10 instantly. Only times set since GT7 update 1.71's physics overhaul are shown — the same reset Polyphony applied to its own boards. Also has a "can't find your car/track?" box that submits straight to the same crowdsourced inbox described below.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Server-Side Anti-Cheat <span class="fg-sub">— Leaderboard</span></div>
+      <div class="feat-desc">Every submission is checked in the database itself before it can appear: physically-impossible lap times are rejected outright, and times beating the current record by more than 20% (or a suspiciously fast first time for a car and track) are held for manual review instead of publishing immediately. A submitted time can't be edited afterwards.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Ghost Lap Download <span class="fg-sub">— Lap Analyst</span></div>
+      <div class="feat-desc">Download any Top-10 leaderboard lap and load it straight into the A-vs-B compare view as Lap B — same charts, same diff tools, no need to already own a recording of it yourself.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Consensus Racing Line <span class="fg-sub">— Lap Analyst</span></div>
+      <div class="feat-desc">Pull a community-average speed/throttle/brake line — computed from the current top 10 leaderboard laps for your car and track — and overlay it against your own lap on a dedicated Consensus chart tab.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Crowdsourced Car &amp; Track Submissions <span class="fg-sub">— Live Dashboard</span></div>
+      <div class="feat-desc">If GT7 reports a car ID that's not in the local database yet, or you type in a track name that isn't in the picker, it's submitted to a shared community inbox automatically — instead of just showing a blank name until someone notices and runs <code>add_car.py</code>/<code>add_track.py</code> by hand.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Optional Free Accounts <span class="fg-sub">— All Tools</span></div>
+      <div class="feat-desc">A one-time onboarding screen offers a free account — just a display name, no email or password, ever — so a leaderboard submission ties to a real identity instead of a self-typed name anyone could fake. Skipping is one click and still gives full access to viewing the leaderboard, downloading ghost laps, and the consensus line; only submitting a lap needs an account, and you can sign up later from the tool menu at any time.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Replay CSV Export <span class="fg-sub">— Lap Analyst</span></div>
+      <div class="feat-desc">Export a loaded lap's Replay data — distance, speed, throttle, brake, RPM, gear, steering — straight from the Replay tab, one click.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Shareable Lap Card <span class="fg-sub">— Lap Analyst</span></div>
+      <div class="feat-desc">One click turns the loaded lap into a 1200×630 PNG that only shows values read straight from the recording: car, track, date, lap time (or INCOMPLETE), top speed, fuel used, the speed trace round the lap and a speed-coloured track map (when the lap has GPS data). Ready to post.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Corners Tab <span class="fg-sub">— Lap Analyst</span></div>
+      <div class="feat-desc">Finds every corner on the loaded lap, then — with Compare on and your PB loaded as lap B — matches each one to the same corner on the PB and scores it: where you braked, how much speed you carried, where you got back on the throttle, and the time gained or lost. A one-line label on top (late braker, early on throttle, smooth…) is a heuristic read on how the lap was driven, not a lap-time verdict.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Driving Style Tab <span class="fg-sub">— Lap Analyst</span></div>
+      <div class="feat-desc">Classifies how the loaded lap was driven as Smooth, Balanced or Aggressive (from how quickly steering, throttle and brake change), and reads cornering balance as understeer- or oversteer-leaning from front versus rear tyre slip while cornering. Works with A/B compare, and a corner-by-corner scatter shows where on the lap the balance shifted.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">3+ Lap Overlay <span class="fg-sub">— Lap Analyst</span></div>
+      <div class="feat-desc">An OVERLAY section in the sidebar adds any number of extra saved laps on top of A and B. They draw as dotted lines (speed, throttle, brake, steering) on the Inputs tab, each in its own colour.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Searchable Lap Picker <span class="fg-sub">— Lap Analyst</span></div>
+      <div class="feat-desc">Browsing for Lap A, B or an overlay lap opens a searchable list instead of a bare file dialog — filter by car, track or date, built from the metadata saved inside your own laps.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Backup All Laps <span class="fg-sub">— Lap Analyst</span></div>
+      <div class="feat-desc">One click zips your whole laps folder into <code>~/TRACE/backups/</code>. The same backup is also a link in the Launcher footer.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Micro-Sector Heatmap <span class="fg-sub">— Lap Analyst</span></div>
+      <div class="feat-desc">Toggle the race-line on the Replay tab to color by 25m-sector time delta against a loaded reference lap — red where you're slower, green where you're faster, at a glance.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Track Boundary Overlay <span class="fg-sub">— Lap Analyst</span></div>
+      <div class="feat-desc">Save an estimated left/right track edge straight from a lap's own GPS trace — no external track-map data needed — and it renders under the race-line automatically on every future lap loaded for that track.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Prometheus Metrics Export <span class="fg-sub">— Live Dashboard</span></div>
+      <div class="feat-desc">Optional, off by default: expose speed, RPM, throttle, brake, fuel, and lap-time as Prometheus gauges on a local port, for Grafana or any Prometheus-compatible scraper to pull from. It listens on this PC only; an ALLOW REMOTE checkbox opens it to your local network (no password, so use it only on a network you trust). Nothing is sent to the internet. See <a href="/privacy">Privacy</a>.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Desktop Notifications <span class="fg-sub">— All Tools</span></div>
+      <div class="feat-desc">A small on-screen toast, with a sound where the system supports one, when you set a new personal best and when a race recording ends automatically. A NOTIFICATIONS checkbox in the Dashboard header switches them off (spoken alerts have their own VOICE ALERTS switch).</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Dark / Light Theme <span class="fg-sub">— All Tools</span></div>
+      <div class="feat-desc">A theme toggle in the Launcher footer. It applies the next time you open a tool, and Lap Analyst and Race Analyst follow it too.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Update Checker <span class="fg-sub">— Launcher</span></div>
+      <div class="feat-desc">On startup the Launcher quietly checks GitHub releases and shows a small banner when a newer version is out. It compares version numbers properly, and the banner stays as you move between screens. Switch it off any time with the CHECK FOR UPDATES checkbox in the Dashboard header.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Update-Check Switch <span class="fg-sub">— Live Dashboard</span></div>
+      <div class="feat-desc">A <strong>CHECK FOR UPDATES</strong> checkbox in the Dashboard header, right beside SHARE USAGE DATA, turns the Launcher&rsquo;s startup update check on or off and saves the choice to <code>settings.json</code>. No more editing the file by hand. The header&rsquo;s switches now sit on their own Preferences row so nothing gets squeezed off a narrow window.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Shareable Race Card <span class="fg-sub">— Race Analyst</span></div>
+      <div class="feat-desc">The race-side twin of the lap card, drawn by the same renderer: a 1200×630 PNG with car, track, date, best lap (to 0.01 s), laps completed, top speed, every lap time at its real height with the best one highlighted, and a speed-coloured map of the best lap.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Per-Lap Corner Scoring <span class="fg-sub">— Race Analyst</span></div>
+      <div class="feat-desc">A Corners tab that scores <em>every</em> lap of a race, corner by corner: a lap × corner heat-map of time gained or lost, plus the average per corner. A Corner baseline button switches between the best lap of the race and your saved PB lap file for that car and track. It reuses the same corner detection as the Lap Analyst.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Spoken Alerts <span class="fg-sub">— Live Dashboard</span></div>
+      <div class="feat-desc">Fuel-low and tyre hot/cold alerts are read out loud through your system&rsquo;s own voice (Windows speech, macOS <code>say</code>, Linux <code>spd-say</code> or <code>espeak</code> if installed), falling back to the alert sound when there&rsquo;s no voice. Each alert is spoken when it turns on, fuel and hot-tyre warnings repeat once a minute while they last, and a VOICE ALERTS checkbox mutes it. The voice runs in its own process, so the display never waits for it.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Consistency Report <span class="fg-sub">— Race Analyst</span></div>
+      <div class="feat-desc">Lap-time spread, trend (speeding up or slowing down per lap), a 0–100 consistency score, and the most and least consistent corners over a race. Pit laps and spins, anything more than 7% off your best, are left out of the numbers and shown dimmed so one bad lap doesn&rsquo;t ruin the picture.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Records Table <span class="fg-sub">— Launcher</span></div>
+      <div class="feat-desc">A Records link in the Launcher footer opens your best lap for every car and track, built from your saved laps, with a filter box. It reads only the summary at the start of each lap file, so even a big laps folder opens quickly. Incomplete laps and laps from before the 1.71 physics update are left out unless you tick the box.</div>
+    </div>
+    <div class="feat-row">
+      <div class="feat-name">TRACE for Android <span class="fg-sub">— Mobile</span></div>
+      <div class="feat-desc">A standalone Android app (Kotlin + Jetpack Compose) with the same Live Dashboard, Lap Analyst and Race Analyst, the same layout, colours and charts, and the same lap files. The phone receives the PS5's UDP telemetry itself, so no PC is involved. Voice and notification alerts, ghost-lap gap, Records, backups, the leaderboard and update check all work. It's a free sideloaded APK built on GitHub Actions, see <a href="/setup">Setup</a>.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Theoretical Best Lap <span class="fg-sub">— Lap Analyst</span></div>
+      <div class="feat-desc">Stitches the fastest 25&nbsp;m micro-sector from each of your laps on a car and track into the lap you <em>could</em> drive, then shows which zones hold your best real lap back and which lap is quicker there. It&rsquo;s an optimistic ceiling, since a faster exit carries into the next sector, and the page says so.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Time-Loss Summary <span class="fg-sub">— Live Dashboard &amp; Lap Analyst</span></div>
+      <div class="feat-desc">After each lap the Dashboard log names the three corners that cost the most time against your reference lap, for example <code>Time lost: T4 +0.21s, T9 +0.12s, T2 +0.08s</code>. The Lap Analyst Corners tab shows the same line.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Live Delta vs Top Lap <span class="fg-sub">— Live Dashboard</span></div>
+      <div class="feat-desc">Shows your live gap to the fastest public leaderboard lap for your car and track. The Dashboard fetches that one lap once per car and track per run, a single read-only request, and stays silent if you&rsquo;re offline or nobody has set a lap yet. A TOP-LAP GHOST checkbox turns the request off. Details on the <a href="/privacy">Privacy</a> page.</div>
+    </div>
+  </div>
+
+</div><!-- content -->
+
+<!-- HOW MUCH I ADDED -->
+<div class="tally-wrap">
+  <div class="tally">
+    <div class="eyebrow dim">// the honest breakdown</div>
+    <h2 class="tally-h">So How Much<br>Did I Actually Add?</h2>
+    <div class="tally-bar" id="tally-bar">
+      <span class="tb-seg me" data-width="94"></span><span class="tb-seg bornhall" data-width="2"></span><span class="tb-seg ddm999" data-width="4"></span>
+    </div>
+    <div class="tally-stats">
+      <div class="tally-stat"><svg class="ts-icon me" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.2H22l-6 4.8 2.4 7.2-6.4-4.8L5.6 21.2 8 14 2 9.2h7.6z"/></svg><span class="ts-text"><span class="ts-n me" data-target="52">0</span><span class="ts-l">Features — Me</span></span></div>
+      <div class="tally-stat"><svg class="ts-icon bornhall" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-7"/><path d="M8.5 13a5 5 0 017 0"/><path d="M5 9.5a10 10 0 0114 0"/><circle cx="12" cy="20" r="1.4" fill="currentColor" stroke="none"/></svg><span class="ts-text"><span class="ts-n bornhall" data-target="1">0</span><span class="ts-l">Feature — Bornhall</span></span></div>
+      <div class="tally-stat"><svg class="ts-icon ddm999" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12a8 3 0 0016 0V6"/><path d="M4 12a8 3 0 0016 0"/></svg><span class="ts-text"><span class="ts-n ddm999" data-target="2">0</span><span class="ts-l">Features — ddm999</span></span></div>
+    </div>
+    <p class="tally-p">Counting it up: <strong>53 of the 56 features</strong> listed on this page — every dashboard panel, both analysts, every detection system, the settings, the packaged builds, and the Supabase-backed leaderboard/analytics/accounts work — are original TRACE code. That's genuinely most of what you're clicking through when you use the app.</p>
+    <p class="tally-p">But that count is a little misleading on its own, so here's the honest version: the other <strong>3 features are the 3 that everything else depends on.</strong> Take away Bornhall's decryption and there's no telemetry stream to read in the first place — every one of those 53 features would just be a GUI pointed at nothing. Take away ddm999's databases and cars show up as meaningless IDs, and the TRACK field has nothing to pick from at all. <strong>It's 52 features tall, standing on 3 foundations I didn't build.</strong> That ratio isn't something to gloss over — it's the whole reason the About page exists.</p>
+  </div>
+</div>
+
+<!-- FOUNDATIONS -->
+<div class="foundations">
+  <div class="fnd-card fnd-bornhall reveal">
+    <div class="fnd-eyebrow">Read The Full Story</div>
+    <div class="fnd-name">Bornhall</div>
+    <div class="fnd-sub">Reverse-engineered the GT7 UDP protocol from nothing. Full origin story, including exactly how demoralising it was before finding this repo, on the About page.</div>
+    <a href="/about" class="fnd-link">About TRACE →</a>
+  </div>
+  <div class="fnd-card green fnd-ddm999 reveal" style="transition-delay:.08s">
+    <div class="fnd-eyebrow">Go Star It</div>
+    <div class="fnd-name">ddm999</div>
+    <div class="fnd-sub">Maintains gt7info, the community car/track/manufacturer database that powers every car and track name shown anywhere in this app. Kept current as Polyphony adds new content.</div>
+    <a href="https://github.com/ddm999/gt7info" target="_blank" rel="noopener noreferrer" class="fnd-link">github.com/ddm999/gt7info ↗</a>
+  </div>
+</div>
+
+<footer>
+  TRACE — community tool, not affiliated with Polyphony Digital or Sony Interactive Entertainment<br>
+  Original UDP protocol by <a href="https://github.com/Bornhall/gt7telemetry" target="_blank" rel="noopener noreferrer">Bornhall</a> · Car &amp; track database by <a href="https://github.com/ddm999/gt7info" target="_blank" rel="noopener noreferrer">ddm999</a> &middot; <a href="/leaderboard">Leaderboard</a> &middot; <a href="/totalfiles">Files</a> &middot; <a href="/about">About</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/setup">Setup</a> &middot; <a href="/archived">Archived</a> &middot; <a href="https://github.com/ransh2014/gt7telemtrace" target="_blank" rel="noopener noreferrer">GitHub</a> &middot; <a href="https://ko-fi.com/ransh" target="_blank" rel="noopener noreferrer" style="color:var(--gold);">Support on Ko-fi</a>
+</footer>
+
+<script src="/assets/site.js"></script>
+<script src="/assets/trace-chat.js" data-endpoint="https://trace-support-bot.shruthi-rai.workers.dev" defer></script>
+<script>
+(function () {
+  const bar = document.getElementById('tally-bar');
+  if (!bar) return;
+  const segs = bar.querySelectorAll('.tb-seg');
+  const nums = document.querySelectorAll('.ts-n');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function run() {
+    segs.forEach(s => { s.style.width = s.dataset.width + '%'; });
+    nums.forEach(n => {
+      const target = parseInt(n.dataset.target, 10);
+      if (reduceMotion) { n.textContent = target; return; }
+      const start = performance.now();
+      const dur = 900;
+      function step(now) {
+        const p = Math.min((now - start) / dur, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        n.textContent = Math.round(eased * target);
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+  if (!('IntersectionObserver' in window)) { run(); return; }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(en => { if (en.isIntersecting) { run(); io.unobserve(en.target); } });
+  }, { threshold: 0.4 });
+  io.observe(bar);
+})();
+</script>
+
+</body>
+</html>

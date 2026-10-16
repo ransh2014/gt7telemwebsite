@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1DRKJH6JTG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1DRKJH6JTG');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy & Data — TRACE</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%2308080a'/><path d='M7 6 L19 6 L27 16 L19 26 L7 26 L15 16 Z' fill='%23c8102e'/></svg>">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/styles.css">
+<meta name="description" content="What TRACE collects and why: anonymous usage analytics, the top-lap lookup, local metrics export and the optional leaderboard and account. Most are switchable.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://gt7trace.netlify.app/privacy">
+<meta name="theme-color" content="#050505">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TRACE">
+<meta property="og:title" content="Privacy & Data — TRACE">
+<meta property="og:description" content="What data TRACE collects, why, and how to turn it off.">
+<meta property="og:url" content="https://gt7trace.netlify.app/privacy">
+<meta property="og:image" content="https://gt7trace.netlify.app/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Privacy & Data — TRACE">
+<meta name="twitter:description" content="What data TRACE collects, why, and how to turn it off.">
+<meta name="twitter:image" content="https://gt7trace.netlify.app/og-image.png">
+<style>
+.page-hdr.lg { max-width:1000px; padding-top:160px; }
+.page-hdr.lg h1 { font-size:clamp(3rem,8.4vw,7.2rem); }
+.page-hdr.lg h1 em  { color:var(--orange); font-style:normal; }
+.page-hdr.lg h1 span{ color:var(--blue-2); }
+.page-hdr.lg p { font-size:1.1rem; max-width:580px; }
+
+.content { max-width:720px; margin:0 auto; padding:0 52px; }
+.section { padding:56px 0; border-bottom:1px solid var(--line); }
+.section:last-child { border-bottom:none; }
+.section .eyebrow { margin-bottom:14px; }
+.section h2 {
+  font-family:'Sora', sans-serif;
+  font-weight:600; font-size:2rem;
+  text-transform:uppercase; letter-spacing:.04em;
+  margin-bottom:20px; line-height:1;
+}
+.prose { font-size:.95rem; color:var(--mid); line-height:1.85; margin-bottom:18px; }
+.prose:last-child { margin-bottom:0; }
+.prose strong { color:var(--txt); font-weight:500; }
+.prose a { color:var(--blue-2); text-decoration:none; }
+.prose a:hover { text-decoration:underline; }
+
+.data-table {
+  width:100%; border-collapse:collapse; margin:20px 0 8px;
+  font-family:'JetBrains Mono', monospace; font-size:.82rem;
+}
+.data-table th {
+  text-align:left; color:var(--dim);
+  font-size:.65rem; letter-spacing:.14em; text-transform:uppercase;
+  padding:0 14px 10px; border-bottom:1px solid var(--line-2);
+}
+.data-table td {
+  padding:12px 14px; border-bottom:1px solid var(--line);
+  color:var(--mid); vertical-align:top;
+}
+.data-table td:first-child { color:var(--blue-2); white-space:nowrap; }
+
+.discovery {
+  background:rgba(28, 92, 88,.08);
+  border:1px solid rgba(28, 92, 88,.22);
+  border-left:3px solid var(--blue);
+  border-radius:var(--radius);
+  padding:22px 26px; margin:24px 0;
+}
+.discovery p { font-size:.9rem; color:var(--mid); line-height:1.8; margin:0; }
+.discovery p strong { color:var(--blue-2); }
+
+.not-collected {
+  background:rgba(60, 154, 95,.06);
+  border:1px solid rgba(60, 154, 95,.2);
+  border-left:3px solid var(--green);
+  border-radius:var(--radius);
+  padding:22px 26px; margin:24px 0;
+}
+.not-collected ul { margin:0; padding-left:18px; }
+.not-collected li { font-size:.88rem; color:var(--mid); line-height:1.9; }
+
+/* ── CALLOUT WATERMARKS ── */
+.discovery, .not-collected { isolation:isolate; overflow:hidden; position:relative; }
+.discovery > *, .not-collected > * { position:relative; z-index:1; }
+.discovery::after, .not-collected::after {
+  content:'';
+  position:absolute; right:-16px; bottom:-16px; z-index:0;
+  width:120px; height:120px;
+  background-repeat:no-repeat; background-position:bottom right; background-size:contain;
+  opacity:.05; pointer-events:none;
+  transition:opacity .35s ease;
+}
+.discovery:hover::after, .not-collected:hover::after { opacity:.1; }
+.disc-eye::after { background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M6 50 C20 26 40 16 50 16 C60 16 80 26 94 50 C80 74 60 84 50 84 C40 84 20 74 6 50 Z' stroke='white' stroke-width='5' fill='none' stroke-linejoin='round'/><circle cx='50' cy='50' r='14' stroke='white' stroke-width='5' fill='none'/></svg>"); }
+.nc-shield::after { background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50 8 L86 22 V48 C86 70 70 86 50 94 C30 86 14 70 14 48 V22 Z' stroke='white' stroke-width='5' fill='none' stroke-linejoin='round'/><path d='M36 50 L46 60 L66 38' stroke='white' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>"); }
+.disc-trophy::after { background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M32 14 H68 V38 C68 52 60 62 50 62 C40 62 32 52 32 38 Z' stroke='white' stroke-width='5' fill='none'/><path d='M32 20 H18 C18 34 24 42 32 44' stroke='white' stroke-width='5' fill='none' stroke-linecap='round'/><path d='M68 20 H82 C82 34 76 42 68 44' stroke='white' stroke-width='5' fill='none' stroke-linecap='round'/><line x1='50' y1='62' x2='50' y2='78' stroke='white' stroke-width='5'/><line x1='34' y1='90' x2='66' y2='90' stroke='white' stroke-width='5' stroke-linecap='round'/><line x1='50' y1='78' x2='50' y2='90' stroke='white' stroke-width='5'/></svg>"); }
+.disc-id::after { background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='10' y='24' width='80' height='52' rx='6' stroke='white' stroke-width='5' fill='none'/><circle cx='34' cy='50' r='10' stroke='white' stroke-width='5' fill='none'/><line x1='54' y1='42' x2='78' y2='42' stroke='white' stroke-width='5' stroke-linecap='round'/><line x1='54' y1='58' x2='72' y2='58' stroke='white' stroke-width='5' stroke-linecap='round'/></svg>"); }
+.disc-globe::after { background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='38' stroke='white' stroke-width='5' fill='none'/><ellipse cx='50' cy='50' rx='16' ry='38' stroke='white' stroke-width='5' fill='none'/><line x1='12' y1='50' x2='88' y2='50' stroke='white' stroke-width='5'/><path d='M18 30 H82 M18 70 H82' stroke='white' stroke-width='4' fill='none'/></svg>"); }
+
+
+@media(max-width:780px){
+  .page-hdr.lg { padding-top:120px; }
+  .content { padding:0 20px; }
+  .data-table { font-size:.74rem; }
+  .data-table th, .data-table td { padding:8px 8px; }
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Privacy & Data — TRACE",
+  "description": "What data TRACE collects, why, and how to turn it off.",
+  "url": "https://gt7trace.netlify.app/privacy",
+  "isPartOf": {
+    "@type": "SoftwareApplication",
+    "name": "TRACE",
+    "url": "https://gt7trace.netlify.app/",
+    "creator": { "@type": "Person", "name": "Ransh" }
+  },
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://gt7trace.netlify.app/" },
+      { "@type": "ListItem", "position": 2, "name": "Privacy & Data", "item": "https://gt7trace.netlify.app/privacy" }
+    ]
+  }
+}
+</script>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<nav>
+  <a href="/" class="logo">TRACE <span>GT7</span></a>
+  <div class="nav-links">
+    <a href="/about" class="nav-link">About</a>
+    <a href="/features" class="nav-link">Features</a>
+    <a href="/leaderboard" class="nav-link">Leaderboard</a>
+    <a href="/totalfiles" class="nav-link">Files</a>
+    <a href="/privacy" class="nav-link active">Privacy</a>
+    <a href="/archived" class="nav-link">Archived</a>
+    <a href="/setup" class="nav-btn orange">Set It Up →</a>
+    <a href="https://ko-fi.com/ransh" target="_blank" rel="noopener noreferrer" class="nav-btn gold">Support</a>
+  </div>
+  <button class="nav-burger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</nav>
+<div class="menu-scrim"></div>
+<div class="mobile-menu">
+  <a href="/about">About</a>
+  <a href="/features">Features</a>
+  <a href="/leaderboard">Leaderboard</a>
+  <a href="/totalfiles">Files</a>
+  <a href="/privacy" class="active">Privacy</a>
+  <a href="/archived">Archived</a>
+  <a href="/setup" class="mm-btn orange">Set It Up →</a>
+  <a href="https://ko-fi.com/ransh" target="_blank" rel="noopener noreferrer" class="mm-btn gold">Support</a>
+</div>
+
+<div class="page-hdr lg" id="main-content">
+  <div class="eyebrow">Transparency</div>
+  <h1>What We<br><em>Actually</em><br><span>Collect.</span></h1>
+  <p class="prose">TRACE sends a small amount of anonymous usage data by default, looks up the fastest public lap for your car and track in the Live Dashboard (also on by default, and switchable), and lets you optionally submit lap times to a public leaderboard — with an optional free account if you want your name on it. Here's exactly what each of those is, and how to control them — plus what <a href="#site-analytics">this website itself</a> collects and the optional <a href="#support-chat">AI support chat</a>, which are separate things.</p>
+  <a class="share-btn" target="_blank" rel="noopener noreferrer" href="https://wa.me/?text=Actually%20readable%20privacy%20policy%20for%20TRACE%2C%20a%20GT7%20telemetry%20tool%20%E2%80%94%20lays%20out%20exactly%20what%20it%20does%20and%20doesn%27t%20collect%2C%20no%20legalese%3A%20https%3A%2F%2Fgt7trace.netlify.app%2Fprivacy">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.31-1.39a9.9 9.9 0 0 0 4.72 1.2h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.13a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.22 8.22 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.55-3.7 8.21-8.25 8.21zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.17.24-.64.81-.78.97-.14.17-.29.19-.53.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.36-.77-1.86-.2-.48-.41-.42-.56-.43-.14-.01-.31-.01-.48-.01a.92.92 0 0 0-.67.31c-.23.25-.87.85-.87 2.08 0 1.22.89 2.4 1.01 2.57.13.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.23-.16-.48-.28z"/></svg>
+    Share this page
+  </a>
+</div>
+
+<div class="content">
+
+  <div class="section">
+    <div class="eyebrow orange">// on by default</div>
+    <h2>Usage Analytics</h2>
+    <p class="prose">Each time you launch Live Dashboard, Lap Analyst, or Race Analyst, TRACE sends one small anonymous record. This is <strong>on by default</strong> — you can turn it off any time with the <strong>SHARE USAGE DATA</strong> checkbox in the Live Dashboard&rsquo;s Preferences row.</p>
+
+    <table class="data-table">
+      <tr><th>Field</th><th>What it is</th></tr>
+      <tr><td>event</td><td>Which action happened — e.g. "app launch"</td></tr>
+      <tr><td>tool</td><td>Which tool was opened — dashboard, lap analyst, or race analyst</td></tr>
+      <tr><td>version</td><td>Your installed TRACE version, e.g. 0.8.1</td></tr>
+      <tr><td>os</td><td>Windows, macOS, Linux, or Android</td></tr>
+      <tr><td>timestamp</td><td>When the launch happened</td></tr>
+    </table>
+
+    <div class="discovery disc-eye">
+      <p>That's the whole record. <strong>Five fields, nothing else.</strong> It's used only to see which tools actually get used and whether people are on a current version — nothing more.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow orange">// on by default</div>
+    <h2>Update Check</h2>
+    <p class="prose">Each time the Launcher opens, TRACE asks GitHub whether a newer release exists, so it can show a small “new version available” banner. It’s a plain request to GitHub’s public releases page for this project, and it goes to GitHub, not to our database. TRACE doesn’t put your version, an ID or any usage data in it — just a fixed “TRACE-updater” label — but as with any web request, GitHub can see your IP address, under <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub’s own privacy policy</a>. If you’re offline it fails silently.</p>
+    <div class="discovery disc-eye">
+      <p>To turn it off, untick <strong>CHECK FOR UPDATES</strong> in the Live Dashboard&rsquo;s Preferences row, right beside SHARE USAGE DATA. It&rsquo;s saved to your <code>settings.json</code> and applies from the next time TRACE starts &mdash; no file editing needed.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow orange">// on by default</div>
+    <h2>Top-Lap Ghost</h2>
+    <p class="prose">The Live Dashboard shows your live gap to the fastest public leaderboard lap for the car and track you&rsquo;re on. To do that it makes <strong>one read-only request to the leaderboard database</strong> once your car and track are both known and have stayed the same for a few seconds in a run (so typing a name by hand doesn&rsquo;t send a request per letter), and once more for each new car or track you switch to &mdash; never again for the same pair. It fetches a single lap, the fastest current-era one, and nothing is uploaded. If you&rsquo;re offline, or nobody has set a lap yet, it fails silently and the gap just stays blank.</p>
+
+    <p class="prose"><strong>Track auto-detect.</strong> GT7 doesn&rsquo;t tell TRACE which track you&rsquo;re on, so the Dashboard recognises it from where a lap starts. On launch it makes <strong>one read-only request</strong> for the shared list of known start points (layout name, start position, heading) and caches it. Learned start points are kept on your PC in <code>track_fingerprints.json</code>. When <strong>SHARE USAGE DATA</strong> is on, each time you confirm a new start point on a known layout, TRACE also sends that layout&rsquo;s name, the start position and heading in game-world coordinates (not GPS), and the lap length &mdash; nothing about you, your car or your lap time. With SHARE USAGE DATA off, nothing is sent; you still receive the shared list.</p>
+
+    <table class="data-table">
+      <tr><th>Sent in the request</th><th>What it is</th></tr>
+      <tr><td>car_name</td><td>The car shown in the Dashboard&rsquo;s CAR box</td></tr>
+      <tr><td>track_name</td><td>The track shown in the Dashboard&rsquo;s TRACK box</td></tr>
+      <tr><td>(nothing else)</td><td>No account, no PSN name, no lap or telemetry data. The request uses the same public read-only key as the leaderboard page</td></tr>
+    </table>
+
+    <div class="discovery disc-eye">
+      <p>You get back one public lap &mdash; its time, the display name its owner typed, and its compact trace. As with any web request, the database host can see your IP address. To stop it entirely, untick <strong>TOP-LAP GHOST</strong> in the Live Dashboard&rsquo;s Preferences row: with it off, the Dashboard makes no leaderboard requests at all.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow green">// off by default &middot; stays on your network</div>
+    <h2>Metrics Export<br>(Grafana)</h2>
+    <p class="prose">If you tick <strong>METRICS</strong> in the Live Dashboard header, TRACE starts a small web server on your own PC that publishes live gauges for Grafana or any Prometheus scraper: speed, RPM, throttle, brake, fuel, current lap time and a &ldquo;connected&rdquo; flag. It is <strong>off by default</strong>, and nothing is sent to the internet &mdash; TRACE doesn&rsquo;t upload these values anywhere, it only lets something you point at it read them.</p>
+    <div class="not-collected nc-shield">
+      <ul>
+        <li><strong>METRICS only:</strong> the server listens on <code>127.0.0.1</code> (this PC), port 9109, so only programs on your own computer can read it</li>
+        <li><strong>METRICS + ALLOW REMOTE:</strong> it listens on every network interface, so any device on your Wi-Fi/LAN can read your live telemetry. There is no password or login on the endpoint. Use it only on a network you trust</li>
+      </ul>
+    </div>
+    <p class="prose">Turn it off by unticking METRICS, or just leave it off. Both switches are saved to <code>settings.json</code>.</p>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow green">// never collected</div>
+    <h2>What Never Leaves<br>Your PC</h2>
+    <p class="prose">This section is about the <strong>TRACE desktop app</strong>. This website is separate and is covered further down under <a href="#site-analytics">This Website</a>.</p>
+    <div class="not-collected nc-shield">
+      <ul>
+        <li>No PSN name, username, or account identity</li>
+        <li>No telemetry data — speed, inputs or lap times. Car and track names leave your PC only in the cases described on this page (the Dashboard&rsquo;s top-lap lookup, leaderboard submissions, the community inbox and, if SHARE USAGE DATA is on, track auto-detect&rsquo;s start-point sharing)</li>
+        <li>No IP address stored in our own database</li>
+        <li>No location data</li>
+        <li>No files, laps, or recordings from your computer</li>
+      </ul>
+    </div>
+    <p class="prose">Data submitted to any opt-in feature — like the leaderboard below — is separate, always explicit (a button you click), and disclosed in full right here.</p>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow orange">// opt-in, one button click</div>
+    <h2>Global Lap Leaderboard</h2>
+    <p class="prose">Submitting a lap to the leaderboard is <strong>never automatic</strong> — it only happens when you press "Submit to Leaderboard" in Lap Analyst. Here's exactly what's sent for each submission:</p>
+
+    <table class="data-table">
+      <tr><th>Field</th><th>What it is</th></tr>
+      <tr><td>car_name</td><td>The car you were driving</td></tr>
+      <tr><td>track_name</td><td>The track you were on</td></tr>
+      <tr><td>lap_time_ms</td><td>Your lap time</td></tr>
+      <tr><td>psn_name</td><td>The name you typed into the submit dialog — self-reported, not read from your PlayStation account</td></tr>
+      <tr><td>user_id</td><td>Your anonymous account ID (see Free Account below), attached only if you&rsquo;re signed in. The database requires it so a lap belongs to an account; it isn&rsquo;t shown on the public leaderboard</td></tr>
+      <tr><td>samples</td><td>A compact per-sample trace of the lap — track position, speed, throttle, brake, steering, and gear only. No GPS coordinates, no other telemetry channels</td></tr>
+    </table>
+
+    <div class="discovery disc-trophy">
+      <p><strong>The leaderboard itself is public</strong> — any lap you submit, along with the PSN name you typed in, is visible to anyone using TRACE via the Top-10 panel and can be downloaded as a ghost lap. Don't submit under a name you don't want publicly associated with that lap time.</p>
+    </div>
+
+    <p class="prose">Every submission passes through server-side anti-cheat before it can appear: a lap that's physically impossible for that track's length is rejected outright, a lap that beats the current record by more than 20% — or a suspiciously fast first time for a car and track — is held in a private review queue instead of publishing immediately, and only laps set since GT7 update 1.71's physics overhaul are shown. Both checks run in the database itself, not in the app.</p>
+    <p class="prose">If GT7 reports a car ID that isn't in the local database yet, or you type a track name that isn't in the picker, that name/ID is also submitted automatically to a shared community inbox — this one isn't a button you press, but it only ever sends the car ID or track name itself, nothing else about your session. It isn&rsquo;t controlled by the <strong>SHARE USAGE DATA</strong> checkbox, so unticking that doesn&rsquo;t stop it.</p>
+    <p class="prose">The <a href="/leaderboard">public leaderboard page</a> on this website reads from the same database anonymously — no login, no account, nothing stored about you as a visitor. Its "can't find your car/track?" boxes write to that same community inbox, and only ever send the name (and, optionally, a numeric car ID) you type in — never anything else about your visit.</p>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow orange">// optional, skippable in one click</div>
+    <h2>Free Account</h2>
+    <p class="prose">The first time you open TRACE, it offers a free account so a leaderboard submission ties to something real instead of a self-typed name anyone could fake. Creating one is entirely optional — skip it and everything except <em>submitting</em> a lap still works exactly the same: viewing the leaderboard, downloading ghost laps, and the consensus line all stay fully available.</p>
+
+    <table class="data-table">
+      <tr><th>Field</th><th>What it is</th></tr>
+      <tr><td>display_name</td><td>Whatever name you type when creating the account. Note this is stored separately from the <code>psn_name</code> above — the name shown on a leaderboard row is the one you type in the submit dialog each time, not this one</td></tr>
+      <tr><td>account ID</td><td>An anonymous identifier created via Supabase's anonymous sign-in — no email, no password, ever</td></tr>
+    </table>
+
+    <div class="discovery disc-id">
+      <p>That's it — <strong>a display name and an anonymous ID, nothing else.</strong> No email address is asked for or stored, no password exists to leak, and nothing ties the account to your PlayStation identity, your real name, or anything else about you. It exists purely so a leaderboard row belongs to a real (if anonymous) account rather than any name a submission form happens to have typed into it.</p>
+    </div>
+
+    <p class="prose"><strong>Staying signed in.</strong> Your session is stored on your PC (encrypted with a key kept in a separate local file). Access tokens are short-lived, so if a lap submission is rejected because yours has expired, TRACE sends your stored refresh token to the same database to get a new one and retries once. That only ever happens during a submission you started &mdash; it isn&rsquo;t a background check &mdash; and the request carries the token and nothing about your laps or telemetry. Creating the account sends the display name you typed along with the sign-up.</p>
+    <p class="prose">Skipped it and changed your mind? Sign up any time from the tool menu — nothing is lost, and there's no penalty for waiting.</p>
+    <p class="prose">Because there's no email or password, logging out of an account can't be undone — the app warns you before it does. Accounts that never set a display name and never submitted a lap are deleted automatically after 30 days (these are almost all created by automated security scanners that test public packages, not by people). An account with a name or any submitted lap is never removed by this.</p>
+  </div>
+
+  <div class="section" id="support-chat">
+    <div class="eyebrow orange">// this website &middot; only when you use it</div>
+    <h2>AI Support Chat</h2>
+    <p class="prose">Most pages on this site have a small <strong>Ask TRACE</strong> chat button. <strong>Nothing is sent when a page loads or when you open the chat</strong> &mdash; a request is only made when you type a question and press send. The desktop app never uses it.</p>
+
+    <table class="data-table">
+      <tr><th>Sent when you ask</th><th>What it is</th></tr>
+      <tr><td>your messages</td><td>The question you typed, plus the last few messages of that chat (up to 6, each cut to 800 characters) so the answer has context</td></tr>
+      <tr><td>model choice</td><td>Which model you picked in the dropdown: Flash-Lite or Groq</td></tr>
+      <tr><td>(nothing else)</td><td>No account, no PSN name, no telemetry, and no laps or files from your PC</td></tr>
+    </table>
+
+    <div class="discovery disc-eye">
+      <p>Your messages go to a small relay run by the TRACE developer (a Cloudflare Worker), which adds TRACE&rsquo;s own documentation and forwards the question to <strong>one AI service</strong>: Google&rsquo;s Gemini API or Groq, depending on your choice, or Cloudflare Workers AI as an automatic backup if the one you picked is busy. <strong>TRACE doesn&rsquo;t save your questions or the answers.</strong> Those services handle what they receive under their own policies &mdash; and Google&rsquo;s free-tier terms in particular may allow submitted content to be used to improve its products &mdash; so don&rsquo;t type anything personal, like a PSN name, email address or password.</p>
+    </div>
+
+    <p class="prose">Policies: <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener noreferrer">Google Gemini API terms</a>, <a href="https://groq.com/privacy-policy" target="_blank" rel="noopener noreferrer">Groq privacy policy</a>, <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Cloudflare privacy policy</a>.</p>
+    <p class="prose">As with any web request, Cloudflare (which runs the relay) can see your IP address. The relay holds it in memory for about a minute only to limit how many questions one visitor can send, and doesn&rsquo;t store it. The chat remembers which model you picked in your browser&rsquo;s local storage on your own device, and nothing else &mdash; the conversation itself disappears when you close or refresh the page.</p>
+    <p class="prose">Answers are AI-generated and can be wrong. If something looks off or the bot can&rsquo;t help, <a href="https://github.com/ransh2014/gt7telemtrace/issues" target="_blank" rel="noopener noreferrer">open a GitHub issue</a>. If you&rsquo;d rather not use it, just don&rsquo;t open the chat &mdash; nothing is sent until you do.</p>
+  </div>
+
+  <div class="section" id="site-analytics">
+    <div class="eyebrow orange">// this website, not the app</div>
+    <h2>This Website</h2>
+    <p class="prose">Everything above is about the TRACE desktop app. This site &mdash; gt7trace.netlify.app &mdash; does two things of its own, and they run whether or not you ever download TRACE.</p>
+
+    <table class="data-table">
+      <tr><th>What</th><th>What it does</th></tr>
+      <tr><td>Google Analytics</td><td>Loaded on every page of this site (measurement ID <code>G-1DRKJH6JTG</code>). Google records the usual web-analytics signals &mdash; pages visited, referrer, approximate location, device and browser, and a cookie-based visitor ID. Unlike the in-app ping, this is Google's product and runs under <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google's privacy policy</a>; your IP address reaches Google as part of any web request.</td></tr>
+      <tr><td>Download counter</td><td>Clicking a download button on the <a href="/setup">Setup</a> page sends one record to the same Supabase project used by the app, containing a single field: which platform you clicked (<code>windows</code>, <code>linux</code>, <code>macos</code>, or <code>source</code>). Nothing else &mdash; no identifier, no session, no page history. It's fire-and-forget and never delays or blocks the download.</td></tr>
+    </table>
+
+    <div class="discovery disc-globe">
+      <p><strong>Neither of these touches the app.</strong> The TRACE desktop app never loads this website, never loads Google Analytics, and never reports anything about your browsing. Blocking analytics in your browser &mdash; or just not visiting this site &mdash; has no effect on how TRACE works.</p>
+    </div>
+
+    <p class="prose">To opt out of the Google Analytics side, any standard content blocker or Google's own <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">opt-out browser add-on</a> will do it. The download counter has no personal data to opt out of, but a content blocker will stop it too.</p>
+  </div>
+
+  <div class="section" style="border-bottom:none;">
+    <div class="eyebrow dim">// the fine print</div>
+    <h2>How It's Used</h2>
+    <p class="prose">The app analytics, leaderboard, account and download-counter data are all stored in a Supabase project controlled by the TRACE developer. None of it is sold, and none of it is shared with third parties. (Google Analytics and the AI services behind the support chat are the exceptions to "no third parties" and are called out separately above &mdash; that data lives with them, not with us.) Usage analytics exists purely to answer questions like "is anyone actually using Race Analyst" and "did people update to the latest version." Leaderboard and account data exists to run the leaderboard, ghost-lap download, and consensus racing-line features — none of it is used to track anyone individually beyond the display name shown on a public leaderboard row. The support chat is separate again: TRACE doesn&rsquo;t store your questions or the answers at all.</p>
+    <p class="prose">Questions about this page or a data request: reach out via <a href="https://github.com/ransh2014/gt7telemtrace/issues" target="_blank" rel="noopener noreferrer">GitHub Issues</a>.</p>
+  </div>
+
+</div>
+
+<footer>TRACE — community tool, not affiliated with Polyphony Digital or Sony Interactive Entertainment · Original protocol by <a href="https://github.com/Bornhall/gt7telemetry" target="_blank" rel="noopener noreferrer">Bornhall</a> · Car &amp; track database by <a href="https://github.com/ddm999/gt7info" target="_blank" rel="noopener noreferrer">ddm999</a> &middot; <a href="/features">Features</a>
+  <a href="/leaderboard">Leaderboard</a>
+  <a href="/totalfiles">Files</a> &middot; <a href="/about">About</a> &middot; <a href="/setup">Setup</a> &middot; <a href="/archived">Archived</a> &middot; <a href="https://github.com/ransh2014/gt7telemtrace" target="_blank" rel="noopener noreferrer">GitHub</a> &middot; <a href="https://ko-fi.com/ransh" target="_blank" rel="noopener noreferrer" style="color:var(--gold);">Support on Ko-fi</a></footer>
+
+<script src="/assets/site.js"></script>
+<script src="/assets/trace-chat.js" data-endpoint="https://trace-support-bot.shruthi-rai.workers.dev" defer></script>
+
+</body>
+</html>

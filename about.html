@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1DRKJH6JTG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1DRKJH6JTG');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About TRACE — The Story Behind This GT7 Telemetry Tool</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%2308080a'/><path d='M7 6 L19 6 L27 16 L19 26 L7 26 L15 16 Z' fill='%23c8102e'/></svg>">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/styles.css">
+<meta name="description" content="How TRACE's GT7 telemetry dashboard came together, built on Bornhall's UDP telemetry protocol and ddm999's gt7info car and track database.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://gt7trace.netlify.app/about">
+<meta name="theme-color" content="#050505">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TRACE">
+<meta property="og:title" content="About TRACE — The Story Behind This GT7 Telemetry Tool">
+<meta property="og:description" content="How TRACE's GT7 telemetry dashboard came together, built on Bornhall's UDP telemetry protocol and ddm999's gt7info car and track database.">
+<meta property="og:url" content="https://gt7trace.netlify.app/about">
+<meta property="og:image" content="https://gt7trace.netlify.app/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="About TRACE — The Story Behind This GT7 Telemetry Tool">
+<meta name="twitter:description" content="How TRACE's GT7 telemetry dashboard came together, built on Bornhall's UDP telemetry protocol and ddm999's gt7info car and track database.">
+<meta name="twitter:image" content="https://gt7trace.netlify.app/og-image.png">
+<style>
+/* ── HERO HEADER (bigger variant of .page-hdr) ── */
+.page-hdr.lg { max-width:1000px; padding-top:160px; }
+.page-hdr.lg h1 { font-size:clamp(3rem,8.4vw,7.2rem); }
+.page-hdr.lg h1 em  { color:var(--orange); font-style:normal; }
+.page-hdr.lg h1 span{ color:var(--blue-2); }
+.page-hdr.lg p { font-size:1.1rem; max-width:580px; }
+
+/* ── PROSE SECTIONS ── */
+.content { max-width:720px; margin:0 auto; padding:0 52px; }
+
+.section { padding:64px 0; border-bottom:1px solid var(--line); }
+.section:last-child { border-bottom:none; }
+.section .eyebrow { margin-bottom:14px; }
+
+.section h2 {
+  font-family:'Sora', sans-serif;
+  font-weight:600; font-size:2.4rem;
+  text-transform:uppercase; letter-spacing:.04em;
+  margin-bottom:24px; line-height:1.05;
+}
+
+.prose {
+  font-size:.95rem; color:var(--mid);
+  line-height:1.85; margin-bottom:18px;
+}
+.prose:last-child { margin-bottom:0; }
+.prose strong { color:var(--txt); font-weight:500; }
+.prose a { color:var(--blue-2); text-decoration:none; }
+.prose a:hover { text-decoration:underline; }
+
+/* ── FAILURE CALLOUT ── */
+.fail-block {
+  background:rgba(200, 16, 46,.05);
+  border:1px solid rgba(200, 16, 46,.16);
+  border-left:3px solid var(--orange);
+  border-radius:var(--radius);
+  padding:20px 24px;
+  margin:28px 0;
+  overflow-x:auto;
+}
+.fail-block p {
+  font-family:'JetBrains Mono', monospace;
+  font-size:.82rem; color:rgba(255,130,110,.9);
+  line-height:1.7; white-space:nowrap;
+}
+.fail-block p span { color:var(--dim); }
+
+/* ── DISCOVERY HIGHLIGHT ── */
+.discovery {
+  background:rgba(28, 92, 88,.08);
+  border:1px solid rgba(28, 92, 88,.22);
+  border-left:3px solid var(--blue);
+  border-radius:var(--radius);
+  padding:24px 28px; margin:28px 0;
+}
+.discovery p { font-size:.9rem; color:var(--mid); line-height:1.8; }
+.discovery p strong { color:var(--blue-2); }
+
+/* ── CREDIT CARD ── */
+.credit-card {
+  margin:44px 0;
+  background:var(--bg-1);
+  border:1px solid rgba(28, 92, 88,.24);
+  border-radius:0;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 22px), calc(100% - 22px) 100%, 0 100%);
+  position:relative; overflow:hidden;
+}
+.credit-card::before {
+  content:'';
+  position:absolute; top:0; left:0; bottom:0; width:3px;
+  background:var(--blue);
+}
+.credit-card.gold { border-color:rgba(201, 162, 75,.28); }
+.credit-card.gold::before { background:var(--gold); }
+.credit-inner { padding:36px 40px; }
+.credit-eyebrow {
+  font-family:'JetBrains Mono', monospace;
+  font-size:.6rem; letter-spacing:.28em; text-transform:uppercase;
+  color:var(--dim); margin-bottom:10px;
+}
+.credit-name {
+  font-family:var(--font-impact);
+  font-weight:400; font-size:3.2rem;
+  text-transform:uppercase; line-height:1;
+  margin-bottom:6px;
+  background:linear-gradient(90deg, #fff 30%, var(--blue-2) 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.credit-name.gold { background:linear-gradient(90deg, #fff 30%, var(--gold) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.credit-sub { font-size:.85rem; color:var(--mid); line-height:1.7; margin-top:14px; margin-bottom:22px; }
+.credit-links { display:flex; flex-wrap:wrap; gap:12px; }
+.credit-link {
+  display:inline-flex; align-items:center; gap:10px;
+  border:1px solid rgba(28, 92, 88,.35); color:var(--blue-2);
+  text-decoration:none; border-radius:0;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  font-family:'Sora', sans-serif;
+  font-weight:700; font-size:.9rem;
+  letter-spacing:.1em; text-transform:uppercase;
+  padding:10px 22px; transition:background .2s, border-color .2s;
+  overflow-wrap:anywhere; max-width:100%;
+}
+.credit-link:hover { background:rgba(28, 92, 88,.14); border-color:rgba(95, 179, 168,.55); }
+.credit-link.gold { border-color:rgba(201, 162, 75,.35); color:var(--gold); }
+.credit-link.gold:hover { background:rgba(201, 162, 75,.14); border-color:rgba(201, 162, 75,.55); }
+
+/* ── CREDIT CARD WATERMARKS ── */
+.credit-card { isolation:isolate; }
+.credit-inner { position:relative; z-index:1; }
+.credit-card::after {
+  content:'';
+  position:absolute; right:-20px; bottom:-20px; z-index:0;
+  width:160px; height:160px;
+  background-repeat:no-repeat; background-position:bottom right; background-size:contain;
+  opacity:.04; pointer-events:none;
+  transition:opacity .35s ease;
+}
+.credit-card:hover::after { opacity:.08; }
+.cc-bornhall::after { background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50 90 V45' stroke='white' stroke-width='5' stroke-linecap='round'/><path d='M28 45 A22 22 0 0 1 72 45' stroke='white' stroke-width='5' fill='none' stroke-linecap='round'/><path d='M14 45 A36 36 0 0 1 86 45' stroke='white' stroke-width='5' fill='none' stroke-linecap='round' opacity='.6'/><circle cx='50' cy='45' r='6' fill='white'/></svg>"); }
+.cc-ddm999::after { background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><ellipse cx='50' cy='24' rx='32' ry='11' stroke='white' stroke-width='5' fill='none'/><path d='M18 24 V76 A32 11 0 0 0 82 76 V24' stroke='white' stroke-width='5' fill='none'/><path d='M18 50 A32 11 0 0 0 82 50' stroke='white' stroke-width='5' fill='none'/></svg>"); }
+.cc-pypi::after { background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50 10 L86 30 V70 L50 90 L14 70 V30 Z' stroke='white' stroke-width='5' fill='none' stroke-linejoin='round'/><path d='M14 30 L50 50 L86 30' stroke='white' stroke-width='5' fill='none' stroke-linejoin='round'/><line x1='50' y1='50' x2='50' y2='90' stroke='white' stroke-width='5'/></svg>"); }
+.cc-kofi::after { background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50 84 C20 62 12 42 26 28 C36 18 50 24 50 36 C50 24 64 18 74 28 C88 42 80 62 50 84 Z' stroke='white' stroke-width='5' fill='none' stroke-linejoin='round'/></svg>"); }
+
+
+/* ── THANK YOU QUOTE ── */
+.ty-block { text-align:center; padding:76px 24px 52px; border-bottom:1px solid var(--line); }
+.ty-block .ty-big {
+  font-family:'Sora', sans-serif;
+  font-weight:700; font-style:italic;
+  font-size:clamp(2.4rem,6vw,5rem);
+  text-transform:uppercase; line-height:1.02;
+  margin-bottom:20px;
+}
+.ty-block .ty-big em { color:var(--blue-2); font-style:italic; }
+.ty-block .ty-sub { font-size:.9rem; color:var(--mid); max-width:400px; margin:0 auto; line-height:1.7; }
+
+/* ── STACK SECTION ── */
+.stack-row {
+  display:grid; grid-template-columns:140px minmax(0,1fr);
+  gap:12px 28px; align-items:start;
+  padding:16px 0; border-bottom:1px solid var(--line);
+}
+.stack-row:last-child { border-bottom:none; }
+.stack-label {
+  font-family:'JetBrains Mono', monospace;
+  font-size:.7rem; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--blue-2); padding-top:2px;
+}
+.stack-val { font-size:.875rem; color:var(--mid); line-height:1.7; }
+.stack-val strong { color:var(--txt); font-weight:500; }
+
+.stack-label { display:flex; align-items:center; gap:7px; }
+.sl-icon { color:var(--blue-2); flex-shrink:0; opacity:.85; }
+
+
+@media(max-width:780px){
+  .page-hdr.lg { padding-top:120px; }
+  .content { padding:0 20px; }
+  .credit-inner { padding:26px 22px; }
+  .credit-name { font-size:2.4rem; }
+  .stack-row { grid-template-columns:1fr; gap:4px; }
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "name": "About TRACE — The Story Behind This GT7 Telemetry Tool",
+  "description": "How TRACE's GT7 telemetry dashboard came together, built on Bornhall's UDP telemetry protocol and ddm999's gt7info car and track database.",
+  "url": "https://gt7trace.netlify.app/about",
+  "isPartOf": {
+    "@type": "SoftwareApplication",
+    "name": "TRACE",
+    "url": "https://gt7trace.netlify.app/",
+    "creator": {
+      "@type": "Person",
+      "name": "Ransh"
+    }
+  },
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://gt7trace.netlify.app/" },
+      { "@type": "ListItem", "position": 2, "name": "About", "item": "https://gt7trace.netlify.app/about" }
+    ]
+  }
+}
+</script>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<nav>
+  <a href="/" class="logo">TRACE <span>GT7</span></a>
+  <div class="nav-links">
+    <a href="/about" class="nav-link active">About</a>
+    <a href="/features" class="nav-link">Features</a>
+    <a href="/leaderboard" class="nav-link">Leaderboard</a>
+    <a href="/totalfiles" class="nav-link">Files</a>
+    <a href="/privacy" class="nav-link">Privacy</a>
+    <a href="/archived" class="nav-link">Archived</a>
+    <a href="/setup"  class="nav-btn orange">Set It Up →</a>
+    <a href="https://ko-fi.com/ransh" target="_blank" rel="noopener noreferrer" class="nav-btn gold">Support</a>
+  </div>
+  <button class="nav-burger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</nav>
+<div class="menu-scrim"></div>
+<div class="mobile-menu">
+  <a href="/about" class="active">About</a>
+  <a href="/features">Features</a>
+  <a href="/leaderboard">Leaderboard</a>
+  <a href="/totalfiles">Files</a>
+  <a href="/privacy">Privacy</a>
+  <a href="/archived">Archived</a>
+  <a href="/setup" class="mm-btn orange">Set It Up →</a>
+  <a href="https://ko-fi.com/ransh" target="_blank" rel="noopener noreferrer" class="mm-btn gold">Support</a>
+</div>
+
+<!-- HERO -->
+<div class="page-hdr lg" id="main-content">
+  <div class="eyebrow">Origin Story</div>
+  <h1>Built On<br><em>Someone</em><br><span>Else's</span><br>Genius.</h1>
+  <p>TRACE — Telemetry Racing Analytics &amp; Comparative Engine — wouldn't exist without one person whose open-source work saved the whole thing from the bin. Here's the real story.</p>
+  <a class="share-btn" target="_blank" rel="noopener noreferrer" href="https://wa.me/?text=The%20origin%20story%20of%20TRACE%2C%20a%20free%20GT7%20telemetry%20tool%20%E2%80%94%20turns%20out%20it%20started%20as%20a%20failed%20racing%20bot%20and%20only%20exists%20thanks%20to%20one%20guy%27s%20reverse-engineering%20work.%20Worth%20a%20read%3A%20https%3A%2F%2Fgt7trace.netlify.app%2Fabout">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.31-1.39a9.9 9.9 0 0 0 4.72 1.2h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.13a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.22 8.22 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.55-3.7 8.21-8.25 8.21zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.17.24-.64.81-.78.97-.14.17-.29.19-.53.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.36-.77-1.86-.2-.48-.41-.42-.56-.43-.14-.01-.31-.01-.48-.01a.92.92 0 0 0-.67.31c-.23.25-.87.85-.87 2.08 0 1.22.89 2.4 1.01 2.57.13.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.23-.16-.48-.28z"/></svg>
+    Share this story
+  </a>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- THE PROBLEM -->
+  <div class="section">
+    <div class="eyebrow orange">// chapter 01</div>
+    <h2>It Was<br>A Disaster.</h2>
+    <p class="prose">Getting telemetry out of GT7 is not obvious. The PS4/PS5 broadcasts UDP packets — fine, that part's documented. But the actual data is encrypted with <strong>Salsa20</strong>, a stream cipher, using a key that Polyphony Digital baked into the game binary. The packet structure is completely proprietary. There's no official API, no documentation, nothing.</p>
+    <p class="prose">I spent a long time getting nowhere. Packets were coming in but the decryption was wrong. Numbers made no sense — speed reading <strong>–12,000 km/h</strong>, tyres at 6,000°, gear stuck on 0. The coordinate system was unclear. The byte offsets were guesswork. Every fix introduced two new breakages.</p>
+
+    <div class="fail-block">
+      <p><span>$ python gt7telem.py</span></p>
+      <p>RECV 296 bytes <span>... decrypting ...</span></p>
+      <p>speed: <span style="color:#ff5c3d">-12847.3 km/h</span> &nbsp; gear: <span style="color:#ff5c3d">0</span> &nbsp; rpm: <span style="color:#ff5c3d">4294967295</span></p>
+      <p>tyre FL: <span style="color:#ff5c3d">6144.0°</span> <span style="color:#555">... something is very wrong</span></p>
+    </div>
+
+    <p class="prose">It was genuinely demoralising. The GT7 telemetry UDP stream had been reverse-engineered by the community, but piecing together scattered forum posts, half-finished GitHub repos, and conflicting byte offset tables was a nightmare. Nothing worked end-to-end.</p>
+  </div>
+
+  <!-- THE DISCOVERY -->
+  <div class="section">
+    <div class="eyebrow">// chapter 02</div>
+    <h2>Then I Found<br>Bornhall.</h2>
+    <p class="prose">Somewhere deep in a late-night search spiral I stumbled across <strong>Bornhall's repository</strong>. And it had everything. The correct Salsa20 key. The full packet structure mapped to proper Python structs. Working decryption. Real values coming out the other side.</p>
+
+    <div class="discovery">
+      <p>For the first time — <strong>actual numbers</strong>. Speed showing 187 km/h. Gear 4. Tyres reading 88–94°. The car dot moving around the track map in the right direction. It just... worked. Because Bornhall had already done the hard part.</p>
+    </div>
+
+    <p class="prose">I'm not exaggerating when I say this project would not exist without that repo. The decryption logic, the packet struct, the understanding of what each offset means — all of that foundation came from Bornhall's work. Everything built on top of it (the live dashboard, the lap analyst, the chart groups) only happened because that groundwork was already solid.</p>
+    <p class="prose">The least I can do is make sure that's front and centre every time anyone uses this tool.</p>
+  </div>
+
+  <!-- BORNHALL CREDIT CARD -->
+  <div class="section" style="padding-top:0;border-bottom:none;">
+    <div class="eyebrow green">// credit where it's due</div>
+    <h2>Thank You,<br>Bornhall.</h2>
+    <p class="prose">Full credit, full respect. The core GT7 telemetry protocol implementation in this project is built on top of Bornhall's reverse engineering work. Please go star the original repo.</p>
+
+    <div class="credit-card reveal reveal-l">
+      <div class="credit-inner">
+        <div class="credit-eyebrow">Original Work By</div>
+        <div class="credit-name">Bornhall</div>
+        <div class="credit-sub">
+          Reverse-engineered the GT7 telemetry UDP protocol — including the Salsa20 decryption key and full packet byte structure — making community tools like this one possible. Without this work, none of it runs.
+        </div>
+        <div class="credit-links">
+          <a href="https://github.com/Bornhall/gt7telemetry" target="_blank" rel="noopener noreferrer" class="credit-link">↗ github.com/Bornhall/gt7telemetry</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="credit-card reveal reveal-r" style="margin-top:20px;transition-delay:.08s">
+      <div class="credit-inner">
+        <div class="credit-eyebrow">Car &amp; Track Database By</div>
+        <div class="credit-name">ddm999</div>
+        <div class="credit-sub">
+          Every car name shown across the live dashboard, lap analyst, and race analyst — instead of a bare numeric car ID — is resolved through ddm999's gt7info project. This is the auto car discovery in TRACE: the telemetry stream only ever hands over a raw ID number, and ddm999's community-maintained database is what turns that into "Toyota GR86" the instant a session starts, with zero manual lookup. That database covers every car, every track, and every manufacturer in GT7, kept current by ddm999 and the gt7info contributors as Polyphony adds new content — this project just pulls a snapshot (<code>car_ids.csv</code>) and rides on top of it. No name-matching logic, no scraping, no guesswork on our end — just their data doing the actual work every time a car rolls onto the track. The car database is actually the smaller half of what ddm999 runs: gt7info itself is a full live site tracking GT7's daily-changing dealerships - Legend Cars, Used Cars, and the weekly Daily Race lineup - updated by hand, every day, for the whole community to check before they log in.
+        </div>
+        <div class="credit-sub">
+          The TRACK dropdown in the Live Dashboard runs on the same source. GT7's telemetry doesn't expose a track ID the way it does a car ID (TRACE instead guesses the track from where a lap starts, and asks you to confirm), so instead of leaving that field free-typed (and every lap you record splitting across "suzuka" / "Suzuka Circuit" / "suzuka_circuit" depending on how you typed it that day), it's a picker seeded from ddm999's course database: every circuit, every reverse layout, every sub-layout GT7 has, kept current the same way the car list is. One more corner of this app that only works because ddm999 already did the actual cataloguing.
+        </div>
+        <div class="credit-links">
+          <a href="https://github.com/ddm999/gt7info" target="_blank" rel="noopener noreferrer" class="credit-link">↗ github.com/ddm999/gt7info</a>
+          <a href="https://ddm999.github.io/gt7info/data/db/cars.csv" target="_blank" rel="noopener noreferrer" class="credit-link">↗ live cars.csv source</a>
+          <a href="https://github.com/ddm999/gt7info/blob/web-new/_data/db/course.csv" target="_blank" rel="noopener noreferrer" class="credit-link">↗ live course.csv source</a>
+          <a href="https://ddm999.github.io/gt7info/" target="_blank" rel="noopener noreferrer" class="credit-link">the live gt7info site</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="credit-card reveal reveal-l" style="margin-top:20px;transition-delay:.14s">
+      <div class="credit-inner">
+        <div class="credit-eyebrow">Also On PyPI</div>
+        <div class="credit-name">pip install gt7tracetelem</div>
+        <div class="credit-sub">TRACE is also published as a Python package. The distribution name is <code>gt7tracetelem</code>, but the importable module is <code>gt7telem</code> — <code>import gt7telem</code>, or just run <code>gt7telem</code> from a terminal after installing. See the <a href="/totalfiles">full file manifest</a> for what's inside every download.</div>
+      </div>
+    </div>
+
+    
+<div class="credit-card gold cc-kofi reveal reveal-scale" style="margin-top:20px;transition-delay:.16s">
+      <div class="credit-inner">
+        <div class="credit-eyebrow" style="color:var(--gold);">Enjoying TRACE?</div>
+        <div class="credit-name gold">Support the Project</div>
+        <div class="credit-sub">TRACE is free and always will be. If it's made your GT7 sessions better and you want to throw a few bucks toward keeping it maintained, a coffee goes a long way.</div>
+        <div class="credit-links">
+          <a href="https://ko-fi.com/ransh" target="_blank" rel="noopener noreferrer" class="credit-link gold">Support on Ko-fi</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- THE TWIST -->
+  <div class="section" style="border-bottom:none;">
+    <div class="eyebrow orange">// chapter 03</div>
+    <h2>This Wasn't<br>Even The Plan.</h2>
+    <p class="prose">Here's the part most people don't know. None of this — the live dashboard, the lap analyst, any of it — was ever meant to be the main project. It started as a side requirement for something else: a <strong>Raspberry Pi Pico</strong> set up to drive the car autonomously in GT7, by replaying recorded laps back through the inputs.</p>
+    <p class="prose">The plan was a closed loop. Record a lap, feed it into a bot, the bot drives that exact lap back perfectly — steering, throttle, braking, all of it reproduced. The telemetry recorder (what eventually became this whole project) only existed in the first place to capture the lap data the bot would replay. There was even a half-built per-car profile system — brake scale, throttle scale, steer scale, speed bias — meant to let the bot adjust its driving per car.</p>
+    <p class="prose">The bot never made it past the workbench. The Pico just flat-out wouldn't run its own <code>code.py</code> — not flaky, not intermittent, it simply refused to execute. A powered USB hub got wired in to send signals to the PS4, hours went into troubleshooting it, and the reason it wouldn't run was never actually figured out. So the bot got scrapped.</p>
+    <p class="prose">But the telemetry recorder it needed didn't go away. It just kept getting built out on its own — more charts, more tabs, a real dashboard, a real analyst — until one day it was the entire project. <strong>TRACE exists because the thing it was built to support never worked.</strong></p>
+    <p class="prose">That earlier project had a name — <strong>GTRAS</strong>. There's a fuller writeup of what it actually was, and a clear answer on why the automation side of it isn't shared: <a href="/archived">read the archived history</a>. The one piece of it that did survive — the plain telemetry reader, no bot and no Pico involved — is downloadable from there, or directly: <a href="/gt7telem-legacy-source.zip">gt7telem-legacy-source.zip</a>.</p>
+    <p class="prose">All of it — the live telemetry polling (10 to 60&nbsp;Hz), the matplotlib charts, pandas crunching G-forces on every sample while GT7 hammers the network in the background — has been built and run the whole time on a laptop with an <strong>Intel i3</strong>. No upgrade, no dev machine, just whatever was already on the desk. If TRACE feels a little slow to open sometimes, that's why.</p>
+  </div>
+
+</div><!-- content -->
+
+<!-- THANK YOU BLOCK -->
+<div class="ty-block">
+  <div class="ty-big">Genuinely,<br><em>Thank You.</em></div>
+  <p class="ty-sub">Open source at its best — someone does the hard thing, shares it, and a hundred other things become possible.</p>
+</div>
+
+<!-- STACK / CREDITS -->
+<div class="content">
+  <div class="section">
+    <div class="eyebrow dim">// full stack</div>
+    <h2>What This Is<br>Built With.</h2>
+
+    <div class="stack-row">
+      <div class="stack-label"><svg class="sl-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20v-6"/><path d="M8.5 12a5 5 0 017 0"/><path d="M5 8.5a10 10 0 0114 0"/><circle cx="12" cy="20" r="1.2" fill="currentColor" stroke="none"/></svg>Protocol</div>
+      <div class="stack-val"><strong>Bornhall's gt7telemetry</strong> — GT7 UDP packet format, Salsa20 decryption, byte struct. The whole foundation. The parser also cross-references <a href="https://github.com/MacManley/gt7-udp" target="_blank" rel="noopener noreferrer">MacManley's gt7-udp</a> and <a href="https://github.com/Nenkai/PDTools" target="_blank" rel="noopener noreferrer">Nenkai's PDTools</a> for the per-version packet lengths (A/B/~/C) and extended-field offsets.</div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-label"><svg class="sl-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 3 12 9 18"/><polyline points="15 6 21 12 15 18"/></svg>Language</div>
+      <div class="stack-val"><strong>Python 3.10+</strong> — the core dashboard/analyst tools run entirely locally, no cloud or account needed. The optional leaderboard is the one piece that talks to a server.</div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-label"><svg class="sl-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>Crypto</div>
+      <div class="stack-val"><strong>pycryptodome</strong> — Salsa20 decryption of the telemetry packets.</div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-label"><svg class="sl-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="20" x2="5" y2="12"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="19" y1="20" x2="19" y2="15"/></svg>Charts</div>
+      <div class="stack-val"><strong>Matplotlib</strong> — all chart groups in the lap analyst, alongside pandas and numpy for data processing.</div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-label"><svg class="sl-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg>GUI</div>
+      <div class="stack-val"><strong>tkinter</strong> — live dashboard window, scrollable stats panel, the lot.</div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-label"><svg class="sl-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8L12 3 3 8v8l9 5 9-5z"/><polyline points="3 8 12 13 21 8"/><line x1="12" y1="13" x2="12" y2="22"/></svg>Packaging</div>
+      <div class="stack-val"><strong>PyInstaller</strong> - standalone builds for Windows, Linux, and macOS, no Python install needed. The macOS build runs on a GitHub-hosted Apple Silicon runner, so no physical Mac is needed to produce it.</div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-label"><svg class="sl-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8L12 3 3 8v8l9 5 9-5z"/><polyline points="3 8 12 13 21 8"/><line x1="12" y1="13" x2="12" y2="22"/></svg>Packaging</div>
+      <div class="stack-val"><strong>Kotlin + Jetpack Compose</strong> — the Android app, a standalone port of all three tools. The packet decoding is shared logic tested against golden packets generated by the Python code, and the APK is built and signed on GitHub Actions.</div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-label"><svg class="sl-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14v-4l-2-5H7l-2 5z"/><circle cx="7.5" cy="17" r="1.6"/><circle cx="16.5" cy="17" r="1.6"/></svg>Car Database</div>
+      <div class="stack-val"><strong>ddm999's gt7info</strong> — powers the automatic car-ID-to-name lookup everywhere a car shows up in TRACE. Every car name you see came from here, not from us. (Same database backs the track row below.)</div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-label"><svg class="sl-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg>Track Database</div>
+      <div class="stack-val"><strong>ddm999's gt7info</strong> — same source, different table. Backs the TRACK dropdown in the Live Dashboard with every real circuit/layout name GT7 has, since telemetry itself never says which track you're on.</div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-label"><svg class="sl-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14a8 3 0 0016 0V5"/><path d="M4 12a8 3 0 0016 0"/></svg>Backend</div>
+      <div class="stack-val"><strong>Supabase (Postgres + Auth)</strong> — stores anonymous usage analytics, the global lap leaderboard, and crowdsourced car/track submissions. Anti-cheat and the consensus racing-line aggregation both run as database functions, not app code. Submitting a lap now requires a free account (just a display name, no email or password) — the leaderboard row still shows a PSN name you type at submit time, but it's now anchored to a real account server-side rather than being pure free text. See <a href="/privacy">Privacy</a> for exactly what's stored and when.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- WHAT'S NEXT -->
+<div class="content">
+  <div class="section" style="border-bottom:none;">
+    <div class="eyebrow dim">// chapter 04</div>
+    <h2>That's<br>The Whole Thing.</h2>
+    <p class="prose">This is where the big building slows down. The live dashboard, both analysts, the leaderboard, ghost laps, the consensus line, optional accounts — that’s the core of TRACE, and it’s done. Version 0.8.1 brought TRACE to Android as a standalone app, with all three tools running on your phone and no PC needed, and made recordings steadier. Version 0.8.0 added a round of features that earned their place: the fuel and tyre strategy panel and shareable lap card before it, then spoken alerts, per-lap corner scoring, a consistency report, a records table, a theoretical best lap, a live gap to the top lap, and a shareable race card. From here on it’s mostly upkeep: bug fixes when something breaks, the car/track database refreshed as ddm999’s gt7info updates, and the odd small feature when it earns its place.</p>
+    <p class="prose">Given how this whole project started — a side tool for a robot that never worked — it feels right to actually finish it on purpose for once, rather than let it keep sprawling forever. If something's broken, <a href="https://github.com/ransh2014/gt7telemtrace/issues" target="_blank" rel="noopener noreferrer">open an issue</a>.</p>
+  </div>
+</div>
+
+<footer>TRACE — community tool, not affiliated with Polyphony Digital or Sony Interactive Entertainment · Original protocol by <a href="https://github.com/Bornhall/gt7telemetry" target="_blank" rel="noopener noreferrer">Bornhall</a> · Car &amp; track database by <a href="https://github.com/ddm999/gt7info" target="_blank" rel="noopener noreferrer">ddm999</a> &middot; <a href="/features">Features</a>
+  <a href="/leaderboard">Leaderboard</a>
+  <a href="/totalfiles">Files</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/setup">Setup</a> &middot; <a href="/archived">Archived</a> &middot; <a href="https://github.com/ransh2014/gt7telemtrace" target="_blank" rel="noopener noreferrer">GitHub</a> &middot; <a href="https://ko-fi.com/ransh" target="_blank" rel="noopener noreferrer" style="color:var(--gold);">Support on Ko-fi</a></footer>
+
+<script src="/assets/site.js"></script>
+<script src="/assets/trace-chat.js" data-endpoint="https://trace-support-bot.shruthi-rai.workers.dev" defer></script>
+
+</body>
+</html>

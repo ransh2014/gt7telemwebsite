@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1DRKJH6JTG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1DRKJH6JTG');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Archived — What Came Before TRACE</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%2308080a'/><path d='M7 6 L19 6 L27 16 L19 26 L7 26 L15 16 Z' fill='%23c8102e'/></svg>">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/styles.css">
+<meta name="description" content="Before TRACE, it was GTRAS — an automation bot that never worked. The real history of the project, and what survived.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://gt7trace.netlify.app/archived">
+<meta name="theme-color" content="#050505">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TRACE">
+<meta property="og:title" content="Archived — What Came Before TRACE">
+<meta property="og:description" content="Before TRACE, it was GTRAS — an automation bot that never worked. The real history of the project, and what survived.">
+<meta property="og:url" content="https://gt7trace.netlify.app/archived">
+<meta property="og:image" content="https://gt7trace.netlify.app/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Archived — What Came Before TRACE">
+<meta name="twitter:description" content="Before TRACE, it was GTRAS — an automation bot that never worked. The real history of the project, and what survived.">
+<meta name="twitter:image" content="https://gt7trace.netlify.app/og-image.png">
+<style>
+.content { max-width:720px; margin:0 auto; padding:0 52px; }
+.section { padding:48px 0; border-bottom:1px solid var(--line); }
+.section:last-child { border-bottom:none; }
+.section .eyebrow { margin-bottom:14px; }
+.section h2 {
+  font-family:'Sora', sans-serif;
+  font-weight:600; font-size:2rem;
+  text-transform:uppercase; letter-spacing:.04em;
+  margin-bottom:20px; line-height:1;
+}
+.prose { font-size:.95rem; color:var(--mid); line-height:1.85; margin-bottom:18px; }
+.prose:last-child { margin-bottom:0; }
+.prose strong { color:var(--txt); font-weight:500; }
+.prose a { color:var(--blue-2); text-decoration:none; }
+.prose a:hover { text-decoration:underline; }
+
+.notice {
+  padding:16px 20px; margin:22px 0; border-radius:var(--radius);
+  font-size:.85rem; line-height:1.7;
+  border-left:3px solid var(--gold);
+  background:rgba(201, 162, 75,.08);
+}
+.notice strong { color:var(--txt); }
+
+.notice { isolation:isolate; overflow:hidden; position:relative; }
+.notice > * { position:relative; z-index:1; }
+.notice::after {
+  content:'';
+  position:absolute; right:-14px; bottom:-14px; z-index:0;
+  width:100px; height:100px;
+  background-repeat:no-repeat; background-position:bottom right; background-size:contain;
+  opacity:.06; pointer-events:none;
+  transition:opacity .35s ease;
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='12' y='30' width='76' height='54' rx='4' stroke='white' stroke-width='5' fill='none'/><path d='M8 20 H92 V32 H8 Z' stroke='white' stroke-width='5' fill='none' stroke-linejoin='round'/><line x1='40' y1='46' x2='60' y2='46' stroke='white' stroke-width='5' stroke-linecap='round'/></svg>");
+}
+.notice:hover::after { opacity:.11; }
+
+
+.dl-row { display:flex; gap:12px; flex-wrap:wrap; align-items:stretch; margin-top:8px; }
+.dl-btn {
+  display:inline-flex; align-items:center; gap:14px;
+  background:transparent; border:1px solid var(--line); color:var(--mid);
+  text-decoration:none;
+  font-family:'Sora', sans-serif;
+  font-weight:600; font-size:.95rem;
+  letter-spacing:.04em; text-transform:uppercase;
+  padding:13px 24px; border-radius:var(--radius);
+  transition:opacity .2s, transform .15s, border-color .2s, color .2s;
+}
+.dl-btn:hover { border-color:var(--blue); color:var(--txt); transform:translateY(-1px); }
+.dl-meta { margin-left:auto; font-family:'JetBrains Mono', monospace; font-size:.68rem; letter-spacing:.05em; text-transform:none; color:var(--dim); font-weight:400; }
+
+.share-btn {
+  display:inline-flex; align-items:center; gap:10px;
+  background:rgba(37,211,102,.1); border:1px solid rgba(37,211,102,.4); color:#25D366;
+  text-decoration:none;
+  font-family:'Sora', sans-serif;
+  font-weight:600; font-size:.85rem;
+  letter-spacing:.04em; text-transform:uppercase;
+  padding:11px 20px; border-radius:var(--radius);
+  transition:background .2s, transform .15s, border-color .2s;
+  margin-top:20px;
+}
+.share-btn:hover { background:rgba(37,211,102,.18); border-color:#25D366; transform:translateY(-1px); }
+.share-btn svg { flex-shrink:0; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Archived — What Came Before TRACE",
+  "description": "Before TRACE, it was GTRAS — an automation bot that never worked. The real history of the project, and what survived.",
+  "url": "https://gt7trace.netlify.app/archived",
+  "isPartOf": {
+    "@type": "SoftwareApplication",
+    "name": "TRACE",
+    "url": "https://gt7trace.netlify.app/",
+    "creator": { "@type": "Person", "name": "Ransh" }
+  },
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://gt7trace.netlify.app/" },
+      { "@type": "ListItem", "position": 2, "name": "Archived", "item": "https://gt7trace.netlify.app/archived" }
+    ]
+  }
+}
+</script>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<nav>
+  <a href="/" class="logo">TRACE <span>GT7</span></a>
+  <div class="nav-links">
+    <a href="/about" class="nav-link">About</a>
+    <a href="/features" class="nav-link">Features</a>
+    <a href="/leaderboard" class="nav-link">Leaderboard</a>
+    <a href="/totalfiles" class="nav-link">Files</a>
+    <a href="/privacy" class="nav-link">Privacy</a>
+    <a href="/archived" class="nav-link active">Archived</a>
+    <a href="/setup"  class="nav-btn orange">Set It Up →</a>
+    <a href="https://ko-fi.com/ransh" target="_blank" rel="noopener noreferrer" class="nav-btn gold">Support</a>
+  </div>
+  <button class="nav-burger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</nav>
+<div class="menu-scrim"></div>
+<div class="mobile-menu">
+  <a href="/about">About</a>
+  <a href="/features">Features</a>
+  <a href="/leaderboard">Leaderboard</a>
+  <a href="/totalfiles">Files</a>
+  <a href="/privacy">Privacy</a>
+  <a href="/archived" class="active">Archived</a>
+  <a href="/setup" class="mm-btn orange">Set It Up →</a>
+  <a href="https://ko-fi.com/ransh" target="_blank" rel="noopener noreferrer" class="mm-btn gold">Support</a>
+</div>
+
+<div class="page-hdr" id="main-content">
+  <div class="eyebrow dim">Archived Project · Hall Of Shame</div>
+  <h1>Before TRACE,<br>There Was <em>GTRAS</em>.</h1>
+  <p>The About page gives you the polite, two-sentence version. This is the full, unfiltered origin story: a robot that never drove, a Raspberry Pi that flat-out refused to work, and a landing page so convincing it fooled everyone — including me.</p>
+  <a class="share-btn" target="_blank" rel="noopener noreferrer" href="https://wa.me/?text=This%20dev%20built%20a%20full%20cinematic%20landing%20page%20for%20a%20GT7%20racing%20bot%20before%20confirming%20it%20could%20drive%20a%20single%20lap.%20It%20never%20did.%20He%20archived%20the%20whole%20disaster%20%E2%80%94%20code%2C%20receipts%2C%20and%20all%3A%20https%3A%2F%2Fgt7trace.netlify.app%2Farchived">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.31-1.39a9.9 9.9 0 0 0 4.72 1.2h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.13a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.22 8.22 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.55-3.7 8.21-8.25 8.21zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.17.24-.64.81-.78.97-.14.17-.29.19-.53.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.36-.77-1.86-.2-.48-.41-.42-.56-.43-.14-.01-.31-.01-.48-.01a.92.92 0 0 0-.67.31c-.23.25-.87.85-.87 2.08 0 1.22.89 2.4 1.01 2.57.13.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.23-.16-.48-.28z"/></svg>
+    Share this disaster
+  </a>
+</div>
+
+<div class="content">
+
+  <div class="section">
+    <div class="eyebrow orange">// the pitch</div>
+    <h2>I Tried To Build<br>A Robot That Games<br>For Me.</h2>
+    <p class="prose">TRACE didn't start life as a telemetry dashboard. It started as <strong>GTRAS</strong> — my plan to make GT7 play itself. The idea: eavesdrop on the game's live telemetry over UDP, record my one good lap like a hostage tape, then wire up a <strong>Raspberry Pi Pico</strong> to pretend to be a real controller and replay that lap back to the console forever — steering, throttle, brakes, the whole performance. A bonus mode just held full throttle through one race, unattended, overnight, farming in-game credits while I slept like a criminal mastermind.</p>
+    <p class="prose">The telemetry-reading part was only ever meant to be plumbing for the robot. Everything that TRACE actually is today — the dashboard, the lap analyst, all of it — started life as exhaust fumes from a doomed automation scheme.</p>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow">// spoiler</div>
+    <h2>It Never<br>Worked. At All.</h2>
+    <p class="prose">Let's not dress this up: <strong>nothing ever ran end-to-end.</strong> <code>code.py</code> flatly refused to run on the Pico — not "sometimes glitchy," a dignified, unconditional no, no matter how much I begged it via a powered USB hub. And it wasn't just the one thing, either — there was a whole supporting cast of compounding issues stacked underneath it, each one quietly making sure the others never got a fair chance to fail on their own.</p>
+    <p class="prose">The actual answer — <code>gamepad.mpy</code>, the one CircuitPython library that lets a Pico pretend to be a USB gamepad, never got copied onto the board — I only figured out <strong>long after I'd already returned the Pico to Amazon and long after TRACE existed as its own thing.</strong> So no, it never got fixed. It's just sitting there in the return warehouse somewhere, still not knowing how to be a gamepad, blissfully unaware it ruined my whole summer. I built a robot whose entire job was faking a controller, and shipped it back to Amazon before discovering I'd forgotten to give it the file that fakes a controller. The car never drove itself. The overnight credit farm never farmed a single credit. And the fancier ideas stacked on top — spin recovery, auto pit-stops, full race automation — never even got past the whiteboard, because step one was busy being on fire in at least three different ways at once.</p>
+    <p class="prose">So the robot got the axe, unceremoniously and somewhat deservedly. The one part that quietly worked the whole time — the telemetry reader nobody was watching, because nobody thought the boring part would be the one that survived — just kept growing until, congratulations, it was the entire project.</p>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow orange">// peak main-character energy</div>
+    <h2>I Built The Website<br>Before The Robot<br>Could Move.</h2>
+    <p class="prose">Here's the actual, deeply embarrassing timeline. Step one: build a slick, cinematic landing page at <code>gtras.co</code> — noise-grain texture, staggered fade-ins, a logo so huge it needed <code>clamp()</code> just to fit on the screen. Step two: write the tagline <strong>"Records your best lap. Replays it. Wins while you sleep."</strong> Step three — the one I conveniently skipped — actually check any of that was true. It was not. The Pico had already died on a missing library file before step three could even begin. Zero laps were ever driven, asleep or otherwise, by human or machine. "No PS5 mods · No jailbreak" was technically accurate, in the same way a car with no engine also needs no oil changes. This is what marketing-before-product looks like in its natural habitat. Preserved here as a monument, and a warning.</p>
+    <div class="dl-row">
+      <a href="/gtras-website-mockup.zip" class="dl-btn" download>⬇ <span>gtras-website-mockup.zip<span class="dl-meta">~9 KB · 100% vibes, 0% working robot</span></span></a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow orange">// receipts, in full</div>
+    <h2>The Full Robot<br>Code — Yes, Really.</h2>
+    <p class="prose">This page used to leave out the Pico firmware and control code entirely, out of pure embarrassment. It's here now, for the same "show your work" honesty as everything else on this page — but let's be crystal clear about what you're downloading: <strong>a working automation tool this is not.</strong> The Pico is still missing that one gamepad library it needed to be a gamepad, the lap-replay never functioned, and the credit farm never once farmed. It's also worth saying plainly: automating gameplay like this — including unattended credit farming — breaks Gran Turismo's and PlayStation's terms of service, on top of simply not working. So this download is a museum piece, not a shortcut to anything.</p>
+    <div class="notice"><strong>What's in the box:</strong> Pico firmware (boot.py, code.py, the board's .uf2 files), the PC↔Pico control code (bot.py, gui.py, car_profiles.py, recorder.py), setup notes, and the old roadmap. Everything's read-only. Recorded lap-replay files and compiled bytecode were left out — nobody needs those.</div>
+    <div class="dl-row">
+      <a href="/gtras-bot-source.zip" class="dl-btn" download>⬇ <span>gtras-bot-source.zip<span class="dl-meta">~4.5 MB · look, don't touch</span></span></a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow">// the one survivor</div>
+    <h2>The One Piece<br>That Actually Worked.</h2>
+    <p class="prose">Buried in the wreckage was one honest, functioning thing: a plain telemetry reader that owed nothing to the Pico or the robot dream. UDP capture, Salsa20 decryption, a little Tkinter window showing speed/RPM/gear/tyres, and a basic lap recorder that saved to JSON. No hardware, no automation, no ambition beyond "show me numbers." That's the seed <a href="/about">the About page</a> means when it says the telemetry recorder survived the crash.</p>
+    <div class="notice"><strong>Fair warning:</strong> this is an old, frozen-in-time snapshot kept purely for the history books — not part of TRACE, no support, and it predates fixes (yes, even the gear-ratio math) that TRACE has now. If you actually want a working GT7 telemetry tool, go grab <a href="/setup">TRACE</a> instead — this one's for the curious, not the practical.</div>
+    <div class="dl-row">
+      <a href="/gt7telem-legacy-source.zip" class="dl-btn" download>⬇ <span>gt7telem-legacy-source.zip<span class="dl-meta">~10 KB · the one that didn't embarrass me</span></span></a>
+    </div>
+  </div>
+
+  <div class="section" style="border-bottom:none;">
+    <p class="prose">← <a href="/about">Back to how TRACE actually turned out fine, eventually</a></p>
+  </div>
+
+</div>
+
+<footer>
+  TRACE — community tool, not affiliated with Polyphony Digital or Sony Interactive Entertainment<br>
+  Original UDP protocol by <a href="https://github.com/Bornhall/gt7telemetry" target="_blank" rel="noopener noreferrer">Bornhall</a> · Car &amp; track database by <a href="https://github.com/ddm999/gt7info" target="_blank" rel="noopener noreferrer">ddm999</a> &middot; <a href="/features">Features</a>
+  <a href="/leaderboard">Leaderboard</a>
+  <a href="/totalfiles">Files</a> &middot; <a href="/about">About</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/setup">Setup</a> &middot; <a href="https://github.com/ransh2014/gt7telemtrace" target="_blank" rel="noopener noreferrer">GitHub</a> &middot; <a href="https://ko-fi.com/ransh" target="_blank" rel="noopener noreferrer" style="color:var(--gold);">Support on Ko-fi</a>
+</footer>
+
+<script src="/assets/site.js"></script>
+
+</body>
+</html>

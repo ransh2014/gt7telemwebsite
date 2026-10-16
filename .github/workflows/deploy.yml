@@ -1,0 +1,79 @@
+name: Deploy site
+
+# Deploys the site to Netlify by itself once a new TRACE release has all of its
+# downloads attached (so the site's download buttons never point at a missing file).
+# Also runnable by hand from the Actions tab ("Run workflow", tick force to redeploy).
+on:
+  schedule:
+    - cron: "*/20 * * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Deploy even if this release was already deployed"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deploy-site
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Is there a complete new release?
+        id: rel
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FORCE: ${{ inputs.force }}
+        run: |
+          json=$(curl -fsS -H "Authorization: Bearer $GH_TOKEN" \
+            https://api.github.com/repos/ransh2014/gt7telemtrace/releases/latest)
+          tag=$(echo "$json" | jq -r .tag_name)
+          names=$(echo "$json" | jq -r '[.assets[].name] | join(" ")')
+          last=$(cat .deployed-tag 2>/dev/null || echo none)
+          complete=true
+          for f in gt7telem-windows.zip gt7telem-macos.zip gt7telem-linux.zip gt7telem-source.zip gt7telem-android.apk; do
+            case " $names " in *" $f "*) ;; *) complete=false; echo "waiting for $f on $tag";; esac
+          done
+          deploy=false
+          if [ "$FORCE" = "true" ]; then deploy=true; fi
+          if [ "$complete" = "true" ] && [ "$tag" != "$last" ]; then deploy=true; fi
+          echo "latest=$tag deployed=$last complete=$complete -> deploy=$deploy"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "deploy=$deploy" >> "$GITHUB_OUTPUT"
+
+      - name: Build the publish folder
+        if: steps.rel.outputs.deploy == 'true'
+        run: |
+          mkdir _site
+          rsync -a --exclude '.git' --exclude '.github' --exclude '.netlify' --exclude '.claude' \
+            --exclude '_site' --exclude '.gitignore' --exclude '.netlifyignore' \
+            --exclude '.deployed-tag' ./ _site/
+
+      - uses: actions/setup-node@v4
+        if: steps.rel.outputs.deploy == 'true'
+        with:
+          node-version: 20
+
+      - name: Deploy to Netlify
+        if: steps.rel.outputs.deploy == 'true'
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: npx --yes netlify-cli@17 deploy --prod --dir=_site --message "TRACE ${{ steps.rel.outputs.tag }}"
+
+      - name: Remember what was deployed
+        if: steps.rel.outputs.deploy == 'true'
+        run: |
+          echo "${{ steps.rel.outputs.tag }}" > .deployed-tag
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add .deployed-tag
+          git commit -m "deployed ${{ steps.rel.outputs.tag }}" || true
+          git push

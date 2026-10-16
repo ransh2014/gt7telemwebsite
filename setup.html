@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1DRKJH6JTG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1DRKJH6JTG');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Setup Guide — Install TRACE for Gran Turismo 7 Telemetry</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%2308080a'/><path d='M7 6 L19 6 L27 16 L19 26 L7 26 L15 16 Z' fill='%23c8102e'/></svg>">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/styles.css">
+<meta name="description" content="Step-by-step guide to installing and running TRACE, the free GT7 telemetry dashboard, on Windows, macOS, Linux or Android, plus a setup FAQ.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://gt7trace.netlify.app/setup">
+<meta name="theme-color" content="#050505">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TRACE">
+<meta property="og:title" content="Setup Guide — Install TRACE for Gran Turismo 7 Telemetry">
+<meta property="og:description" content="Step-by-step guide to installing and running TRACE, the free GT7 telemetry dashboard, on Windows, macOS, Linux or Android, plus a setup FAQ.">
+<meta property="og:url" content="https://gt7trace.netlify.app/setup">
+<meta property="og:image" content="https://gt7trace.netlify.app/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Setup Guide — Install TRACE for Gran Turismo 7 Telemetry">
+<meta name="twitter:description" content="Step-by-step guide to installing and running TRACE, the free GT7 telemetry dashboard, on Windows, macOS, Linux or Android, plus a setup FAQ.">
+<meta name="twitter:image" content="https://gt7trace.netlify.app/og-image.png">
+<style>
+/* ── OS TABS ── */
+.os-tabs { max-width:820px; margin:0 auto; padding:40px 52px 0; display:flex; gap:10px; flex-wrap:wrap; }
+.os-tab {
+  flex:1; min-width:160px; position:relative;
+  background:var(--bg-1); border:1px solid var(--line); border-radius:var(--radius);
+  padding:16px 18px; cursor:pointer;
+  font-family:'Sora', sans-serif;
+  transition:border-color .2s, background .2s;
+}
+.os-tab.active { border-color:var(--blue); background:rgba(28, 92, 88,.1); }
+.os-tab.active::after {
+  content:''; position:absolute; top:-1px; right:-1px;
+  width:0; height:0;
+  border-style:solid; border-width:0 16px 16px 0;
+  border-color:transparent var(--blue) transparent transparent;
+}
+.os-tab-name { font-weight:600; font-size:1rem; text-transform:uppercase; color:var(--txt); }
+.os-tab-sub { font-size:.72rem; color:var(--mid); margin-top:2px; text-transform:none; }
+
+.os-tab-icon { color:var(--dim); margin-bottom:8px; transition:color .2s; }
+.os-tab.active .os-tab-icon { color:var(--blue-2); }
+
+.os-panel { display:none; }
+.os-panel.active { display:block; }
+
+/* ── STEPS ── */
+.steps { max-width:820px; margin:0 auto; padding:36px 52px 50px; }
+.step { display:grid; grid-template-columns:56px minmax(0,1fr); gap:24px; padding:32px 0; border-bottom:1px solid var(--line); }
+.step:last-child { border-bottom:none; }
+.step-num { font-family:'Sora', sans-serif; font-weight:700; font-size:2.2rem; color:var(--orange); line-height:1; }
+.step-num.blue { color:var(--blue-2); }
+.step-title { font-family:'Sora', sans-serif; font-weight:600; font-size:1.4rem; text-transform:uppercase; letter-spacing:.02em; margin-bottom:10px; }
+.step-body { font-size:.92rem; color:var(--mid); line-height:1.8; }
+.step-body strong { color:var(--txt); font-weight:500; }
+.step-body a { color:var(--blue-2); text-decoration:none; }
+.step-body a:hover { text-decoration:underline; }
+
+/* ── DOWNLOAD BUTTONS ── */
+.dl-row { display:flex; gap:12px; flex-wrap:wrap; align-items:stretch; }
+.dl-btn {
+  display:inline-flex; align-items:center; gap:14px;
+  background: linear-gradient(180deg, var(--orange-2) 0%, var(--orange) 55%, var(--orange-dim) 100%);
+  color:#fbf3ef; text-decoration:none;
+  font-family:'Sora', sans-serif;
+  font-weight:600; font-size:1.1rem;
+  letter-spacing:.04em; text-transform:uppercase;
+  padding:16px 28px; border-radius:0;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.22), inset 0 -2px 3px rgba(0,0,0,.28), 0 1px 0 rgba(0,0,0,.4), var(--shadow-sm);
+  transition:filter .2s, transform .15s, box-shadow .25s;
+}
+.dl-btn:hover { filter:brightness(1.06); transform:translateY(-2px); box-shadow: inset 0 1px 0 rgba(255,255,255,.26), inset 0 -2px 3px rgba(0,0,0,.26), 0 1px 0 rgba(0,0,0,.4), 0 16px 32px -12px var(--orange-glow), var(--shadow-sm); }
+.dl-btn:active { transform:translateY(1px); filter:brightness(.94); box-shadow: inset 0 1px 2px rgba(0,0,0,.35), inset 0 -1px 0 rgba(255,255,255,.08); }
+.dl-btn.secondary {
+  background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
+  border:1px solid var(--line); color:var(--mid); font-size:.95rem; padding:13px 24px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05), var(--shadow-sm);
+}
+.dl-btn.secondary:hover { border-color:var(--blue); color:var(--txt); opacity:1; box-shadow: inset 0 1px 0 rgba(255,255,255,.08), var(--shadow-md); }
+.dl-btn.secondary:active { transform:translateY(1px); box-shadow: inset 0 1px 3px rgba(0,0,0,.3); }
+.dl-arrow { font-size:1.3rem; }
+.dl-meta { margin-left:auto; font-family:'JetBrains Mono', monospace; font-size:.68rem; letter-spacing:.05em; text-transform:none; color:rgba(21,9,0,.72); font-weight:400; }
+.dl-btn.secondary .dl-meta { color:var(--dim); }
+
+/* ── CALLOUTS ── */
+.info, .tip, .ask {
+  padding:14px 18px; margin-top:14px; border-radius:var(--radius);
+  font-size:.85rem; line-height:1.7;
+  border-left:3px solid var(--blue);
+  background:rgba(28, 92, 88,.08);
+}
+.info strong, .tip strong, .ask strong { color:var(--txt); }
+.tip { border-left-color:var(--green); background:rgba(60, 154, 95,.07); }
+.ask { border-left-color:var(--gold); background:rgba(201, 162, 75,.08); }
+.ask a { color:var(--gold); text-decoration:none; }
+.ask a:hover { text-decoration:underline; }
+
+/* ── CODE BLOCK ── */
+.cb {
+  position:relative;
+  background:var(--cbg); border:1px solid var(--line); border-radius:var(--radius);
+  border-left:3px solid var(--blue-2);
+  font-family:'JetBrains Mono', monospace; font-size:.85rem;
+  padding:16px; padding-right:66px; margin:14px 0; white-space:pre-wrap; word-break:break-word;
+  overflow-x:auto; color:var(--txt);
+}
+.cm { color:var(--dim); }
+.cb-copy {
+  position:absolute; top:10px; right:10px;
+  background:var(--bg-1); border:1px solid var(--line-2); color:var(--mid);
+  font-family:'JetBrains Mono', monospace; font-size:.62rem; letter-spacing:.05em; text-transform:uppercase;
+  padding:5px 9px; border-radius:var(--radius); cursor:pointer;
+  transition:border-color .2s, color .2s, background .2s;
+}
+.cb-copy:hover { border-color:var(--blue-2); color:var(--txt); }
+.cb-copy.copied { border-color:var(--green); color:var(--green); }
+
+/* ── BORNHALL CREDIT ── */
+.bornhall-credit { max-width:820px; margin:12px auto 0; padding:0 52px; }
+.bornhall-credit:first-of-type { margin-top:20px; }
+.bc-inner {
+  display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;
+  background:var(--bg-1); border:1px solid rgba(28, 92, 88,.22); border-left:3px solid var(--blue);
+  border-radius:var(--radius); padding:18px 24px;
+}
+.bc-inner.green { border-color:rgba(60, 154, 95,.22); border-left-color:var(--green); }
+.bc-left p { font-family:'JetBrains Mono', monospace; font-size:.62rem; letter-spacing:.2em; text-transform:uppercase; color:var(--dim); margin-bottom:6px; }
+.bc-left strong { font-family:'Sora', sans-serif; font-weight:600; font-size:1.15rem; text-transform:uppercase; color:var(--txt); }
+.bc-sub { font-size:.82rem; color:var(--mid); line-height:1.7; margin-top:8px; }
+.bc-link {
+  display:inline-flex; align-items:center; gap:8px;
+  border:1px solid rgba(28, 92, 88,.35); color:var(--blue-2); text-decoration:none; border-radius:0;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 9px 100%, 0 calc(100% - 9px));
+  font-family:'Sora', sans-serif; font-weight:700; font-size:.85rem;
+  letter-spacing:.08em; text-transform:uppercase;
+  padding:10px 20px; transition:background .2s, border-color .2s;
+  overflow-wrap:anywhere; max-width:100%;
+}
+.bc-link:hover { background:rgba(28, 92, 88,.14); border-color:rgba(95, 179, 168,.55); }
+.bc-inner.green .bc-link { border-color:rgba(60, 154, 95,.35); color:var(--green); }
+.bc-inner.green .bc-link:hover { background:rgba(60, 154, 95,.14); border-color:rgba(60, 154, 95,.55); }
+.bc-inner.gold { border-color:rgba(201, 162, 75,.28); border-left-color:var(--gold); }
+.bc-inner.gold .bc-link { border-color:rgba(201, 162, 75,.35); color:var(--gold); }
+.bc-inner.gold .bc-link:hover { background:rgba(201, 162, 75,.14); border-color:rgba(201, 162, 75,.55); }
+
+/* ── CREDIT WATERMARKS ── */
+.bc-inner { isolation:isolate; overflow:hidden; position:relative; }
+.bc-inner > * { position:relative; z-index:1; }
+.bc-inner::after {
+  content:'';
+  position:absolute; right:-18px; bottom:-18px; z-index:0;
+  width:130px; height:130px;
+  background-repeat:no-repeat; background-position:bottom right; background-size:contain;
+  opacity:.045; pointer-events:none;
+  transition:opacity .35s ease;
+}
+.bc-inner:hover::after { opacity:.09; }
+.bc-bornhall::after { background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50 90 V45' stroke='white' stroke-width='5' stroke-linecap='round'/><path d='M28 45 A22 22 0 0 1 72 45' stroke='white' stroke-width='5' fill='none' stroke-linecap='round'/><path d='M14 45 A36 36 0 0 1 86 45' stroke='white' stroke-width='5' fill='none' stroke-linecap='round' opacity='.6'/><circle cx='50' cy='45' r='6' fill='white'/></svg>"); }
+.bc-ddm999::after { background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><ellipse cx='50' cy='24' rx='32' ry='11' stroke='white' stroke-width='5' fill='none'/><path d='M18 24 V76 A32 11 0 0 0 82 76 V24' stroke='white' stroke-width='5' fill='none'/><path d='M18 50 A32 11 0 0 0 82 50' stroke='white' stroke-width='5' fill='none'/></svg>"); }
+.bc-kofi::after { background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50 84 C20 62 12 42 26 28 C36 18 50 24 50 36 C50 24 64 18 74 28 C88 42 80 62 50 84 Z' stroke='white' stroke-width='5' fill='none' stroke-linejoin='round'/></svg>"); }
+
+
+/* ── OPTIONAL WALKTHROUGH ── */
+.optional { max-width:820px; margin:52px auto 0; padding:0 52px; }
+.opt-btn {
+  width:100%; display:flex; align-items:center; justify-content:space-between; gap:12px;
+  background:var(--bg-1); border:1px solid var(--line); border-radius:var(--radius);
+  color:var(--txt);
+  font-family:'Sora', sans-serif; font-weight:600; font-size:1.1rem;
+  text-transform:uppercase; padding:16px 20px; cursor:pointer; text-align:left;
+}
+.opt-btn:hover { border-color:var(--line-2); }
+.opt-arrow { transition:transform .2s; flex-shrink:0; }
+.opt-btn.open .opt-arrow { transform:rotate(180deg); }
+.opt-body { display:none; padding:22px 20px; background:var(--bg-1); border:1px solid var(--line); border-top:none; border-radius:0 0 var(--radius) var(--radius); }
+.opt-body.open { display:block; }
+
+/* ── FAQ ── */
+.faq { max-width:820px; margin:64px auto 0; padding:0 52px 60px; }
+.faq h2 { font-family:'Sora', sans-serif; font-weight:600; font-size:2rem; text-transform:uppercase; letter-spacing:.04em; margin-bottom:28px; }
+.faq-item { padding:20px 0; border-bottom:1px solid var(--line); }
+.faq-item:last-child { border-bottom:none; }
+.fq { font-family:'Sora', sans-serif; font-weight:700; font-size:1.05rem; color:var(--txt); margin-bottom:8px; }
+.fa { font-size:.88rem; color:var(--mid); line-height:1.8; }
+.fa a { color:var(--blue-2); text-decoration:none; }
+.fa a:hover { text-decoration:underline; }
+
+.os-detected {
+  max-width:820px; margin:0 auto; padding:16px 52px 0;
+  font-family:'JetBrains Mono', monospace; font-size:.68rem; letter-spacing:.06em;
+  color:var(--dim);
+}
+.os-detected .od-name { color:var(--mid); }
+
+@media(max-width:780px){
+  .os-detected { padding:12px 20px 0; }
+  .os-tabs { padding:30px 20px 0; }
+  .steps { padding:26px 20px 30px; }
+  .step { grid-template-columns:40px minmax(0,1fr); gap:14px; }
+  .bornhall-credit, .optional, .faq { padding:0 20px; }
+  .bc-inner { flex-direction:column; align-items:flex-start; }
+  .dl-row { flex-direction:column; align-items:stretch; }
+  .dl-btn { flex-wrap:wrap; row-gap:4px; }
+  .dl-meta { margin-left:0; }
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Setup Guide — Install TRACE for Gran Turismo 7 Telemetry",
+  "description": "Step-by-step guide to installing and running TRACE, the free GT7 telemetry dashboard, on Windows, macOS, Linux or Android, plus a setup FAQ.",
+  "url": "https://gt7trace.netlify.app/setup",
+  "isPartOf": {
+    "@type": "SoftwareApplication",
+    "name": "TRACE",
+    "url": "https://gt7trace.netlify.app/"
+  },
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://gt7trace.netlify.app/" },
+      { "@type": "ListItem", "position": 2, "name": "Setup", "item": "https://gt7trace.netlify.app/setup" }
+    ]
+  }
+}
+</script>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<nav>
+  <a href="/" class="logo">TRACE <span>GT7</span></a>
+  <div class="nav-links">
+    <a href="/about" class="nav-link">About</a>
+    <a href="/features" class="nav-link">Features</a>
+    <a href="/leaderboard" class="nav-link">Leaderboard</a>
+    <a href="/totalfiles" class="nav-link">Files</a>
+    <a href="/privacy" class="nav-link">Privacy</a>
+    <a href="/archived" class="nav-link">Archived</a>
+    <a href="/" class="nav-back">← Home</a>
+    <a href="https://ko-fi.com/ransh" target="_blank" rel="noopener noreferrer" class="nav-btn gold">Support</a>
+  </div>
+  <button class="nav-burger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</nav>
+<div class="menu-scrim"></div>
+<div class="mobile-menu">
+  <a href="/about">About</a>
+  <a href="/features">Features</a>
+  <a href="/leaderboard">Leaderboard</a>
+  <a href="/totalfiles">Files</a>
+  <a href="/privacy">Privacy</a>
+  <a href="/archived">Archived</a>
+  <a href="/">← Home</a>
+  <a href="https://ko-fi.com/ransh" target="_blank" rel="noopener noreferrer" class="mm-btn gold">Support</a>
+</div>
+
+<div class="page-hdr" id="main-content">
+  <div class="eyebrow">Installation Guide</div>
+  <h1>Get It<br>Running.</h1>
+  <p>Pick your platform below. Windows, Linux, and macOS (Apple Silicon) all ship as ready-to-run apps — no Python needed — and Android has its own standalone app. Prefer to run from source instead? That's available on every platform too.</p>
+  <a class="share-btn" target="_blank" rel="noopener noreferrer" href="https://wa.me/?text=Setting%20up%20TRACE%20%28a%20free%2C%20open-source%20GT7%20telemetry%20tool%29%20takes%20like%20two%20minutes%20%E2%80%94%20here%27s%20the%20install%20guide%3A%20https%3A%2F%2Fgt7trace.netlify.app%2Fsetup">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.31-1.39a9.9 9.9 0 0 0 4.72 1.2h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.13a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.22 8.22 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.55-3.7 8.21-8.25 8.21zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.17.24-.64.81-.78.97-.14.17-.29.19-.53.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.36-.77-1.86-.2-.48-.41-.42-.56-.43-.14-.01-.31-.01-.48-.01a.92.92 0 0 0-.67.31c-.23.25-.87.85-.87 2.08 0 1.22.89 2.4 1.01 2.57.13.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.23-.16-.48-.28z"/></svg>
+    Share the guide
+  </a>
+</div>
+
+<div class="os-detected" id="os-detected-label" style="display:none;">Detected: <strong class="od-name">Windows</strong> — pick a different tab above if that's wrong.</div>
+
+<div class="os-tabs" role="tablist" aria-label="Choose your platform">
+  <div class="os-tab active" data-os="windows" role="tab" id="os-tab-windows" aria-selected="true" aria-controls="os-panel-windows" tabindex="0">
+    <svg class="os-tab-icon" width="20" height="20" viewBox="0 0 24 24">
+      <path fill="#f25022" d="M3 5.5l7.5-1v7.3H3z"/>
+      <path fill="#7fba00" d="M3 18.5l7.5 1v-7.3H3z"/>
+      <path fill="#00a4ef" d="M11.4 4.3L21 3v8.8h-9.6z"/>
+      <path fill="#ffb900" d="M11.4 19.7L21 21v-8.8h-9.6z"/>
+    </svg>
+    <div class="os-tab-name">Windows</div>
+    <div class="os-tab-sub">Standalone .exe</div>
+  </div>
+  <div class="os-tab" data-os="linux" role="tab" id="os-tab-linux" aria-selected="false" aria-controls="os-panel-linux" tabindex="-1">
+    <svg class="os-tab-icon" width="20" height="20" viewBox="0 0 100 100">
+      <ellipse fill="#f5a623" cx="24" cy="92" rx="13" ry="7"/>
+      <ellipse fill="#f5a623" cx="76" cy="92" rx="13" ry="7"/>
+      <path fill="#141414" d="M30 34 C16 40 8 54 9 70 C10 82 16 92 24 96 L40 96 C36 88 33 78 33 66 C33 54 36 44 42 36 Z"/>
+      <path fill="#141414" d="M70 34 C84 40 92 54 91 70 C90 82 84 92 76 96 L60 96 C64 88 67 78 67 66 C67 54 64 44 58 36 Z"/>
+      <ellipse fill="#141414" cx="50" cy="22" rx="22" ry="20"/>
+      <path fill="#fff" d="M50 34 C40 40 34 52 34 66 C34 80 40 92 50 98 C60 92 66 80 66 66 C66 52 60 40 50 34 Z"/>
+      <ellipse fill="#f5a623" cx="50" cy="30" rx="11" ry="7"/>
+      <ellipse fill="#fff" cx="42" cy="20" rx="6" ry="7"/>
+      <ellipse fill="#fff" cx="58" cy="20" rx="6" ry="7"/>
+      <ellipse fill="#111" cx="43" cy="23" rx="2.6" ry="3.2"/>
+      <ellipse fill="#111" cx="57" cy="23" rx="2.6" ry="3.2"/>
+    </svg>
+    <div class="os-tab-name">Linux</div>
+    <div class="os-tab-sub">Standalone binary</div>
+  </div>
+  <div class="os-tab" data-os="mac" role="tab" id="os-tab-mac" aria-selected="false" aria-controls="os-panel-mac" tabindex="-1">
+    <svg class="os-tab-icon" width="20" height="20" viewBox="0 0 24 24">
+      <defs>
+        <linearGradient id="appleRainbow" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"    stop-color="#61bb46"/>
+          <stop offset="16.6%" stop-color="#61bb46"/>
+          <stop offset="16.6%" stop-color="#fdb827"/>
+          <stop offset="33.2%" stop-color="#fdb827"/>
+          <stop offset="33.2%" stop-color="#f5821f"/>
+          <stop offset="49.8%" stop-color="#f5821f"/>
+          <stop offset="49.8%" stop-color="#e03a3e"/>
+          <stop offset="66.4%" stop-color="#e03a3e"/>
+          <stop offset="66.4%" stop-color="#963cbd"/>
+          <stop offset="83%"   stop-color="#963cbd"/>
+          <stop offset="83%"   stop-color="#009ddc"/>
+          <stop offset="100%"  stop-color="#009ddc"/>
+        </linearGradient>
+      </defs>
+      <path fill="url(#appleRainbow)" d="M16.4 2c.1 1.1-.3 2.2-1 3-.7.8-1.8 1.5-2.9 1.4-.1-1.1.4-2.2 1-3 .8-.9 2-1.4 2.9-1.4zm3.1 16.8c-.5 1.1-.7 1.6-1.3 2.5-.9 1.4-2.1 3.1-3.7 3.1-1.4 0-1.7-.9-3.6-.9s-2.3.9-3.6.9c-1.6 0-2.7-1.6-3.6-2.9-2.5-3.6-2.7-7.9-1.2-10.2 1.1-1.6 2.8-2.6 4.4-2.6 1.6 0 2.7 1 4 1 1.2 0 2.1-1 4-1 1.4 0 2.9.8 4 2.1-3.5 1.9-2.9 6.9.6 8z"/>
+    </svg>
+    <div class="os-tab-name">macOS</div>
+    <div class="os-tab-sub">Standalone .app</div>
+  </div>
+  <div class="os-tab" data-os="android" role="tab" id="os-tab-android" aria-selected="false" aria-controls="os-panel-android" tabindex="-1">
+    <svg class="os-tab-icon" width="20" height="20" viewBox="0 0 24 24">
+      <path fill="#3ddc84" d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8C2.67 8 2 8.67 2 9.5v7c0 .83.67 1.5 1.5 1.5S5 17.33 5 16.5v-7C5 8.67 4.33 8 3.5 8zm17 0c-.83 0-1.5.67-1.5 1.5v7c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-7c0-.83-.67-1.5-1.5-1.5zm-4.97-5.84l1.3-1.3c.2-.2.2-.51 0-.71-.2-.2-.51-.2-.71 0l-1.48 1.48A5.84 5.84 0 0 0 12 1c-.96 0-1.86.23-2.66.63L7.85.15c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.31 1.31A5.98 5.98 0 0 0 6 7h12c0-1.99-.97-3.75-2.47-4.84zM10 5H9V4h1v1zm5 0h-1V4h1v1z"/>
+    </svg>
+    <div class="os-tab-name">Android</div>
+    <div class="os-tab-sub">APK, phone-only</div>
+  </div>
+</div>
+
+<!-- WINDOWS -->
+<div class="steps os-panel active" data-os="windows" role="tabpanel" id="os-panel-windows" aria-labelledby="os-tab-windows">
+  <h2 class="sr-only">Windows setup</h2>
+  <div class="step">
+    <div class="step-num">01</div>
+    <div>
+      <h3 class="step-title">Download</h3>
+      <div class="dl-row">
+        <a href="https://github.com/ransh2014/gt7telemtrace/releases/latest/download/gt7telem-windows.zip" class="dl-btn">
+          <span class="dl-arrow">↓</span>
+          Download TRACE
+          <span class="dl-meta">gt7telem-windows.zip · Windows .exe</span>
+        </a>
+        <a href="https://github.com/ransh2014/gt7telemtrace/releases/latest/download/gt7telem-source.zip" class="dl-btn secondary">
+          <span class="dl-arrow">↓</span>
+          Python Source
+          <span class="dl-meta">gt7telem-source.zip</span>
+        </a>
+      </div>
+      <p class="step-body" style="margin-top:12px;">Most people want the .exe above. The source download is only useful if you want to read or modify the code — run it with <code>pip install -r requirements.txt</code> then <code>python launcher.py</code> (the Python Source walkthrough below has the exact commands for each platform).</p>
+      <p class="step-body" style="margin-top:10px;">Prefer the terminal? In PowerShell: <code>iwr https://github.com/ransh2014/gt7telemtrace/releases/latest/download/gt7telem-windows.zip -OutFile gt7telem-windows.zip</code> for the .exe, or swap in <code>gt7telem-source.zip</code> for the Python source.</p>
+      <div class="cb">iwr https://github.com/ransh2014/gt7telemtrace/releases/latest/download/gt7telem-windows.zip -OutFile gt7telem-windows.zip</div>
+      <div class="info" style="margin-top:14px;"><strong>Prefer pip?</strong> <code>pip install gt7tracetelem</code> installs it as a library too &mdash; note the importable module is <code>gt7telem</code> (not <code>gt7tracetelem</code>): <code>import gt7telem</code>, or run <code>gt7telem</code> from the terminal. If you already have an unrelated package that installs a top-level <code>gt7telem</code> module, the two will conflict &mdash; check first with <code>pip show gt7telem</code>.</div>
+      <div class="cb">pip install gt7tracetelem</div>
+      <div class="info" style="margin-top:14px;"><strong>Prefer a package manager?</strong> TRACE is also on <code>winget</code>, Scoop, and Chocolatey. <em>Package-manager releases go through a review step, so a new version can take a little while to show up there. For the very latest build, use the .exe download above.</em></div>
+      <div class="cb">winget install ransh2014.TRACE</div>
+      <div class="cb">scoop bucket add gt7telem https://github.com/ransh2014/scoop-gt7telem
+scoop install gt7telem/gt7telem</div>
+      <div class="cb">choco install gt7telem</div>
+      <p class="step-body">Right-click <strong>gt7telem-windows.zip</strong> → <strong>Extract All</strong>, then double-click <strong>TRACE.exe</strong> inside the extracted folder.</p>
+      <div class="tip"><strong>Windows SmartScreen warning?</strong> Click <strong>More info</strong> → <strong>Run anyway</strong>. This happens because the .exe isn't code-signed yet, not because anything's wrong. TRACE applied for a free code-signing certificate through <a href="https://signpath.org/" target="_blank" rel="noopener">SignPath Foundation</a>, but wasn't approved yet (they look for a project with more public visibility), so the warning stays for now. The code is open source, and every build comes from a public GitHub Actions run.</div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num blue">02</div>
+    <div>
+      <h3 class="step-title">Pick a Tool</h3>
+      <p class="step-body">A menu pops up with three tools — <strong>Live Dashboard</strong>, <strong>Lap Analyst</strong>, and <strong>Race Analyst</strong>. Pick one to launch it. (The <strong>Track Map</strong> isn't a separate menu entry — it's a live panel inside the Live Dashboard.) Re-open <strong>TRACE.exe</strong> any time to switch tools.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num blue">03</div>
+    <div>
+      <h3 class="step-title">Set Your Console IP (Dashboard only)</h3>
+      <p class="step-body">Make sure <strong>GT7 is open and running on your PS4/PS5 first</strong>. In the Dashboard, type your console's IP into the field at the top and hit Enter — it's remembered automatically next time you open TRACE.</p>
+      <div class="tip"><strong>Finding your IP:</strong> On PS4/PS5 → Settings → Network → View Connection Status → IP Address</div>
+    </div>
+  </div>
+</div>
+
+<!-- LINUX -->
+<div class="steps os-panel" data-os="linux" role="tabpanel" id="os-panel-linux" aria-labelledby="os-tab-linux">
+  <h2 class="sr-only">Linux setup</h2>
+  <div class="step">
+    <div class="step-num">01</div>
+    <div>
+      <h3 class="step-title">Download</h3>
+      <div class="dl-row">
+        <a href="https://github.com/ransh2014/gt7telemtrace/releases/latest/download/gt7telem-linux.zip" class="dl-btn">
+          <span class="dl-arrow">↓</span>
+          Download TRACE
+          <span class="dl-meta">gt7telem-linux.zip · x86_64 binary</span>
+        </a>
+        <a href="https://github.com/ransh2014/gt7telemtrace/releases/latest/download/gt7telem-source.zip" class="dl-btn secondary">
+          <span class="dl-arrow">↓</span>
+          Python Source
+          <span class="dl-meta">gt7telem-source.zip</span>
+        </a>
+      </div>
+      <p class="step-body" style="margin-top:12px;">Most people want the binary above. The binary needs glibc 2.35 or newer (Ubuntu 22.04+, Fedora 36+, Debian 12+ or similar). Use the source download if your distro is older than that, or if you just want to read the code.</p>
+      <p class="step-body" style="margin-top:10px;">Prefer the terminal? <code>curl -LO https://github.com/ransh2014/gt7telemtrace/releases/latest/download/gt7telem-linux.zip</code> for the binary, or swap in <code>gt7telem-source.zip</code> for the Python source.</p>
+      <div class="cb">curl -LO https://github.com/ransh2014/gt7telemtrace/releases/latest/download/gt7telem-linux.zip</div>
+      <div class="info" style="margin-top:14px;"><strong>Prefer pip?</strong> <code>pip install gt7tracetelem</code> installs it as a library too &mdash; note the importable module is <code>gt7telem</code> (not <code>gt7tracetelem</code>): <code>import gt7telem</code>, or run <code>gt7telem</code> from the terminal. If you already have an unrelated package that installs a top-level <code>gt7telem</code> module, the two will conflict &mdash; check first with <code>pip show gt7telem</code>.</div>
+      <div class="cb">pip install gt7tracetelem</div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num blue">02</div>
+    <div>
+      <h3 class="step-title">Unzip and Make Executable</h3>
+      <p class="step-body">Extract the zip, open a terminal in that folder, and run:</p>
+      <div class="cb">chmod +x TRACE && ./TRACE</div>
+      <div class="info"><strong>Built and tested on Ubuntu (glibc).</strong> Should run on most modern distros with a desktop environment. Needs a display — won't run headless.</div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num blue">03</div>
+    <div>
+      <h3 class="step-title">Pick a Tool</h3>
+      <p class="step-body">A menu pops up with three tools — <strong>Live Dashboard</strong>, <strong>Lap Analyst</strong>, and <strong>Race Analyst</strong>. Pick one to launch it. (The <strong>Track Map</strong> isn't a separate menu entry — it's a live panel inside the Live Dashboard.) Re-run <strong>TRACE</strong> any time to switch tools.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num blue">04</div>
+    <div>
+      <h3 class="step-title">Set Your Console IP (Dashboard only)</h3>
+      <p class="step-body">Make sure <strong>GT7 is open and running on your PS4/PS5 first</strong>. In the Dashboard, type your console's IP into the field at the top and hit Enter — it's remembered automatically next time you open TRACE.</p>
+      <div class="tip"><strong>Finding your IP:</strong> On PS4/PS5 → Settings → Network → View Connection Status → IP Address</div>
+    </div>
+  </div>
+</div>
+
+<!-- MACOS -->
+<div class="steps os-panel" data-os="mac" role="tabpanel" id="os-panel-mac" aria-labelledby="os-tab-mac">
+  <h2 class="sr-only">macOS setup</h2>
+  <div class="step">
+    <div class="step-num">01</div>
+    <div>
+      <h3 class="step-title">Download</h3>
+      <div class="dl-row">
+        <a href="https://github.com/ransh2014/gt7telemtrace/releases/latest/download/gt7telem-macos.zip" class="dl-btn">
+          <span class="dl-arrow">↓</span>
+          Download TRACE
+          <span class="dl-meta">gt7telem-macos.zip · Apple Silicon .app</span>
+        </a>
+        <a href="https://github.com/ransh2014/gt7telemtrace/releases/latest/download/gt7telem-source.zip" class="dl-btn secondary">
+          <span class="dl-arrow">↓</span>
+          Python Source
+          <span class="dl-meta">gt7telem-source.zip</span>
+        </a>
+      </div>
+      <p class="step-body" style="margin-top:12px;">Most people want the .app above — built automatically on every release via GitHub Actions, no Python required. The source download is only useful if you want to read or modify the code, or you're on an older Intel Mac.</p>
+      <p class="step-body" style="margin-top:10px;">Prefer the terminal? <code>curl -LO https://github.com/ransh2014/gt7telemtrace/releases/latest/download/gt7telem-macos.zip</code> for the .app, or swap in <code>gt7telem-source.zip</code> for the Python source.</p>
+      <div class="cb">curl -LO https://github.com/ransh2014/gt7telemtrace/releases/latest/download/gt7telem-macos.zip</div>
+      <div class="info" style="margin-top:14px;"><strong>Prefer pip?</strong> <code>pip install gt7tracetelem</code> installs it as a library too &mdash; note the importable module is <code>gt7telem</code> (not <code>gt7tracetelem</code>): <code>import gt7telem</code>, or run <code>gt7telem</code> from the terminal. If you already have an unrelated package that installs a top-level <code>gt7telem</code> module, the two will conflict &mdash; check first with <code>pip show gt7telem</code>.</div>
+      <div class="cb">pip install gt7tracetelem</div>
+      <div class="info" style="margin-top:14px;"><strong>Prefer Homebrew?</strong></div>
+      <div class="cb">brew tap ransh2014/gt7telem
+brew install --cask gt7telem</div>
+      <p class="step-body">Unzip, then drag <strong>TRACE.app</strong> into Applications (or just double-click it from the extracted folder).</p>
+      <div class="tip"><strong>"TRACE.app is damaged / can't be opened" warning?</strong> TRACE.app is ad-hoc signed (a local signature with no Apple-issued certificate) — this satisfies macOS's baseline signature check but Gatekeeper still flags it as coming from an unidentified developer, not because anything's wrong. Right-click the app → <strong>Open</strong> → <strong>Open</strong> again in the dialog. If macOS still refuses, run <code>xattr -cr /Applications/TRACE.app</code> in Terminal once. Full notarization needs a paid Apple Developer account, which isn't set up yet.</div>
+      <div class="cb">xattr -cr /Applications/TRACE.app</div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num blue">02</div>
+    <div>
+      <h3 class="step-title">Pick a Tool</h3>
+      <p class="step-body">A menu pops up with three tools — <strong>Live Dashboard</strong>, <strong>Lap Analyst</strong>, and <strong>Race Analyst</strong>. Pick one to launch it. (The <strong>Track Map</strong> isn't a separate menu entry — it's a live panel inside the Live Dashboard.) Re-open <strong>TRACE.app</strong> any time to switch tools.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num blue">03</div>
+    <div>
+      <h3 class="step-title">Set Your Console IP (Dashboard only)</h3>
+      <p class="step-body">Make sure <strong>GT7 is open and running on your PS4/PS5 first</strong>. In the Dashboard, type your console's IP into the field at the top and hit Enter — it's remembered automatically next time you launch it.</p>
+      <div class="tip"><strong>Finding your IP:</strong> On PS4/PS5 → Settings → Network → View Connection Status → IP Address</div>
+    </div>
+  </div>
+</div>
+
+<!-- ANDROID -->
+<div class="steps os-panel" data-os="android" role="tabpanel" id="os-panel-android" aria-labelledby="os-tab-android">
+  <h2 class="sr-only">Android setup</h2>
+  <div class="step">
+    <div class="step-num">01</div>
+    <div>
+      <h3 class="step-title">Download</h3>
+      <div class="dl-row">
+        <a href="https://github.com/ransh2014/gt7telemtrace/releases/latest/download/gt7telem-android.apk" class="dl-btn">
+          <span class="dl-arrow">↓</span>
+          Download TRACE for Android
+          <span class="dl-meta">gt7telem-android.apk · Android 8.0+</span>
+        </a>
+      </div>
+      <p class="step-body" style="margin-top:12px;">This is the full app on your phone &mdash; Live Dashboard, Lap Analyst and Race Analyst &mdash; and it receives the PS5's telemetry itself, so you don't need a PC. It's a free APK download, not a Play Store app.</p>
+      <p class="step-body">Open the downloaded file. Android will ask you to allow installs from your browser or file manager (<em>Settings &rarr; Install unknown apps</em>); allow it for the install. If Play Protect says it hasn't seen the app before, tap <strong>More details</strong> &rarr; <strong>Install anyway</strong>.</p>
+      <div class="tip"><strong>Why the warnings?</strong> Sideloaded apps always show them. The APK is signed with TRACE's own key and built on GitHub Actions from the open-source code, so every update installs over the previous one.</div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num blue">02</div>
+    <div>
+      <h3 class="step-title">Pick a Tool</h3>
+      <p class="step-body">A menu shows <strong>Live Dashboard</strong>, <strong>Lap Analyst</strong> and <strong>Race Analyst</strong>. The footer also has <strong>Records</strong> (your best lap per car and track), <strong>Backup Laps</strong> and the account and theme buttons. Allow notifications when asked if you want personal-best and race-end alerts.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num blue">03</div>
+    <div>
+      <h3 class="step-title">Set Your Console IP (Dashboard only)</h3>
+      <p class="step-body">Make sure <strong>GT7 is open and running on your PS4/PS5 first</strong> and that your phone is on the <strong>same Wi-Fi network</strong> as the console. In the Dashboard, type your console's IP into the field at the top and connect &mdash; it's remembered next time.</p>
+      <div class="tip"><strong>Finding your IP:</strong> On PS4/PS5 → Settings → Network → View Connection Status → IP Address</div>
+    </div>
+  </div>
+</div>
+
+<div class="bornhall-credit">
+  <div class="bc-inner bc-bornhall">
+    <div class="bc-left">
+      <p>Core protocol by</p>
+      <strong>Bornhall — GT7 UDP Telemetry</strong>
+      <div class="bc-sub">The decryption, packet format, and byte structure that make this software possible.<br>Please go star the original repo.</div>
+    </div>
+    <a href="https://github.com/Bornhall/gt7telemetry" target="_blank" rel="noopener noreferrer" class="bc-link">↗ github.com/Bornhall/gt7telemetry</a>
+  </div>
+</div>
+
+<div class="bornhall-credit">
+  <div class="bc-inner green bc-ddm999">
+    <div class="bc-left">
+      <p>Car &amp; track database by</p>
+      <strong>ddm999 — gt7info</strong>
+      <div class="bc-sub">GT7's telemetry stream only ever hands over a raw numeric car ID — every real car name you see across all four tools (Dashboard, Track Map, Lap Analyst, Race Analyst) is resolved through ddm999's community-maintained gt7info database, covering every car, track, and manufacturer in the game. Tracks don't even get an ID from GT7 at all, so the TRACK dropdown is seeded from the same database's course list. This project just ships a snapshot of it (<code>car_ids.csv</code> and <code>course_ids.csv</code>) and reads from it — the lookup itself, and the work of keeping it current as Polyphony adds new content, is entirely ddm999's.</div>
+    </div>
+    <a href="https://github.com/ddm999/gt7info" target="_blank" rel="noopener noreferrer" class="bc-link">↗ github.com/ddm999/gt7info</a>
+  </div>
+</div>
+
+<div class="bornhall-credit">
+  <div class="bc-inner gold bc-kofi">
+    <div class="bc-left">
+      <p>Enjoying TRACE?</p>
+      <strong>Support the Project</strong>
+      <div class="bc-sub">TRACE is free and always will be. If it's made your GT7 sessions better and you want to throw a few bucks toward keeping it maintained, a coffee goes a long way.</div>
+    </div>
+    <a href="https://ko-fi.com/ransh" target="_blank" rel="noopener noreferrer" class="bc-link">Support on Ko-fi</a>
+  </div>
+</div>
+
+<div class="optional">
+  <button class="opt-btn" onclick="this.classList.toggle('open'); this.nextElementSibling.classList.toggle('open'); this.setAttribute('aria-expanded', this.classList.contains('open'))" aria-expanded="false">
+    <span>Running From Source — Full Walkthrough <span style="font-size:0.75em; opacity:0.75; font-weight:normal; margin-left:6px;">(all platforms, start to finish)</span></span>
+    <span class="opt-arrow">▼</span>
+  </button>
+  <div class="opt-body">
+    <p class="step-body"><strong>This section is for anyone using the "Python Source" download instead of the ready-to-run app</strong> — a full walkthrough assuming nothing is set up yet.</p>
+
+    <p class="step-body" style="margin-top:18px;"><strong>1. Open a terminal in the extracted folder</strong></p>
+    <p class="step-body">
+      <strong>Windows:</strong> unzip the download, open the folder in File Explorer, then right-click inside it (on empty space) → <em>Open in Terminal</em>. If that option isn't there, press <code>Win</code>, type <code>cmd</code>, hit Enter, then type <code>cd</code> followed by a space and drag the folder into the window to fill in the path, then press Enter.<br><br>
+      <strong>macOS:</strong> unzip the download, press <code>Cmd + Space</code>, type <em>Terminal</em>, hit Enter. Type <code>cd</code> followed by a space, then drag the unzipped folder into the Terminal window — it'll fill in the path automatically — and press Enter.<br><br>
+      <strong>Linux:</strong> unzip the download, right-click inside the folder in your file manager → <em>Open Terminal Here</em> (wording varies by desktop environment — GNOME/KDE both have some version of this).
+    </p>
+
+    <p class="step-body" style="margin-top:18px;"><strong>2. Check Python is installed (3.10 or newer)</strong></p>
+    <p class="step-body">Run this in the terminal you just opened:</p>
+    <div class="cb"><span class="cm"># macOS / Linux</span>
+python3 --version
+
+<span class="cm"># Windows</span>
+python --version</div>
+    <p class="step-body">If you see a version number 3.10 or higher, skip to step 3. If you get <code>command not found</code>, <code>'python' is not recognized</code>, or a version below 3.10, install/update Python first:</p>
+    <p class="step-body">
+      <strong>Windows / macOS:</strong> download the installer from <a href="https://www.python.org/downloads/" target="_blank" rel="noopener noreferrer">python.org/downloads</a> and run it. On Windows, make sure to tick <strong>"Add python.exe to PATH"</strong> on the first install screen — easy to miss, and without it the <code>python</code> command won't work afterward.<br>
+      <strong>Linux:</strong> <code>sudo apt install python3 python3-pip python3-venv python3-tk</code> (Ubuntu/Debian) or the equivalent for your distro.
+    </p>
+    <div class="cb">sudo apt install python3 python3-pip python3-venv python3-tk</div>
+    <p class="step-body">Once installed, close and reopen the terminal, then re-run the version check above to confirm it worked.</p>
+
+    <p class="step-body" style="margin-top:18px;"><strong>3. Install the dependencies</strong></p>
+    <div class="cb"><span class="cm"># macOS / Linux</span>
+pip3 install -r requirements.txt
+
+<span class="cm"># Windows</span>
+pip install -r requirements.txt</div>
+    <p class="step-body">This pulls in numpy, pandas, matplotlib, and pycryptodome — takes a minute or two. If you get <code>pip: command not found</code>, your Python install didn't include pip; reinstalling from python.org (not a system package manager) usually fixes it.</p>
+
+    <p class="step-body" style="margin-top:18px;"><strong>4. Run it</strong></p>
+    <div class="cb"><span class="cm"># macOS / Linux</span>
+python3 launcher.py
+
+<span class="cm"># Windows</span>
+python launcher.py</div>
+    <p class="step-body">A small menu window should pop up with three tools — Live Dashboard, Lap Analyst, and Race Analyst. Pick one to launch it. (The Track Map is a panel inside the Live Dashboard, not a separate menu entry.)</p>
+
+    <p class="step-body" style="margin-top:18px;"><strong>Common errors</strong></p>
+    <p class="step-body">
+      <code>ModuleNotFoundError: No module named 'tkinter'</code> — macOS: your Python didn't include it; reinstall via the official python.org installer, not Homebrew. Linux: run <code>sudo apt install python3-tk</code>.<br><br>
+      <code>ModuleNotFoundError: No module named 'numpy'</code> (or pandas/matplotlib) — step 3 didn't finish or errored partway through; re-run the pip install command and read the error output.<br><br>
+      Nothing happens when you double-click <code>launcher.py</code> directly — that's expected on most systems; run it through the terminal with the command above instead.
+    </p>
+    <div class="cb">sudo apt install python3-tk</div>
+
+    <p class="step-body" style="margin-top:18px;">Once it's running, your PS4/PS5 IP is entered once in the Dashboard's IP field and saved automatically from then on — no config file editing needed.</p>
+    <div class="tip"><strong>Optional — custom sample rates:</strong> The REC RATE dropdown is limited to 10/20/30/60 Hz in the GUI, but if you're running from source you can add your own values by editing <code>RECORD_RATE_OPTIONS = [10, 20, 30, 60]</code> near the top of <code>gt7telem/dashboard.py</code> — any Hz value you add there shows up as a real, working dropdown option next time you launch it. No other config needed.</div>
+  </div>
+</div>
+
+<div class="faq">
+  <h2>FAQ</h2>
+
+  <div class="faq-item">
+    <div class="fq">Does this work on PS5?</div>
+    <p class="fa">Yes. The telemetry UDP stream is identical on PS4 and PS5. Just set your PS5's IP in the Dashboard the same way.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="fq">Is there an Android app?</div>
+    <p class="fa">Yes &mdash; <strong>TRACE for Android</strong> is a free APK (Android 8.0+) with the same Live Dashboard, Lap Analyst and Race Analyst. Your phone receives the PS5's telemetry directly, so no PC is needed. It's a direct APK download rather than a Play Store app &mdash; see the <strong>Android</strong> tab above.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="fq">My race or lap saved as incomplete — why?</div>
+    <p class="fa">Usually the PC went to sleep or hibernated mid-session, which stops the telemetry packets. TRACE keeps Windows and macOS awake while it's receiving, but that can't stop a closed lid or a manual Sleep/Hibernate, so set <strong>Power &amp; sleep → Sleep: Never</strong> (and turn hibernation off) before you race. If packets stop mid-recording, the Dashboard log shows a warning.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="fq">Does it record endurance (timed) races automatically?</div>
+    <p class="fa"><strong>Not yet.</strong> TRACE only auto-starts and auto-stops recording for races with a set number of laps. For an endurance or timed race, press <strong>Record Race</strong> yourself at the start, keep the Dashboard open for the whole race (the recording is held in memory until it stops), and press <strong>Stop Record Race</strong> after the chequered flag. If you never press Record Race, nothing is saved.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="fq">Can I change how often samples are recorded?</div>
+    <p class="fa">Yes — there's an optional <strong>REC RATE</strong> dropdown next to the connection controls in the Live Dashboard (10 / 20 / 30 / 60 Hz). It only affects Record Lap / Record Race; it never invents data between real packets, only thins samples down to whatever rate you pick. Laps and races recorded at different rates still compare correctly against each other in the Lap Analyst and Race Analyst — both go off each sample's actual timestamp, not an assumed fixed interval.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="fq">Why is TRACK a dropdown instead of a text box?</div>
+    <p class="fa">GT7's telemetry doesn't report a track ID the way it does a car ID. TRACE guesses the track from where the lap starts and asks you to confirm, and the field itself isn't left free-typed (and quietly splitting one track's laps across "suzuka" / "Suzuka Circuit" / "suzuka_circuit" depending on how you typed it that session), it's a searchable picker seeded from <a href="https://github.com/ddm999/gt7info" target="_blank" rel="noopener noreferrer">ddm999's gt7info</a> course database — 120+ real circuit and layout names, reverse layouts and sub-layouts included. You can still type a name that isn't in the list.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="fq">GT7 added a new track that's not in the dropdown yet — what do I do?</div>
+    <p class="fa">Run <code>add_track.py</code> from the Python source download — it asks for just the track name (no ID needed, since telemetry doesn't expose one to look up) and saves it to <code>course_ids_local.csv</code> next to your <code>settings.json</code>, so it survives TRACE upgrades. It'll show up in the dropdown next time you open the Dashboard. (Installed via pip/Chocolatey/WinGet? The same tool is <code>gt7telem-add-track</code>; for cars, <code>gt7telem-add-car</code>.)</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="fq">The dashboard says OFFLINE — what do I check?</div>
+    <p class="fa">Two most common causes: the IP entered in the app is wrong, or your PC and PS4/PS5 are on different subnets (e.g. one on 2.4 GHz, one on 5 GHz). Also make sure GT7 is actually in-game, not just sitting on the PS home screen. The dashboard also switches to OFFLINE a couple of seconds after packets stop (game closed, console asleep) and back to LIVE by itself when they resume.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="fq">Windows says the app is unrecognized / SmartScreen blocked it.</div>
+    <p class="fa">That's expected for an unsigned indie tool — click <strong>More info</strong> then <strong>Run anyway</strong>. If your antivirus quarantines it, that's a false positive common with PyInstaller-built apps; you can allowlist the file. TRACE applied for a free code-signing certificate through SignPath Foundation but wasn't approved yet, so the warning stays for now; the code is open source and every build comes from a public GitHub Actions run.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="fq">How do I verify the Linux download hasn't been tampered with?</div>
+    <p class="fa">Every Linux release is signed with a dedicated GPG key. Grab the public key from the <a href="https://github.com/ransh2014/gt7telemtrace/blob/main/gpg-signing-key/trace-public-key.asc" target="_blank" rel="noopener">GitHub repo</a>, then run <code>gpg --import trace-public-key.asc</code> followed by <code>gpg --verify gt7telem-linux.zip.asc gt7telem-linux.zip</code>. A "Good signature" result confirms the file matches what was built in CI.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="fq">Where are my recorded laps saved?</div>
+    <p class="fa">Almost always <code>~/TRACE/laps</code>, so an upgrade can&rsquo;t wipe them &mdash; that covers pip installs, the Python source download, the macOS app, and Chocolatey/WinGet installs. The one exception: a standalone <strong>.exe / binary</strong> unzipped into a folder you can write to stays portable and creates a <code>laps</code> folder right next to the executable. Either way the Lap Analyst and Race Analyst read from there automatically. To move it somewhere else, edit <code>LAPS_FOLDER</code> in <code>settings.json</code> and restart &mdash; there's no in-app setting for the laps folder.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="fq">What's the difference between Lap Analyst and Race Analyst?</div>
+    <p class="fa">Lap Analyst compares two individual laps in detail — 19 chart groups, sector timing, heat maps. Race Analyst compares two full race sessions side by side, with synced replay and CSV/HTML export.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="fq">What do the STRATEGY (est.) numbers in the Live Dashboard mean?</div>
+    <p class="fa"><strong>FUEL/LAP</strong> is the median fuel burn over your last few clean laps (a lap with a refuel, or after a restart, is ignored), so one thirsty lap can't skew it. <strong>FUEL LAPS</strong> is how many laps the fuel left will cover. In a race, <strong>FINISH</strong> shows how many laps of fuel you'd have spare, or how far short you are, and <strong>PIT BY</strong> is the lap to come in on to keep half a lap of fuel in hand (practice and time trial have no race length, so only PIT BY shows). A leading ~ means it's based on fewer than 3 laps. GT7 doesn't send tyre wear at all, so the tyre figures are estimates: <strong>PACE LOSS</strong> is how much slower your recent laps are than your best lap of the stint, <strong>TREND</strong> is the per-lap change, and <strong>TYRES</strong> turns that into Fresh / Good / Fading / Worn. Fuel burn-off makes the car quicker as the stint goes on, which hides some wear, so these under-read rather than over-read. A refuel starts a new stint automatically; for a tyre-only stop press <strong>[ NEW TYRES ]</strong>.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="fq">How do I share a lap?</div>
+    <p class="fa">Load the lap in Lap Analyst and click <strong>Export Lap Card (PNG)</strong> in the EXPORT panel. You get a 1200×630 image with the lap time, top speed, fuel used, the speed trace and a speed-coloured track map, ready to post anywhere. Race Analyst has the same thing for a whole race: <strong>Export Race Card (PNG)</strong> shows your best lap, laps completed, top speed, every lap time and a map of your best lap.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="fq">Do the spoken alerts work on my system?</div>
+    <p class="fa"><strong>Windows</strong> and <strong>macOS</strong> use the built-in voice, nothing to install. On <strong>Linux</strong> install one speech tool, e.g. <code>sudo apt install speech-dispatcher</code> (gives <code>spd-say</code>) or <code>sudo apt install espeak-ng</code>. With no voice available TRACE plays the normal alert sound instead. Untick <strong>VOICE ALERTS</strong> in the Live Dashboard header to mute it. Nothing is sent anywhere &mdash; the voice is your own system&rsquo;s.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="fq">How does the lap leaderboard work?</div>
+    <p class="fa">Load a lap in Lap Analyst, then hit <strong>Submit to Leaderboard</strong> in the LEADERBOARD sidebar panel. Submitting requires a free account — if you skipped that at first launch, it offers to create one right there (display name only, no email or password). It then asks for the PSN name to show on the row (remembered for next time, editable each submit) and sends your car, track, lap time, and a compact input trace to a shared per-car, per-track leaderboard. The Top-10 panel updates live. Submission is entirely opt-in — nothing goes anywhere unless you press that button. Full breakdown of exactly what's sent on the <a href="/privacy">Privacy</a> page.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="fq">Is my leaderboard submission public?</div>
+    <p class="fa">Yes — the leaderboard is public by design, so anyone using TRACE can see the Top-10 for a car/track and download a lap as a ghost. Use a PSN name you're fine having attached to that lap time. Physically-impossible times are rejected automatically, and times beating the record by more than 20% get held for manual review before they publish.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="fq">What's the Consensus tab in Lap Analyst?</div>
+    <p class="fa">Press <strong>Load Community Line</strong> in the LEADERBOARD panel to pull a community-average speed/throttle/brake line, computed from the current top 10 leaderboard laps for your loaded car and track, and overlay it against your own lap on the Consensus chart tab. Needs at least one other public submission for that car+track to show anything.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="fq">Is there a native macOS app?</div>
+    <p class="fa">Yes — <strong>TRACE.app</strong> is built automatically on a GitHub-hosted Apple Silicon runner every release, no physical Mac needed on this end. See the macOS tab above. On an older Intel Mac, use the Python source download instead.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="fq">Where does the telemetry protocol come from?</div>
+    <p class="fa">The GT7 UDP telemetry stream was reverse-engineered by the community — specifically <strong>Bornhall</strong>, whose <a href="https://github.com/Bornhall/gt7telemetry" target="_blank" rel="noopener noreferrer">gt7telemetry repo</a> figured out the Salsa20 decryption key and full packet structure. This project's core data layer is built on that work.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="fq">Where do the car and track names come from?</div>
+    <p class="fa">GT7's telemetry only reports a numeric car ID, and no track ID at all. Both the car name lookup and the TRACK dropdown's course list are sourced entirely from <strong>ddm999</strong>'s <a href="https://github.com/ddm999/gt7info" target="_blank" rel="noopener noreferrer">gt7info</a> community database — see the <a href="/features">Features page</a> for exactly which parts of the app that powers.</p>
+  </div>
+
+</div>
+
+<footer>
+  <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=8&color=246-244-240&bgcolor=11-11-13&data=https://gt7trace.netlify.app" alt="Scan to open TRACE on your phone" width="110" height="110" loading="lazy" decoding="async" style="display:block;margin:0 auto 10px;">
+  TRACE — community tool, not affiliated with Polyphony Digital or Sony Interactive Entertainment<br>
+  Original UDP protocol by <a href="https://github.com/Bornhall/gt7telemetry" target="_blank" rel="noopener noreferrer">Bornhall</a> · Car &amp; track database by <a href="https://github.com/ddm999/gt7info" target="_blank" rel="noopener noreferrer">ddm999</a> &middot; <a href="/features">Features</a>
+  <a href="/leaderboard">Leaderboard</a>
+  <a href="/totalfiles">Files</a> &middot; <a href="/about">About</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/archived">Archived</a> &middot; <a href="https://github.com/ransh2014/gt7telemtrace" target="_blank" rel="noopener noreferrer">GitHub</a> &middot; <a href="https://ko-fi.com/ransh" target="_blank" rel="noopener noreferrer" style="color:var(--gold);">Support on Ko-fi</a>
+</footer>
+
+<script src="/assets/site.js"></script>
+<script src="/assets/trace-chat.js" data-endpoint="https://trace-support-bot.shruthi-rai.workers.dev" defer></script>
+<script>
+const osTabs = Array.from(document.querySelectorAll('.os-tab'));
+const OS_TO_HASH = { windows: 'windows', linux: 'linux', mac: 'macos', android: 'android' };
+const HASH_TO_OS = { windows: 'windows', linux: 'linux', macos: 'mac', mac: 'mac', android: 'android' };
+
+function selectOsTab(tab, focusIt) {
+  const os = tab.dataset.os;
+  osTabs.forEach(t => {
+    const active = t.dataset.os === os;
+    t.classList.toggle('active', active);
+    t.setAttribute('aria-selected', active ? 'true' : 'false');
+    t.tabIndex = active ? 0 : -1;
+  });
+  document.querySelectorAll('.os-panel').forEach(p => p.classList.toggle('active', p.dataset.os === os));
+  if (focusIt) tab.focus();
+  history.replaceState(null, '', '#' + OS_TO_HASH[os]);
+}
+
+const hashOs = HASH_TO_OS[location.hash.slice(1).toLowerCase()];
+if (hashOs) {
+  const initialTab = osTabs.find(t => t.dataset.os === hashOs);
+  if (initialTab) selectOsTab(initialTab, false);
+}
+
+window.addEventListener('hashchange', () => {
+  const os = HASH_TO_OS[location.hash.slice(1).toLowerCase()];
+  const tab = os && osTabs.find(t => t.dataset.os === os);
+  if (tab) selectOsTab(tab, false);
+});
+
+osTabs.forEach((tab, i) => {
+  tab.addEventListener('click', () => selectOsTab(tab, false));
+  tab.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      selectOsTab(tab, false);
+    } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      selectOsTab(osTabs[(i + 1) % osTabs.length], true);
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      selectOsTab(osTabs[(i - 1 + osTabs.length) % osTabs.length], true);
+    }
+  });
+});
+
+// Auto-detect the visitor's OS and pre-select that tab, unless a #hash
+// already picked one (e.g. a shared link like setup.html#macos).
+(function () {
+  var ua = navigator.userAgent || '';
+  var detected = null;
+  if (/Android/i.test(ua)) detected = 'android';
+  else if (/Windows/i.test(ua)) detected = 'windows';
+  else if (/Mac OS X|Macintosh/i.test(ua) && !/iPhone|iPad/i.test(ua)) detected = 'mac';
+  else if (/Linux/i.test(ua) && !/Android/i.test(ua)) detected = 'linux';
+  if (!detected) return;
+
+  var names = { windows: 'Windows', mac: 'macOS', linux: 'Linux', android: 'Android' };
+  var label = document.getElementById('os-detected-label');
+  if (label) {
+    label.querySelector('.od-name').textContent = names[detected];
+    label.style.display = 'block';
+  }
+
+  if (!location.hash) {
+    var tab = osTabs.find(function (t) { return t.dataset.os === detected; });
+    if (tab && !tab.classList.contains('active')) selectOsTab(tab, false);
+  }
+})();
+</script>
+
+<script>
+// Anonymous download-click tracking -- fires which platform's zip was
+// clicked (windows/linux/macos/source), nothing else. Fire-and-forget:
+// never blocks or delays the actual download, never throws if it fails.
+(function () {
+  var SUPABASE_URL = 'https://hignsvyojdqsjoidgkud.supabase.co';
+  var SUPABASE_ANON_KEY = 'sb_publishable_OdzGvcypa0GI7TVxxUkusQ_KJ_Apa8i';
+  var PLATFORM_BY_FILENAME = {
+    'gt7telem-windows.zip': 'windows',
+    'gt7telem-linux.zip': 'linux',
+    'gt7telem-macos.zip': 'macos',
+    'gt7telem-source.zip': 'source'
+  };
+  document.querySelectorAll('a.dl-btn[href$=".zip"]').forEach(function (link) {
+    link.addEventListener('click', function () {
+      var filename = link.getAttribute('href').split('/').pop();
+      var platform = PLATFORM_BY_FILENAME[filename];
+      if (!platform) return;
+      try {
+        fetch(SUPABASE_URL + '/rest/v1/download_clicks', {
+          method: 'POST',
+          keepalive: true,
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
+          },
+          body: JSON.stringify({ platform: platform })
+        }).catch(function () {});
+      } catch (e) {}
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
