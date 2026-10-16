@@ -24,7 +24,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Is there a complete new release?
         id: rel
@@ -56,7 +56,7 @@ jobs:
             --exclude '_site' --exclude '.gitignore' --exclude '.netlifyignore' \
             --exclude '.deployed-tag' ./ _site/
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         if: steps.rel.outputs.deploy == 'true'
         with:
           node-version: 20
