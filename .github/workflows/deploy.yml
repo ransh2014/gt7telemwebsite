@@ -57,7 +57,7 @@ jobs:
         if: steps.rel.outputs.deploy == 'true'
         env:
           # The balance lives in .credits-left (counts down by 15 after every deploy) and
-          # resets to the monthly allowance on the 22nd, when Netlify's credits reset.
+          # resets to the monthly allowance on the 24th, when Netlify's credits reset.
           # Edit .credits-left by hand to correct it. NETLIFY_CREDITS_MONTHLY (repo
           # variable) overrides the 300 default; NETLIFY_CREDITS_LEFT is only the
           # fallback if .credits-left is missing.
@@ -66,7 +66,7 @@ jobs:
           IGNORE: ${{ inputs.ignore_credit_guard }}
         run: |
           day=$(date -u +%-d); y=$(date -u +%Y); m=$(date -u +%m)
-          if [ "$day" -ge 22 ]; then period="$y-$m"; else period=$(date -u -d "$y-$m-01 -1 month" +%Y-%m); fi
+          if [ "$day" -ge 24 ]; then period="$y-$m"; else period=$(date -u -d "$y-$m-01 -1 month" +%Y-%m); fi
           stored=$(cat .credits-period 2>/dev/null || echo none)
           left=$(cat .credits-left 2>/dev/null || echo "$FALLBACK")
           if [ "$stored" != "$period" ]; then
