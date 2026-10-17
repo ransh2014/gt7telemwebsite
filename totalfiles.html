@@ -156,12 +156,12 @@
       <tr><td>gt7telem/launcher.py</td><td>Unified entry point — opens the TRACE menu (Dashboard / Lap Analyst / Race Analyst) and the Records link; the top-level launcher.py above just calls into this</td></tr>
       <tr><td>dashboard.py</td><td>Live telemetry dashboard app &mdash; the live fuel and tyre-stint strategy panel, spoken alerts, the live gap to the top lap, the after-lap time-loss summary and the header preference switches</td></tr>
       <tr><td>udp.py</td><td>UDP telemetry capture, decrypt, and parsing, plus the fuel and tyre-stint estimator behind the strategy panel</td></tr>
-      <tr><td>lap_analyst.py</td><td>Lap analysis app — 19 chart groups, A/B compare, replay, the shareable PNG lap card, plus the leaderboard/ghost-download/consensus-line panel</td></tr>
+      <tr><td>lap_analyst.py</td><td>Lap analysis app — 20 chart groups, A/B compare, replay, the shareable PNG lap card, plus the leaderboard/ghost-download/consensus-line panel</td></tr>
       <tr><td>corners.py</td><td>Per-corner analysis behind the Lap Analyst and Race Analyst Corners tabs — finds each corner on a lap, matches it to the same corner on a reference lap, and scores brake point, minimum speed, throttle-on point and time gained or lost; also the time-loss summary and per-corner consistency</td></tr>
       <tr><td>race_analyst.py</td><td>Race analysis app — 17 chart groups, including per-lap Corners and Consistency, fuel per lap and laps per tank, and the shareable PNG race card</td></tr>
       <tr><td>cars.py</td><td>Car ID to name lookup</td></tr>
       <tr><td>trackdetect.py</td><td>Track auto-detect &mdash; learns each layout&rsquo;s start-line position, heading and lap length and suggests the track for you to confirm</td></tr>
-      <tr><td>uiscroll.py</td><td>Scrollable left side panel for the Lap and Race Analyst windows</td></tr>
+      <tr><td>uiscroll.py</td><td>Scrolling for the Lap and Race Analyst windows: the left side panel, the chart area (both ways) and the chart tab row</td></tr>
       <tr><td>tracks.py</td><td>Track/course ID to name lookup</td></tr>
       <tr><td>add_track.py</td><td>CLI tool to add a missing track (saved to course_ids_local.csv in your settings folder, so it survives upgrades)</td></tr>
       <tr><td>add_car.py</td><td>CLI tool to add a missing car (saved to car_ids_local.csv in your settings folder, so it survives upgrades)</td></tr>
@@ -174,6 +174,7 @@
       <tr><td>keepawake.py</td><td>Keeps the PC from idle-sleeping or hibernating while telemetry is arriving (Windows and macOS), so a race doesn&rsquo;t end up incomplete. It can&rsquo;t stop a closed lid or a manual Sleep/Hibernate</td></tr>
       <tr><td>consistency.py</td><td>Lap-time spread, trend and 0&ndash;100 consistency score behind the Race Analyst Consistency tab (laps more than 7% off your best are left out)</td></tr>
       <tr><td>share_card.py</td><td>The shared renderer for the 1200&times;630 shareable PNGs &mdash; the Lap Analyst lap card and the Race Analyst race card are both drawn here (headline stats, chart, speed-coloured map)</td></tr>
+      <tr><td>dyno.py</td><td>Dyno &amp; Tune &mdash; rebuilds the engine&rsquo;s power and torque curve, the gear ratios, top speed per gear, best shift points and tuning hints from one lap (the Lap Analyst Dyno &amp; Tune tab)</td></tr>
       <tr><td>theoretical.py</td><td>Theoretical best lap &mdash; stitches the fastest micro-sector from each of your laps and finds the zones that hold your best real lap back (the Lap Analyst Theoretical tab)</td></tr>
       <tr><td>records.py</td><td>The Records table opened from the Launcher &mdash; best lap per car and track, read from the summary at the start of each saved lap file</td></tr>
       <tr><td>ghost.py</td><td>Live gap to the leaderboard&rsquo;s fastest lap in the Live Dashboard &mdash; rebuilds the top lap&rsquo;s clock from distance and speed. The one-off request itself is in leaderboard.py &mdash; see <a href="/privacy">Privacy</a></td></tr>
@@ -185,7 +186,7 @@
       <tr><td>requirements.txt</td><td>Python dependencies</td></tr>
       <tr><td>README.txt</td><td>Setup instructions</td></tr>
     </table>
-    <div class="file-count"><svg class="fc-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 33 files</div>
+    <div class="file-count"><svg class="fc-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 34 files</div>
   </div>
 
   <div class="manifest-group">
