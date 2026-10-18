@@ -13,7 +13,7 @@
     { id: "flash-lite", label: "Fast (Flash-Lite)", short: "Flash-Lite" },
     { id: "groq", label: "Instant (Groq)", short: "Groq" },
   ];
-  var GREETING = "Hey, ask me anything about TRACE setup or troubleshooting.";
+  var GREETING = "Hey, ask me anything about TRACE: setup, the PC and Android apps, features like Dyno & Tune and Keep Awake, or troubleshooting.";
   var history = []; // real turns only: {role, text}
   var busy = false;
 
@@ -176,7 +176,7 @@
 
   bubble("bot", GREETING);
   var chips = el("div", "tc-chips");
-  ["Dashboard says OFFLINE", "Windows blocked the app", "Car name is blank", "What data does TRACE send?"].forEach(function (q) {
+  ["Dashboard says OFFLINE", "Windows blocked the app", "Car name is blank", "Stop my PC sleeping mid-race", "Set up the Android app", "What data does TRACE send?"].forEach(function (q) {
     var c = el("button", "tc-chip");
     c.type = "button";
     c.textContent = q;
