@@ -367,8 +367,9 @@
       <p class="step-body" style="margin-top:12px;">Most people want the .exe above. The source download is only useful if you want to read or modify the code — run it with <code>pip install -r requirements.txt</code> then <code>python launcher.py</code> (the Python Source walkthrough below has the exact commands for each platform).</p>
       <p class="step-body" style="margin-top:10px;">Prefer the terminal? In PowerShell: <code>iwr https://github.com/ransh2014/gt7telemtrace/releases/latest/download/gt7telem-windows.zip -OutFile gt7telem-windows.zip</code> for the .exe, or swap in <code>gt7telem-source.zip</code> for the Python source.</p>
       <div class="cb">iwr https://github.com/ransh2014/gt7telemtrace/releases/latest/download/gt7telem-windows.zip -OutFile gt7telem-windows.zip</div>
-      <div class="info" style="margin-top:14px;"><strong>Prefer pip?</strong> <code>pip install gt7tracetelem</code> installs it as a library too &mdash; note the importable module is <code>gt7telem</code> (not <code>gt7tracetelem</code>): <code>import gt7telem</code>, or run <code>gt7telem</code> from the terminal. If you already have an unrelated package that installs a top-level <code>gt7telem</code> module, the two will conflict &mdash; check first with <code>pip show gt7telem</code>.</div>
+      <div class="info" style="margin-top:14px;"><strong>Prefer pip or uv?</strong> <code>pip install gt7tracetelem</code> installs it as a library too &mdash; note the importable module is <code>gt7telem</code> (not <code>gt7tracetelem</code>): <code>import gt7telem</code>, or run <code>gt7telem</code> from the terminal. If you already have an unrelated package that installs a top-level <code>gt7telem</code> module, the two will conflict &mdash; check first with <code>pip show gt7telem</code>.</div>
       <div class="cb">pip install gt7tracetelem</div>
+      <div class="cb">uv tool install gt7tracetelem</div>
       <div class="info" style="margin-top:14px;"><strong>Prefer a package manager?</strong> TRACE is also on <code>winget</code>, Scoop, and Chocolatey. <em>Package-manager releases go through a review step, so a new version can take a little while to show up there. For the very latest build, use the .exe download above.</em></div>
       <div class="cb">winget install ransh2014.TRACE</div>
       <div class="cb">scoop bucket add gt7telem https://github.com/ransh2014/scoop-gt7telem
@@ -417,8 +418,9 @@ scoop install gt7telem/gt7telem</div>
       <p class="step-body" style="margin-top:12px;">Most people want the binary above. The binary needs glibc 2.35 or newer (Ubuntu 22.04+, Fedora 36+, Debian 12+ or similar). Use the source download if your distro is older than that, or if you just want to read the code.</p>
       <p class="step-body" style="margin-top:10px;">Prefer the terminal? <code>curl -LO https://github.com/ransh2014/gt7telemtrace/releases/latest/download/gt7telem-linux.zip</code> for the binary, or swap in <code>gt7telem-source.zip</code> for the Python source.</p>
       <div class="cb">curl -LO https://github.com/ransh2014/gt7telemtrace/releases/latest/download/gt7telem-linux.zip</div>
-      <div class="info" style="margin-top:14px;"><strong>Prefer pip?</strong> <code>pip install gt7tracetelem</code> installs it as a library too &mdash; note the importable module is <code>gt7telem</code> (not <code>gt7tracetelem</code>): <code>import gt7telem</code>, or run <code>gt7telem</code> from the terminal. If you already have an unrelated package that installs a top-level <code>gt7telem</code> module, the two will conflict &mdash; check first with <code>pip show gt7telem</code>.</div>
+      <div class="info" style="margin-top:14px;"><strong>Prefer pip or uv?</strong> <code>pip install gt7tracetelem</code> installs it as a library too &mdash; note the importable module is <code>gt7telem</code> (not <code>gt7tracetelem</code>): <code>import gt7telem</code>, or run <code>gt7telem</code> from the terminal. If you already have an unrelated package that installs a top-level <code>gt7telem</code> module, the two will conflict &mdash; check first with <code>pip show gt7telem</code>.</div>
       <div class="cb">pip install gt7tracetelem</div>
+      <div class="cb">uv tool install gt7tracetelem</div>
     </div>
   </div>
   <div class="step">
@@ -469,8 +471,9 @@ scoop install gt7telem/gt7telem</div>
       <p class="step-body" style="margin-top:12px;">Most people want the .app above — built automatically on every release via GitHub Actions, no Python required. The source download is only useful if you want to read or modify the code, or you're on an older Intel Mac.</p>
       <p class="step-body" style="margin-top:10px;">Prefer the terminal? <code>curl -LO https://github.com/ransh2014/gt7telemtrace/releases/latest/download/gt7telem-macos.zip</code> for the .app, or swap in <code>gt7telem-source.zip</code> for the Python source.</p>
       <div class="cb">curl -LO https://github.com/ransh2014/gt7telemtrace/releases/latest/download/gt7telem-macos.zip</div>
-      <div class="info" style="margin-top:14px;"><strong>Prefer pip?</strong> <code>pip install gt7tracetelem</code> installs it as a library too &mdash; note the importable module is <code>gt7telem</code> (not <code>gt7tracetelem</code>): <code>import gt7telem</code>, or run <code>gt7telem</code> from the terminal. If you already have an unrelated package that installs a top-level <code>gt7telem</code> module, the two will conflict &mdash; check first with <code>pip show gt7telem</code>.</div>
+      <div class="info" style="margin-top:14px;"><strong>Prefer pip or uv?</strong> <code>pip install gt7tracetelem</code> installs it as a library too &mdash; note the importable module is <code>gt7telem</code> (not <code>gt7tracetelem</code>): <code>import gt7telem</code>, or run <code>gt7telem</code> from the terminal. If you already have an unrelated package that installs a top-level <code>gt7telem</code> module, the two will conflict &mdash; check first with <code>pip show gt7telem</code>.</div>
       <div class="cb">pip install gt7tracetelem</div>
+      <div class="cb">uv tool install gt7tracetelem</div>
       <div class="info" style="margin-top:14px;"><strong>Prefer Homebrew?</strong></div>
       <div class="cb">brew tap ransh2014/gt7telem
 brew install --cask gt7telem</div>
