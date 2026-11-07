@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/styles.css">
-<meta name="description" content="What TRACE collects and why: anonymous usage analytics, the top-lap lookup, local metrics export and the optional leaderboard and account. Most are switchable.">
+<meta name="description" content="What TRACE collects and why: anonymous usage analytics, the top-lap lookup, the local web dashboard, local metrics export and the optional leaderboard and account. Most are switchable.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://gt7trace.netlify.app/privacy">
 <meta name="theme-color" content="#050505">
@@ -228,6 +228,19 @@
     <div class="discovery disc-eye">
       <p>You get back one public lap &mdash; its time, the display name its owner typed, and its compact trace. As with any web request, the database host can see your IP address. To stop it entirely, untick <strong>TOP-LAP GHOST</strong> in the Live Dashboard&rsquo;s Preferences row: with it off, the Dashboard makes no leaderboard requests at all.</p>
     </div>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow green">// off by default &middot; stays on your network</div>
+    <h2>LAN Web<br>Dashboard</h2>
+    <p class="prose">If you tick <strong>WEB UI</strong> in the Live Dashboard header, TRACE starts a small web server on your own PC that shows your live telemetry as a web page you can open on a phone, tablet or another PC. It is <strong>off by default</strong>, it is <strong>read-only</strong> (the page can&rsquo;t send anything back to TRACE or your console), and nothing is sent to the internet &mdash; the page, its code and its fonts all come from your PC, and the live values travel over your own network.</p>
+    <div class="not-collected nc-shield">
+      <ul>
+        <li><strong>WEB UI only:</strong> the server listens on <code>127.0.0.1</code> (this PC), port 8080, so only programs on your own computer can open it</li>
+        <li><strong>WEB UI + ALLOW REMOTE:</strong> it listens on every network interface, so any device on your Wi-Fi/LAN can open the page and watch your live telemetry. There is no password or login. Use it only on a network you trust</li>
+      </ul>
+    </div>
+    <p class="prose">Turn it off by unticking WEB UI, or just leave it off. Both switches are saved to <code>settings.json</code>. Your browser remembers only its own display choices (page, units, theme) on that device.</p>
   </div>
 
   <div class="section">
