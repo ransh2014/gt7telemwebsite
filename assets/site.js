@@ -104,3 +104,15 @@
   }, { threshold: 0.15 });
   els.forEach(e => io.observe(e));
 })();
+
+// Small delights (lights-out intro, scroll shift-light bar, keyboard shortcuts, easter eggs) live in their own files.
+(function () {
+  const css = document.createElement('link');
+  css.rel = 'stylesheet';
+  css.href = '/assets/touches.css';
+  document.head.appendChild(css);
+  const js = document.createElement('script');
+  js.src = '/assets/touches.js';
+  js.defer = true;
+  document.body.appendChild(js);
+})();

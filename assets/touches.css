@@ -1,0 +1,83 @@
+/* Small delights (see touches.js). Everything is prefixed tz- and sits above the page without changing its layout. */
+
+/* scroll shift-light bar */
+.tz-shiftbar {
+  position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 150;
+  transform-origin: left center; transform: scaleX(0); opacity: 0; pointer-events: none;
+  background: linear-gradient(90deg, var(--green) 0%, var(--gold) 62%, var(--orange) 100%);
+  transition: opacity .25s ease;
+}
+.tz-shiftbar.on { opacity: .95; }
+
+/* lights out */
+.tz-lights {
+  position: fixed; inset: 0; z-index: 400; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 28px; background: rgba(5,5,6,.96); cursor: pointer; opacity: 1; transition: opacity .3s ease;
+}
+.tz-lights.out { opacity: 0; pointer-events: none; }
+.tz-gantry {
+  display: flex; gap: clamp(10px, 3vw, 22px); padding: 18px clamp(16px, 4vw, 30px);
+  background: var(--bg-2); border: 1px solid var(--line-2); border-radius: 14px; box-shadow: var(--shadow-lg);
+}
+.tz-light {
+  width: clamp(34px, 9vw, 64px); height: clamp(34px, 9vw, 64px); border-radius: 50%;
+  background: #1a1a1d; border: 1px solid rgba(255,255,255,.08); box-shadow: inset 0 3px 8px rgba(0,0,0,.6);
+  transition: background .08s ease, box-shadow .08s ease;
+}
+.tz-light.lit { background: var(--orange); box-shadow: 0 0 22px 6px var(--orange-glow), inset 0 2px 6px rgba(255,255,255,.25); }
+.tz-go {
+  font-family: var(--font-impact); font-size: clamp(2rem, 8vw, 4.4rem); letter-spacing: .08em; color: var(--green);
+  opacity: 0; transform: translateY(6px); transition: opacity .2s ease, transform .2s ease;
+}
+.tz-lights.go .tz-go { opacity: 1; transform: none; }
+.tz-skip { position: absolute; bottom: 22px; font-family: var(--font-mono); font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; color: var(--dim); }
+
+/* toast */
+.tz-toast {
+  position: fixed; left: 50%; bottom: 28px; z-index: 410; transform: translate(-50%, 12px); opacity: 0; pointer-events: none;
+  padding: 10px 18px; border-radius: var(--radius); background: var(--bg-2); border: 1px solid var(--line-2); color: var(--txt);
+  font-family: var(--font-mono); font-size: .78rem; letter-spacing: .06em; box-shadow: var(--shadow-md);
+  transition: opacity .25s ease, transform .25s var(--ease);
+}
+.tz-toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* shortcut sheet */
+.tz-sheet { position: fixed; inset: 0; z-index: 420; display: flex; align-items: center; justify-content: center; padding: 20px; background: rgba(5,5,6,.78); }
+.tz-sheet-card { width: min(420px, 100%); background: var(--bg-1); border: 1px solid var(--line-2); border-radius: 10px; box-shadow: var(--shadow-lg); overflow: hidden; }
+.tz-sheet-hd {
+  display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; background: var(--bg-2); border-bottom: 1px solid var(--line);
+  font-family: var(--font-mono); font-size: .7rem; letter-spacing: .24em; color: var(--blue-2);
+}
+.tz-x { font-family: var(--font-mono); font-size: .68rem; color: var(--mid); background: var(--bg-3); border: 1px solid var(--line-2); border-radius: 4px; padding: 3px 9px; cursor: pointer; }
+.tz-x:hover { color: var(--txt); }
+.tz-sheet ul { list-style: none; padding: 8px 6px 12px; }
+.tz-sheet li { display: flex; align-items: center; gap: 14px; padding: 8px 14px; color: var(--mid); font-size: .92rem; }
+.tz-sheet li > span { min-width: 76px; }
+kbd {
+  font-family: var(--font-mono); font-size: .74rem; color: var(--txt); background: var(--bg-3); border: 1px solid var(--line-2);
+  border-bottom-width: 2px; border-radius: 4px; padding: 1px 7px;
+}
+
+/* footer hint */
+.tz-hint { margin-top: 14px; font-family: var(--font-mono); font-size: .64rem; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+
+/* pit wall mode */
+.tz-pit {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 160; display: flex; align-items: center; justify-content: center; gap: 14px;
+  padding: 8px 14px; background: rgba(5,5,6,.9); border-top: 1px solid var(--line-2); pointer-events: none;
+}
+.tz-pit-tag { font-family: var(--font-mono); font-size: .62rem; letter-spacing: .3em; color: var(--orange); }
+.tz-leds { display: flex; gap: 6px; }
+.tz-leds i { width: 14px; height: 14px; border-radius: 50%; background: #1a1a1d; border: 1px solid rgba(255,255,255,.08); transition: background .1s ease, box-shadow .1s ease; }
+.tz-leds i:nth-child(-n+9).lit { background: var(--green); box-shadow: 0 0 10px var(--green-glow); }
+.tz-leds i:nth-child(n+10):nth-child(-n+12).lit { background: var(--gold); box-shadow: 0 0 10px var(--gold-glow); }
+.tz-leds i:nth-child(n+13).lit { background: var(--orange); box-shadow: 0 0 12px var(--orange-glow); }
+.tz-leds i.sweep { animation: tz-sweep .5s ease both; }
+@keyframes tz-sweep { 0%, 100% { background: #1a1a1d; } 40% { background: var(--gold); box-shadow: 0 0 10px var(--gold-glow); } }
+.tz-pitwall .back-to-top { bottom: 64px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tz-shiftbar, .tz-toast, .tz-light, .tz-go { transition: none; }
+  .tz-leds i.sweep { animation: none; }
+}
+@media print { .tz-shiftbar, .tz-lights, .tz-toast, .tz-sheet, .tz-pit, .tz-hint { display: none !important; } }

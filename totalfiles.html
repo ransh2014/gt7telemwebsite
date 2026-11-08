@@ -172,6 +172,7 @@
       <tr><td>metrics_server.py</td><td>Optional Prometheus metrics export (off by default) — speed/rpm/throttle/brake/fuel/lap-time gauges for Grafana or any Prometheus-compatible scraper</td></tr>
       <tr><td>webui_server.py</td><td>Optional LAN web dashboard (off by default) &mdash; serves a live, read-only gauges page to phones, tablets and PCs on your network over HTTP + WebSocket on one port; localhost only unless you tick ALLOW REMOTE. Nothing leaves your LAN</td></tr>
       <tr><td>webui_page.py</td><td>The web dashboard&rsquo;s page &mdash; HTML, CSS and JavaScript in one Python string, no CDN or external files</td></tr>
+      <tr><td>delights.py</td><td>Small optional touches for the desktop windows &mdash; hover tooltips, the lights-out sequence and a checkered flag. All local drawing; nothing is sent anywhere</td></tr>
       <tr><td>theme.py</td><td>The website&rsquo;s colours and fonts for the desktop windows &mdash; obsidian surfaces, the signature red, teal, green and gold, plus Anton, Sora, Manrope and JetBrains Mono &mdash; and the screen-scaling and wrapping-header helpers. Falls back to your system font if a font can&rsquo;t load</td></tr>
       <tr><td>webui_fonts.py</td><td>The site&rsquo;s fonts (Anton, Sora, Manrope, JetBrains Mono &mdash; SIL Open Font License) embedded so the web dashboard looks the same with no internet</td></tr>
 <tr><td>notify.py</td><td>Desktop/sound notifications (new personal best, race end) — Windows system sound (afplay on macOS, a freedesktop/ALSA player on Linux, Tk bell as a fallback) + a small self-closing on-screen toast, no extra dependencies</td></tr>
@@ -198,7 +199,7 @@
       <tr><td>requirements.txt</td><td>Python dependencies</td></tr>
       <tr><td>README.txt</td><td>Setup instructions</td></tr>
     </table>
-    <div class="file-count"><svg class="fc-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 46 files</div>
+    <div class="file-count"><svg class="fc-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 47 files</div>
   </div>
 
   <div class="manifest-group">
