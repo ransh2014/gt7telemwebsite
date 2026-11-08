@@ -172,6 +172,7 @@
       <tr><td>metrics_server.py</td><td>Optional Prometheus metrics export (off by default) — speed/rpm/throttle/brake/fuel/lap-time gauges for Grafana or any Prometheus-compatible scraper</td></tr>
       <tr><td>webui_server.py</td><td>Optional LAN web dashboard (off by default) &mdash; serves a live, read-only gauges page to phones, tablets and PCs on your network over HTTP + WebSocket on one port; localhost only unless you tick ALLOW REMOTE. Nothing leaves your LAN</td></tr>
       <tr><td>webui_page.py</td><td>The web dashboard&rsquo;s page &mdash; HTML, CSS and JavaScript in one Python string, no CDN or external files</td></tr>
+      <tr><td>theme.py</td><td>The website&rsquo;s colours and fonts for the desktop windows &mdash; obsidian surfaces, the signature red, teal, green and gold, plus Anton, Sora, Manrope and JetBrains Mono &mdash; and the screen-scaling and wrapping-header helpers. Falls back to your system font if a font can&rsquo;t load</td></tr>
       <tr><td>webui_fonts.py</td><td>The site&rsquo;s fonts (Anton, Sora, Manrope, JetBrains Mono &mdash; SIL Open Font License) embedded so the web dashboard looks the same with no internet</td></tr>
 <tr><td>notify.py</td><td>Desktop/sound notifications (new personal best, race end) — Windows system sound (afplay on macOS, a freedesktop/ALSA player on Linux, Tk bell as a fallback) + a small self-closing on-screen toast, no extra dependencies</td></tr>
       <tr><td>keepawake.py</td><td>Keeps the PC from idle-sleeping or hibernating (Windows, macOS and Linux) the whole time the Dashboard is open &mdash; the KEEP AWAKE switch &mdash; and lets go when it closes, so a race doesn&rsquo;t end up incomplete. It can&rsquo;t stop a closed lid or a manual Sleep/Hibernate</td></tr>
@@ -183,13 +184,20 @@
       <tr><td>ghost.py</td><td>Live gap to the leaderboard&rsquo;s fastest lap in the Live Dashboard &mdash; rebuilds the top lap&rsquo;s clock from distance and speed. The one-off request itself is in leaderboard.py &mdash; see <a href="/privacy">Privacy</a></td></tr>
       <tr><td>voice.py</td><td>Spoken fuel and tyre alerts in the Live Dashboard through the OS voice (Windows speech, macOS <code>say</code>, Linux <code>spd-say</code>/<code>espeak</code>), falling back to the alert sound</td></tr>
       <tr><td>lapclean.py</td><td>Junk-lap guards and the duplicate-lap finder &mdash; the Dashboard skips recordings that are too short, never moved, or a double save, and the Lap Analyst&rsquo;s Find Duplicate Laps moves extra copies into a <code>_duplicates</code> folder (nothing is deleted)</td></tr>
+      <tr><td>gt7telem/fonts/Anton-Regular.ttf</td><td>Anton &mdash; one of the website&rsquo;s fonts, bundled so TRACE looks the same offline (SIL Open Font License; loaded for TRACE only, never installed on your system)</td></tr>
+      <tr><td>gt7telem/fonts/Sora-Regular.ttf</td><td>Sora &mdash; one of the website&rsquo;s fonts, bundled so TRACE looks the same offline (SIL Open Font License; loaded for TRACE only, never installed on your system)</td></tr>
+      <tr><td>gt7telem/fonts/Sora-Bold.ttf</td><td>Sora Bold &mdash; one of the website&rsquo;s fonts, bundled so TRACE looks the same offline (SIL Open Font License; loaded for TRACE only, never installed on your system)</td></tr>
+      <tr><td>gt7telem/fonts/Manrope-Regular.ttf</td><td>Manrope &mdash; one of the website&rsquo;s fonts, bundled so TRACE looks the same offline (SIL Open Font License; loaded for TRACE only, never installed on your system)</td></tr>
+      <tr><td>gt7telem/fonts/Manrope-Bold.ttf</td><td>Manrope Bold &mdash; one of the website&rsquo;s fonts, bundled so TRACE looks the same offline (SIL Open Font License; loaded for TRACE only, never installed on your system)</td></tr>
+      <tr><td>gt7telem/fonts/JetBrainsMono-Regular.ttf</td><td>JetBrains Mono &mdash; one of the website&rsquo;s fonts, bundled so TRACE looks the same offline (SIL Open Font License; loaded for TRACE only, never installed on your system)</td></tr>
+      <tr><td>gt7telem/fonts/JetBrainsMono-Bold.ttf</td><td>JetBrains Mono Bold &mdash; one of the website&rsquo;s fonts, bundled so TRACE looks the same offline (SIL Open Font License; loaded for TRACE only, never installed on your system)</td></tr>
       <tr><td>car_ids.csv</td><td>Car ID database &mdash; refreshed every time 10 or more new cars have been added since the last update</td></tr>
       <tr><td>course_ids.csv</td><td>Track ID database</td></tr>
       <tr><td>py.typed</td><td>PEP 561 marker so IDEs get proper autocomplete for <code>import gt7telem</code></td></tr>
       <tr><td>requirements.txt</td><td>Python dependencies</td></tr>
       <tr><td>README.txt</td><td>Setup instructions</td></tr>
     </table>
-    <div class="file-count"><svg class="fc-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 37 files</div>
+    <div class="file-count"><svg class="fc-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 45 files</div>
   </div>
 
   <div class="manifest-group">
