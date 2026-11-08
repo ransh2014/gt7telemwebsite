@@ -4,6 +4,16 @@ name: Deploy site
 # downloads attached (so the site's download buttons never point at a missing file).
 # Also runnable by hand from the Actions tab ("Run workflow", tick force to redeploy).
 on:
+  # A website-only change deploys right away (the credit guard below still applies). The "deployed vX" commit
+  # this workflow pushes uses GITHUB_TOKEN, which never starts another run, and paths-ignore covers its files too.
+  push:
+    branches: [main]
+    paths-ignore:
+      - ".deployed-tag"
+      - ".credits-left"
+      - ".credits-period"
+      - ".github/**"
+      - "**.md"
   schedule:
     - cron: "*/20 * * * *"
   workflow_dispatch:
@@ -35,6 +45,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           FORCE: ${{ inputs.force }}
+          EVENT: ${{ github.event_name }}
         run: |
           json=$(curl -fsS -H "Authorization: Bearer $GH_TOKEN" \
             https://api.github.com/repos/ransh2014/gt7telemtrace/releases/latest)
@@ -47,6 +58,9 @@ jobs:
           done
           deploy=false
           if [ "$FORCE" = "true" ]; then deploy=true; fi
+          # a website-only push deploys too, but only while the latest release is complete (so download
+          # buttons never point at a missing file); otherwise the scheduled run deploys it once it is
+          if [ "$EVENT" = "push" ] && [ "$complete" = "true" ]; then deploy=true; fi
           if [ "$complete" = "true" ] && [ "$tag" != "$last" ]; then deploy=true; fi
           echo "latest=$tag deployed=$last complete=$complete -> deploy=$deploy"
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
@@ -82,6 +96,21 @@ jobs:
             echo "::warning::Skipping the deploy: $left credits left (below 45). Top up or fix .credits-left, then run this workflow again."
           fi
           echo "ok=$ok" >> "$GITHUB_OUTPUT"
+      - name: Check totalfiles.html against the real source zip
+        if: steps.rel.outputs.deploy == 'true' && steps.credits.outputs.ok == 'true'
+        continue-on-error: true   # a warning, never a blocker
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.rel.outputs.tag }}
+        run: |
+          gh release download "$TAG" -R ransh2014/gt7telemtrace -p gt7telem-source.zip -D /tmp
+          real=$(python -c "import zipfile; print(len(zipfile.ZipFile('/tmp/gt7telem-source.zip').namelist()))")
+          shown=$(python -c "import re; t=open('totalfiles.html',encoding='utf-8').read(); i=t.index('gt7telem-source.zip</h2>'); print(re.search(r'(\\d+) files', t[i:]).group(1))")
+          echo "totalfiles.html says $shown files; the $TAG source zip has $real"
+          if [ "$shown" != "$real" ]; then
+            echo "::warning::totalfiles.html says $shown files but the $TAG source zip has $real - update the Files page"
+          fi
+
       - name: Build the publish folder
         if: steps.rel.outputs.deploy == 'true' && steps.credits.outputs.ok == 'true'
         run: |
