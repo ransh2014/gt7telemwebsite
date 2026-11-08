@@ -1,6 +1,5 @@
-// Small delights, loaded by site.js on every page. Everything here is optional and local: no network, no storage
-// except a sessionStorage flag so the intro plays once per visit, and every animation is skipped under
-// prefers-reduced-motion. Nothing here changes what the site says or does.
+// Extra page behaviour, loaded by site.js on every page. Everything here is local: no network, no storage except a
+// sessionStorage flag so the intro plays once per visit, and every animation is skipped under prefers-reduced-motion.
 (function () {
   'use strict';
 
@@ -50,7 +49,7 @@
     update();
   })();
 
-  // ── Lights out ───────────────────────────────────────────────────────────────────────────────────────────
+  // ── Start lights ───────────────────────────────────────────────────────────────────────────────────────────
   let lightsRunning = false;
   function lightsOut(opts) {
     opts = opts || {};
@@ -92,7 +91,6 @@
     }
   }
 
-  // Five clicks on the logo (on the home page) replays it.
   (function () {
     const logo = document.querySelector('nav .logo, a.logo');
     if (!logo || !isHome) return;
@@ -136,10 +134,9 @@
   }
 
   let gArmed = false, gTimer = 0;
-  const KONAMI = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+  const SEQ = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
   let kIdx = 0;
 
-  // ── Pit wall mode (Konami): LEDs along the bottom follow your scroll like a rev counter ─────────────────
   let pit = null;
   function setPitWall(on) {
     if (on === !!pit) return;
@@ -175,11 +172,10 @@
     }
     if (typing(e.target)) return;
 
-    // Konami
-    const want = KONAMI[kIdx];
+    const want = SEQ[kIdx];
     const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
-    if (k === want) { kIdx += 1; if (kIdx === KONAMI.length) { kIdx = 0; setPitWall(!pit); } }
-    else { kIdx = (k === KONAMI[0]) ? 1 : 0; }
+    if (k === want) { kIdx += 1; if (kIdx === SEQ.length) { kIdx = 0; setPitWall(!pit); } }
+    else { kIdx = (k === SEQ[0]) ? 1 : 0; }
 
     if (e.key === '?') { sheet ? closeSheet() : openSheet(); return; }
     if (gArmed) {
@@ -204,7 +200,6 @@
   // ── Console banner ───────────────────────────────────────────────────────────────────────────────────────
   try {
     console.log('%cTRACE', 'font:700 28px/1 "Anton",Impact,sans-serif;color:#c8102e;letter-spacing:.06em');
-    console.log('%cGT7 telemetry, made by a driver for drivers. Curious how it works? The source is open: https://github.com/ransh2014/gt7telemtrace\n' +
-      'Hint: try ↑ ↑ ↓ ↓ ← → ← → B A', 'color:#96949c;font:12px/1.6 "JetBrains Mono",monospace');
+    console.log('%cGT7 telemetry, made by a driver for drivers. Curious how it works? The source is open: https://github.com/ransh2014/gt7telemtrace', 'color:#96949c;font:12px/1.6 "JetBrains Mono",monospace');
   } catch (e) { /* console unavailable */ }
 })();

@@ -105,7 +105,7 @@
   els.forEach(e => io.observe(e));
 })();
 
-// Small delights (lights-out intro, scroll shift-light bar, keyboard shortcuts, easter eggs) live in their own files.
+// Extra page behaviour (intro, scroll bar, keyboard shortcuts) lives in its own files.
 (function () {
   const css = document.createElement('link');
   css.rel = 'stylesheet';
