@@ -502,7 +502,7 @@
 
     <div class="feat-row">
       <div class="feat-name">LAN Web Dashboard <span class="fg-sub">&mdash; Live Dashboard</span></div>
-      <div class="feat-desc">Optional, off by default: tick WEB UI and open the address the Dashboard shows from any phone, tablet or PC on your Wi-Fi for a live, read-only dash in the same look as this site &mdash; speedo, tacho with shift lights, gear, throttle/brake/steering trace, G-force circle, tyre temps and slip, fuel and strategy estimates, lap timing, delta, VS TOP and a live track map, across five pages (HUD, Inputs &amp; G, Tyres &amp; Fuel, Timing, Full). km/h or mph, dark or light, fullscreen, keep-screen-awake and auto-reconnect. Everything is built in, so it works with no internet. It listens on this PC only; an ALLOW REMOTE checkbox opens it to your local network (no password, so use it only on a network you trust). Nothing is sent to the internet. See <a href="/privacy">Privacy</a>.</div>
+      <div class="feat-desc">Optional, off by default: tick WEB UI and open the address the Dashboard shows from any phone, tablet or PC on your Wi-Fi for a live, read-only dash in the same look as this site &mdash; speedo, tacho with shift lights, gear, throttle/brake/steering trace, G-force circle, tyre temps and slip, fuel and strategy estimates, lap timing, delta, VS TOP and a live track map, across five pages (HUD, Inputs &amp; G, Tyres &amp; Fuel, Timing, Full). km/h or mph, dark or light, fullscreen, keep-screen-awake and auto-reconnect. Everything is built in, so it works with no internet. It listens on this PC only (the Android app serves the very same page from the phone); an ALLOW REMOTE (WEB UI) checkbox opens it to your local network (no password, so use it only on a network you trust). Nothing is sent to the internet. See <a href="/privacy">Privacy</a>.</div>
     </div>
 
     <div class="feat-row">
@@ -522,7 +522,7 @@
 
     <div class="feat-row">
       <div class="feat-name">Update Checker <span class="fg-sub">— Launcher</span></div>
-      <div class="feat-desc">On startup the Launcher quietly checks GitHub releases and shows a small banner when a newer version is out. It compares version numbers properly, and the banner stays as you move between screens. Switch it off any time with the CHECK FOR UPDATES checkbox in the Dashboard header.</div>
+      <div class="feat-desc">The Launcher shows its version (for example v1.0.4) and, from one quiet background check of the latest GitHub release, either <strong>current</strong> in green or <strong>update available: vX</strong> in blue &mdash; click it to open the release page. It compares version numbers properly, skips drafts and pre-releases, checks once per launch, and shows nothing if you&rsquo;re offline. Tick <strong>Ignore update checks</strong> on the Launcher (or untick CHECK FOR UPDATES in the Dashboard header &mdash; the same setting) to stop it. The Android app does the same.</div>
     </div>
 
     <div class="feat-row">
@@ -556,7 +556,7 @@
     </div>
     <div class="feat-row">
       <div class="feat-name">TRACE for Android <span class="fg-sub">— Mobile</span></div>
-      <div class="feat-desc">A standalone Android app (Kotlin + Jetpack Compose) with the same Live Dashboard, Lap Analyst and Race Analyst, the same layout, colours and charts, and the same lap files. The phone receives the PS5's UDP telemetry itself, so no PC is involved. Voice and notification alerts, ghost-lap gap, Records, backups, the leaderboard and update check all work. It's a free sideloaded APK built on GitHub Actions, see <a href="/setup">Setup</a>.</div>
+      <div class="feat-desc">A standalone Android app (Kotlin + Jetpack Compose) with the same Live Dashboard, Lap Analyst and Race Analyst &mdash; the same wording, layout, colours, charts (every chart tab, including Dyno &amp; Tune) and lap files, kept identical by a test that fails the build if a PC label ever differs. AUTO LAP, WEB UI :8080, Export Chart HTML and Find Duplicate Laps work there too. The phone receives the PS5's UDP telemetry itself, so no PC is involved. Voice and notification alerts, ghost-lap gap, Records, backups, the leaderboard and update check all work. It's a free sideloaded APK built on GitHub Actions, see <a href="/setup">Setup</a>.</div>
     </div>
 
     <div class="feat-row">

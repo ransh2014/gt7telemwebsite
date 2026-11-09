@@ -184,6 +184,8 @@
       <tr><td>ghost.py</td><td>Live gap to the leaderboard&rsquo;s fastest lap in the Live Dashboard &mdash; rebuilds the top lap&rsquo;s clock from distance and speed. The one-off request itself is in leaderboard.py &mdash; see <a href="/privacy">Privacy</a></td></tr>
       <tr><td>voice.py</td><td>Spoken fuel and tyre alerts in the Live Dashboard through the OS voice (Windows speech, macOS <code>say</code>, Linux <code>spd-say</code>/<code>espeak</code>), falling back to the alert sound</td></tr>
       <tr><td>lapclean.py</td><td>Junk-lap guards and the duplicate-lap finder &mdash; the Dashboard skips recordings that are too short, never moved, or a double save, and the Lap Analyst&rsquo;s Find Duplicate Laps moves extra copies into a <code>_duplicates</code> folder (nothing is deleted)</td></tr>
+      <tr><td>labels.py</td><td>Every piece of shared UI wording (window titles, headers, buttons, preference names, card text) in one place &mdash; the Android app&rsquo;s strings are generated from it, and a test fails if the two ever differ</td></tr>
+      <tr><td>updates.py</td><td>The launcher&rsquo;s update check &mdash; asks GitHub once per launch for the latest published release, compares versions numerically, and stays silent if offline (switch it off with <code>Ignore update checks</code>)</td></tr>
       <tr><td>gt7telem/fonts/Anton-Regular.ttf</td><td>Anton &mdash; one of the website&rsquo;s fonts, bundled so TRACE looks the same offline (SIL Open Font License; loaded for TRACE only, never installed on your system)</td></tr>
       <tr><td>gt7telem/fonts/Sora-Regular.ttf</td><td>Sora &mdash; one of the website&rsquo;s fonts, bundled so TRACE looks the same offline (SIL Open Font License; loaded for TRACE only, never installed on your system)</td></tr>
       <tr><td>gt7telem/fonts/Sora-Bold.ttf</td><td>Sora Bold &mdash; one of the website&rsquo;s fonts, bundled so TRACE looks the same offline (SIL Open Font License; loaded for TRACE only, never installed on your system)</td></tr>
@@ -198,7 +200,7 @@
       <tr><td>requirements.txt</td><td>Python dependencies</td></tr>
       <tr><td>README.txt</td><td>Setup instructions</td></tr>
     </table>
-    <div class="file-count"><svg class="fc-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 46 files</div>
+    <div class="file-count"><svg class="fc-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 48 files</div>
   </div>
 
   <div class="manifest-group">

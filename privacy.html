@@ -205,9 +205,9 @@
   <div class="section">
     <div class="eyebrow orange">// on by default</div>
     <h2>Update Check</h2>
-    <p class="prose">Each time the Launcher opens, TRACE asks GitHub whether a newer release exists, so it can show a small “new version available” banner. It’s a plain request to GitHub’s public releases page for this project, and it goes to GitHub, not to our database. TRACE doesn’t put your version, an ID or any usage data in it — just a fixed “TRACE-updater” label — but as with any web request, GitHub can see your IP address, under <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub’s own privacy policy</a>. If you’re offline it fails silently.</p>
+    <p class="prose">Each time the Launcher opens, TRACE asks GitHub whether a newer release exists, so it can show “current” or “update available” next to the version number. It’s a plain request to GitHub’s public releases page for this project, and it goes to GitHub, not to our database. TRACE doesn’t put your version, an ID or any usage data in it — just a fixed “TRACE-updater” label — but as with any web request, GitHub can see your IP address, under <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub’s own privacy policy</a>. If you’re offline it fails silently.</p>
     <div class="discovery disc-eye">
-      <p>To turn it off, untick <strong>CHECK FOR UPDATES</strong> in the Live Dashboard&rsquo;s Preferences row, right beside SHARE USAGE DATA. It&rsquo;s saved to your <code>settings.json</code> and applies from the next time TRACE starts &mdash; no file editing needed.</p>
+      <p>To turn it off, tick <strong>Ignore update checks</strong> on the Launcher, or untick <strong>CHECK FOR UPDATES</strong> in the Live Dashboard&rsquo;s Preferences row, right beside SHARE USAGE DATA (they are the same setting, on the PC and in the Android app). It&rsquo;s saved to your <code>settings.json</code> and applies from the next time TRACE starts &mdash; no file editing needed.</p>
     </div>
   </div>
 
@@ -237,7 +237,7 @@
     <div class="not-collected nc-shield">
       <ul>
         <li><strong>WEB UI only:</strong> the server listens on <code>127.0.0.1</code> (this PC), port 8080, so only programs on your own computer can open it</li>
-        <li><strong>WEB UI + ALLOW REMOTE:</strong> it listens on every network interface, so any device on your Wi-Fi/LAN can open the page and watch your live telemetry. There is no password or login. Use it only on a network you trust</li>
+        <li><strong>WEB UI + ALLOW REMOTE (WEB UI):</strong> it listens on every network interface, so any device on your Wi-Fi/LAN can open the page and watch your live telemetry. There is no password or login. Use it only on a network you trust</li>
       </ul>
     </div>
     <p class="prose">Turn it off by unticking WEB UI, or just leave it off. Both switches are saved to <code>settings.json</code>. Your browser remembers only its own display choices (page, units, theme) on that device.</p>
@@ -250,7 +250,7 @@
     <div class="not-collected nc-shield">
       <ul>
         <li><strong>METRICS only:</strong> the server listens on <code>127.0.0.1</code> (this PC), port 9109, so only programs on your own computer can read it</li>
-        <li><strong>METRICS + ALLOW REMOTE:</strong> it listens on every network interface, so any device on your Wi-Fi/LAN can read your live telemetry. There is no password or login on the endpoint. Use it only on a network you trust</li>
+        <li><strong>METRICS + ALLOW REMOTE (METRICS):</strong> it listens on every network interface, so any device on your Wi-Fi/LAN can read your live telemetry. There is no password or login on the endpoint. Use it only on a network you trust</li>
       </ul>
     </div>
     <p class="prose">Turn it off by unticking METRICS, or just leave it off. Both switches are saved to <code>settings.json</code>.</p>
