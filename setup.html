@@ -376,7 +376,7 @@
 scoop install gt7telem/gt7telem</div>
       <div class="cb">choco install gt7telem</div>
       <p class="step-body">Right-click <strong>gt7telem-windows.zip</strong> → <strong>Extract All</strong>, then double-click <strong>TRACE.exe</strong> inside the extracted folder.</p>
-      <div class="tip"><strong>Windows SmartScreen warning?</strong> Click <strong>More info</strong> → <strong>Run anyway</strong>. This happens because the .exe isn't code-signed yet, not because anything's wrong. TRACE applied for a free code-signing certificate through <a href="https://signpath.org/" target="_blank" rel="noopener">SignPath Foundation</a>, but wasn't approved yet (they look for a project with more public visibility), so the warning stays for now. The code is open source, and every build comes from a public GitHub Actions run.</div>
+      <div class="tip"><strong>Windows SmartScreen warning?</strong> Click <strong>More info</strong> → <strong>Run anyway</strong>. This happens because the .exe isn't code-signed yet, not because anything's wrong. TRACE applied for a free code-signing certificate through <a href="https://signpath.org/" target="_blank" rel="noopener">SignPath Foundation</a>, but wasn't approved yet (they look for a project with more public visibility). The code is open source, and every build comes from a public GitHub Actions run.<br><br><strong>Coming soon: the Microsoft Store.</strong> TRACE has been submitted to the Microsoft Store as an MSIX package and is still being reviewed &mdash; it will most likely be there in the next few days. Installing from the Store gets rid of this SmartScreen warning completely, because Microsoft signs Store apps, and the Store keeps TRACE updated for you.</div>
     </div>
   </div>
   <div class="step">
@@ -391,7 +391,7 @@ scoop install gt7telem/gt7telem</div>
     <div>
       <h3 class="step-title">Set Your Console IP (Dashboard only)</h3>
       <p class="step-body">Make sure <strong>GT7 is open and running on your PS4/PS5 first</strong>. In the Dashboard, type your console's IP into the field at the top and hit Enter — it's remembered automatically next time you open TRACE.</p>
-      <div class="info" style="margin-top:14px;"><strong>Want it on your phone or tablet?</strong> In the Dashboard tick <strong>WEB UI :8080</strong> and <strong>ALLOW REMOTE (WEB UI)</strong>, then open the address it shows (like <code>http://192.168.1.5:8080</code>) in your phone&rsquo;s browser &mdash; same Wi-Fi as the PC. It&rsquo;s read-only and needs no internet. If it won&rsquo;t open, allow TRACE through the Windows Firewall on private networks. There is no password, so only use it on a network you trust.</div>
+      <div class="info" style="margin-top:14px;"><strong>Want it on your phone or tablet?</strong> In the Dashboard tick <strong>WEB UI :8080</strong> and <strong>ALLOW REMOTE (WEB UI)</strong>, then open the address it shows (like <code>http://192.168.1.5:8080</code>) in your phone&rsquo;s browser &mdash; same Wi-Fi as the PC. It&rsquo;s read-only and needs no internet. If it won&rsquo;t open, allow TRACE through the Windows Firewall on private networks. Other devices then ask for the <strong>6-digit code</strong> the Dashboard shows next to the address (it changes each time you turn WEB UI on), or you can just <strong>scan the QR code</strong> shown there. Tick <strong>Remember this device</strong> to skip the code on that phone for 30 days; <strong>LOG OUT ALL DEVICES</strong> signs everyone out.</div>
       <div class="tip"><strong>Finding your IP:</strong> On PS4/PS5 → Settings → Network → View Connection Status → IP Address</div>
     </div>
   </div>
@@ -445,7 +445,7 @@ scoop install gt7telem/gt7telem</div>
     <div>
       <h3 class="step-title">Set Your Console IP (Dashboard only)</h3>
       <p class="step-body">Make sure <strong>GT7 is open and running on your PS4/PS5 first</strong>. In the Dashboard, type your console's IP into the field at the top and hit Enter — it's remembered automatically next time you open TRACE.</p>
-      <div class="info" style="margin-top:14px;"><strong>Want it on your phone or tablet?</strong> In the Dashboard tick <strong>WEB UI :8080</strong> and <strong>ALLOW REMOTE (WEB UI)</strong>, then open the address it shows (like <code>http://192.168.1.5:8080</code>) in your phone&rsquo;s browser &mdash; same Wi-Fi as the PC. It&rsquo;s read-only and needs no internet. If it won&rsquo;t open, allow TRACE through the Windows Firewall on private networks. There is no password, so only use it on a network you trust.</div>
+      <div class="info" style="margin-top:14px;"><strong>Want it on your phone or tablet?</strong> In the Dashboard tick <strong>WEB UI :8080</strong> and <strong>ALLOW REMOTE (WEB UI)</strong>, then open the address it shows (like <code>http://192.168.1.5:8080</code>) in your phone&rsquo;s browser &mdash; same Wi-Fi as the PC. It&rsquo;s read-only and needs no internet. If it won&rsquo;t open, allow TRACE through the Windows Firewall on private networks. Other devices then ask for the <strong>6-digit code</strong> the Dashboard shows next to the address (it changes each time you turn WEB UI on), or you can just <strong>scan the QR code</strong> shown there. Tick <strong>Remember this device</strong> to skip the code on that phone for 30 days; <strong>LOG OUT ALL DEVICES</strong> signs everyone out.</div>
       <div class="tip"><strong>Finding your IP:</strong> On PS4/PS5 → Settings → Network → View Connection Status → IP Address</div>
     </div>
   </div>
@@ -496,7 +496,7 @@ brew install --cask gt7telem</div>
     <div>
       <h3 class="step-title">Set Your Console IP (Dashboard only)</h3>
       <p class="step-body">Make sure <strong>GT7 is open and running on your PS4/PS5 first</strong>. In the Dashboard, type your console's IP into the field at the top and hit Enter — it's remembered automatically next time you launch it.</p>
-      <div class="info" style="margin-top:14px;"><strong>Want it on your phone or tablet?</strong> In the Dashboard tick <strong>WEB UI :8080</strong> and <strong>ALLOW REMOTE (WEB UI)</strong>, then open the address it shows (like <code>http://192.168.1.5:8080</code>) in your phone&rsquo;s browser &mdash; same Wi-Fi as the PC. It&rsquo;s read-only and needs no internet. If it won&rsquo;t open, allow TRACE through the Windows Firewall on private networks. There is no password, so only use it on a network you trust.</div>
+      <div class="info" style="margin-top:14px;"><strong>Want it on your phone or tablet?</strong> In the Dashboard tick <strong>WEB UI :8080</strong> and <strong>ALLOW REMOTE (WEB UI)</strong>, then open the address it shows (like <code>http://192.168.1.5:8080</code>) in your phone&rsquo;s browser &mdash; same Wi-Fi as the PC. It&rsquo;s read-only and needs no internet. If it won&rsquo;t open, allow TRACE through the Windows Firewall on private networks. Other devices then ask for the <strong>6-digit code</strong> the Dashboard shows next to the address (it changes each time you turn WEB UI on), or you can just <strong>scan the QR code</strong> shown there. Tick <strong>Remember this device</strong> to skip the code on that phone for 30 days; <strong>LOG OUT ALL DEVICES</strong> signs everyone out.</div>
       <div class="tip"><strong>Finding your IP:</strong> On PS4/PS5 → Settings → Network → View Connection Status → IP Address</div>
     </div>
   </div>
@@ -525,7 +525,7 @@ brew install --cask gt7telem</div>
     <div class="step-num blue">02</div>
     <div>
       <h3 class="step-title">Pick a Tool</h3>
-      <p class="step-body">A menu shows <strong>Live Dashboard</strong>, <strong>Lap Analyst</strong> and <strong>Race Analyst</strong>. The top shows the version (for example <strong>v1.0.4</strong>) with <strong>current</strong> or <strong>update available</strong> beside it, and an <strong>Ignore update checks</strong> box. The footer has <strong>Log Out</strong>, <strong>Backup Laps</strong>, <strong>Records</strong> (your best lap per car and track) and the Light/Dark toggle &mdash; the same as on the PC. Allow notifications when asked if you want personal-best and race-end alerts.</p>
+      <p class="step-body">A menu shows <strong>Live Dashboard</strong>, <strong>Lap Analyst</strong> and <strong>Race Analyst</strong>. The top shows the version (for example <strong>v1.1.0</strong>) with <strong>current</strong> or <strong>update available</strong> beside it, and an <strong>Ignore update checks</strong> box. The footer has <strong>Log Out</strong>, <strong>Backup Laps</strong>, <strong>Records</strong> (your best lap per car and track) and the Light/Dark toggle &mdash; the same as on the PC. Allow notifications when asked if you want personal-best and race-end alerts.</p>
     </div>
   </div>
   <div class="step">
@@ -675,7 +675,7 @@ python launcher.py</div>
 
   <div class="faq-item">
     <div class="fq">Windows says the app is unrecognized / SmartScreen blocked it.</div>
-    <p class="fa">That's expected for an unsigned indie tool — click <strong>More info</strong> then <strong>Run anyway</strong>. If your antivirus quarantines it, that's a false positive common with PyInstaller-built apps; you can allowlist the file. TRACE applied for a free code-signing certificate through SignPath Foundation but wasn't approved yet, so the warning stays for now; the code is open source and every build comes from a public GitHub Actions run.</p>
+    <p class="fa">That's expected for an unsigned indie tool — click <strong>More info</strong> then <strong>Run anyway</strong>. If your antivirus quarantines it, that's a false positive common with PyInstaller-built apps; you can allowlist the file. TRACE applied for a free code-signing certificate through SignPath Foundation but wasn't approved yet; the code is open source and every build comes from a public GitHub Actions run. The warning goes away for good with the Microsoft Store version: TRACE has been submitted to the Store as an MSIX package and is still in review, so it will most likely be available in the next few days. Store apps are signed by Microsoft, so SmartScreen won&rsquo;t warn about it.</p>
   </div>
 
   <div class="faq-item">

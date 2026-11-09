@@ -237,7 +237,7 @@
     <div class="not-collected nc-shield">
       <ul>
         <li><strong>WEB UI only:</strong> the server listens on <code>127.0.0.1</code> (this PC), port 8080, so only programs on your own computer can open it</li>
-        <li><strong>WEB UI + ALLOW REMOTE (WEB UI):</strong> it listens on every network interface, so any device on your Wi-Fi/LAN can open the page and watch your live telemetry. There is no password or login. Use it only on a network you trust</li>
+        <li><strong>WEB UI + ALLOW REMOTE (WEB UI):</strong> it listens on every network interface, so other devices on your Wi-Fi/LAN can open the page &mdash; but only after entering the <strong>6-digit code</strong> shown in the Dashboard (or scanning its one-time QR code). The code is new each time WEB UI is turned on and is kept in memory only, never saved or logged. Five wrong codes lock that device out for a minute, then longer each time. <strong>Remember this device</strong> stores a random token in that browser for 30 days; on your PC TRACE keeps only a scrambled (SHA-256) copy and the date, in <code>devices.json</code> next to <code>settings.json</code>. <strong>LOG OUT ALL DEVICES</strong> deletes them all, and turning WEB UI off logs every device out. Requests from this PC itself never need the code</li>
       </ul>
     </div>
     <p class="prose">Turn it off by unticking WEB UI, or just leave it off. Both switches are saved to <code>settings.json</code>. Your browser remembers only its own display choices (page, units, theme) on that device.</p>
