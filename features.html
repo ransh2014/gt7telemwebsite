@@ -522,7 +522,7 @@
 
     <div class="feat-row">
       <div class="feat-name">Update Checker <span class="fg-sub">— Launcher</span></div>
-      <div class="feat-desc">The Launcher shows its version (for example v1.1.0) and, from one quiet background check of the latest GitHub release, either <strong>current</strong> in green or <strong>update available: vX</strong> in blue &mdash; click it to open the release page. It compares version numbers properly, skips drafts and pre-releases, checks once per launch, and shows nothing if you&rsquo;re offline. Tick <strong>Ignore update checks</strong> on the Launcher (or untick CHECK FOR UPDATES in the Dashboard header &mdash; the same setting) to stop it. The Android app does the same.</div>
+      <div class="feat-desc">The Launcher shows its version (for example v1.3.0) and, from one quiet background check of the latest GitHub release, either <strong>current</strong> in green or <strong>update available: vX</strong> in blue &mdash; click it to open the release page. It compares version numbers properly, skips drafts and pre-releases, checks once per launch, and shows nothing if you&rsquo;re offline. Tick <strong>Ignore update checks</strong> on the Launcher (or untick CHECK FOR UPDATES in the Dashboard header &mdash; the same setting) to stop it. The Android app does the same.</div>
     </div>
 
     <div class="feat-row">
@@ -578,6 +578,16 @@
       <div class="feat-name">Live Delta vs Top Lap <span class="fg-sub">— Live Dashboard</span></div>
       <div class="feat-desc">Shows your live gap to the fastest public leaderboard lap for your car and track. The Dashboard fetches that one lap once per car and track per run, a single read-only request, and stays silent if you&rsquo;re offline or nobody has set a lap yet. A TOP-LAP GHOST checkbox turns the request off. Details on the <a href="/privacy">Privacy</a> page.</div>
     </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Terminal Edition <span class="fg-sub">&mdash; All Tools</span></div>
+      <div class="feat-desc">Run <code>gt7telem tui</code> (or the &ldquo;Terminal UI&rdquo; link on the Launcher) to get TRACE inside a terminal on Windows, macOS or Linux: the live dashboard with a track map and lap and race recording, every Lap Analyst and Race Analyst chart group, the analysis tools, Records and Settings. It is part of the same install, not a separate package, and it is built from the same code as the windows: the chart groups, tools, exports, notes, replay, leaderboard submit and recording engine are shared, and a test fails the build if the two ever differ. It also opens by itself on a machine with no display, such as over SSH. Not on Android.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Coach, Setup Advisor &amp; Race Engineer <span class="fg-sub">&mdash; Live Dashboard &amp; Analysts</span></div>
+      <div class="feat-desc">After every lap with a reference, up to three ranked tips (&ldquo;Brake 14&nbsp;m later at T4&rdquo;) with a short spoken cue before each corner on the next lap; a setup advisor that reads understeer, oversteer, wheelspin, lock-ups and bottoming-out from one lap and suggests changes in GT7&rsquo;s own units; and a race engineer with a pit window, undercut and overcut maths, a simulated finishing position and live pit calls. Also in 1.2.0: a 3D lap replay HTML file, Driver DNA scores, a practice planner, friends groups and weekly challenges, an OBS stream overlay, lap validation, a dyno overlay and the <code>gt7telem-tools</code> command. These are estimates from the telemetry GT7 sends, which has no tyre wear or pit-lane flag.</div>
+    </div>
   </div>
 
 </div><!-- content -->
@@ -591,12 +601,12 @@
       <span class="tb-seg me" data-width="94"></span><span class="tb-seg bornhall" data-width="2"></span><span class="tb-seg ddm999" data-width="4"></span>
     </div>
     <div class="tally-stats">
-      <div class="tally-stat"><svg class="ts-icon me" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.2H22l-6 4.8 2.4 7.2-6.4-4.8L5.6 21.2 8 14 2 9.2h7.6z"/></svg><span class="ts-text"><span class="ts-n me" data-target="52">0</span><span class="ts-l">Features — Me</span></span></div>
+      <div class="tally-stat"><svg class="ts-icon me" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.2H22l-6 4.8 2.4 7.2-6.4-4.8L5.6 21.2 8 14 2 9.2h7.6z"/></svg><span class="ts-text"><span class="ts-n me" data-target="54">0</span><span class="ts-l">Features — Me</span></span></div>
       <div class="tally-stat"><svg class="ts-icon bornhall" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-7"/><path d="M8.5 13a5 5 0 017 0"/><path d="M5 9.5a10 10 0 0114 0"/><circle cx="12" cy="20" r="1.4" fill="currentColor" stroke="none"/></svg><span class="ts-text"><span class="ts-n bornhall" data-target="1">0</span><span class="ts-l">Feature — Bornhall</span></span></div>
       <div class="tally-stat"><svg class="ts-icon ddm999" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12a8 3 0 0016 0V6"/><path d="M4 12a8 3 0 0016 0"/></svg><span class="ts-text"><span class="ts-n ddm999" data-target="2">0</span><span class="ts-l">Features — ddm999</span></span></div>
     </div>
-    <p class="tally-p">Counting it up: <strong>53 of the 56 features</strong> listed on this page — every dashboard panel, both analysts, every detection system, the settings, the packaged builds, and the Supabase-backed leaderboard/analytics/accounts work — are original TRACE code. That's genuinely most of what you're clicking through when you use the app.</p>
-    <p class="tally-p">But that count is a little misleading on its own, so here's the honest version: the other <strong>3 features are the 3 that everything else depends on.</strong> Take away Bornhall's decryption and there's no telemetry stream to read in the first place — every one of those 53 features would just be a GUI pointed at nothing. Take away ddm999's databases and cars show up as meaningless IDs, and the TRACK field has nothing to pick from at all. <strong>It's 52 features tall, standing on 3 foundations I didn't build.</strong> That ratio isn't something to gloss over — it's the whole reason the About page exists.</p>
+    <p class="tally-p">Counting it up: <strong>55 of the 58 features</strong> listed on this page — every dashboard panel, both analysts, every detection system, the settings, the packaged builds, and the Supabase-backed leaderboard/analytics/accounts work — are original TRACE code. That's genuinely most of what you're clicking through when you use the app.</p>
+    <p class="tally-p">But that count is a little misleading on its own, so here's the honest version: the other <strong>3 features are the 3 that everything else depends on.</strong> Take away Bornhall's decryption and there's no telemetry stream to read in the first place — every one of those 55 features would just be a GUI pointed at nothing. Take away ddm999's databases and cars show up as meaningless IDs, and the TRACK field has nothing to pick from at all. <strong>It's 54 features tall, standing on 3 foundations I didn't build.</strong> That ratio isn't something to gloss over — it's the whole reason the About page exists.</p>
   </div>
 </div>
 

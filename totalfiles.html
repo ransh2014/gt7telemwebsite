@@ -187,6 +187,31 @@
       <tr><td>ghost.py</td><td>Live gap to the leaderboard&rsquo;s fastest lap in the Live Dashboard &mdash; rebuilds the top lap&rsquo;s clock from distance and speed. The one-off request itself is in leaderboard.py &mdash; see <a href="/privacy">Privacy</a></td></tr>
       <tr><td>voice.py</td><td>Spoken fuel and tyre alerts in the Live Dashboard through the OS voice (Windows speech, macOS <code>say</code>, Linux <code>spd-say</code>/<code>espeak</code>), falling back to the alert sound</td></tr>
       <tr><td>lapclean.py</td><td>Junk-lap guards and the duplicate-lap finder &mdash; the Dashboard skips recordings that are too short, never moved, or a double save, and the Lap Analyst&rsquo;s Find Duplicate Laps moves extra copies into a <code>_duplicates</code> folder (nothing is deleted)</td></tr>
+      <tr><td>coach.py</td><td>Corner-by-corner driving coach &mdash; one plain-English tip per costly corner against your reference lap, spoken before those corners on the next lap</td></tr>
+      <tr><td>setup_advisor.py</td><td>Setup advisor &mdash; finds understeer, oversteer, wheelspin, lock-ups and bottoming-out in a lap, suggests setup changes and checks whether a change helped</td></tr>
+      <tr><td>engineer.py</td><td>Race engineer &mdash; pit window, undercut and overcut maths, live &ldquo;box&rdquo; calls and a simulated finishing position</td></tr>
+      <tr><td>replay3d.py</td><td>3D lap replay as one offline HTML page (speed-coloured line, ghost car, synced inputs) plus a GIF export</td></tr>
+      <tr><td>driver_dna.py</td><td>Driver DNA &mdash; five driving-style traits, tracked over weeks and comparable with a friend through a short code</td></tr>
+      <tr><td>planner.py</td><td>Practice planner &mdash; the corners worth drilling after a session, a target for each, and progress since the last session</td></tr>
+      <tr><td>validate.py</td><td>Lap validation &mdash; flags teleports, shortcuts, impossible data and wall hits so records can be trusted</td></tr>
+      <tr><td>dyno_compare.py</td><td>Car-versus-car power overlay and final-drive advice from a lap&rsquo;s speed trace</td></tr>
+      <tr><td>groups.py</td><td>Friends groups, weekly challenges and sector boards shared as pasteable codes &mdash; no server</td></tr>
+      <tr><td>overlay_page.py</td><td>The transparent stream overlay page the web dashboard serves at <code>/overlay</code> for an OBS Browser Source</td></tr>
+      <tr><td>lap_charts.py</td><td>The Lap Analyst&rsquo;s lap loading and its 20 chart groups with no tkinter, shared by the desktop window and the terminal UI</td></tr>
+      <tr><td>race_charts.py</td><td>The Race Analyst&rsquo;s race loading and its 17 chart groups with no tkinter, shared by the desktop window and the terminal UI</td></tr>
+      <tr><td>gt7telem/core/__init__.py</td><td>The UI-free core that the desktop windows and the terminal UI both render</td></tr>
+      <tr><td>gt7telem/core/registry.py</td><td>The one registry of screens, chart groups and tools both front ends build their menus from</td></tr>
+      <tr><td>gt7telem/core/recorder.py</td><td>Lap and race recording without a window &mdash; packet thinning, the start-line state machine, auto lap, pause, the lap/race file format, personal bests and the reference lap, shared by the Dashboard and the terminal edition</td></tr>
+      <tr><td>gt7telem/core/live.py</td><td>Everything the Live screen does each frame without a window &mdash; lap clock, delta, top-lap gap, strategy, spoken alerts, coach cues, pit calls and track detection</td></tr>
+      <tr><td>gt7telem/core/actions.py</td><td>What you can do with a loaded lap or race without a window &mdash; notes, CSV / chart page / share card exports, community line, leaderboard submit, car weight, backup and duplicate clean-up</td></tr>
+      <tr><td>gt7telem/core/charts.py</td><td>Runs any Lap or Race Analyst chart group without a window and returns it as plain data</td></tr>
+      <tr><td>gt7telem/core/figspec.py</td><td>Turns a drawn chart into plain data (lines, bars, points, text) that any front end can render</td></tr>
+      <tr><td>gt7telem/tui/__init__.py</td><td>The terminal edition of TRACE &mdash; entry point (<code>gt7telem tui</code>)</td></tr>
+      <tr><td>gt7telem/tui/__main__.py</td><td>Lets <code>python -m gt7telem.tui</code> start the terminal edition</td></tr>
+      <tr><td>gt7telem/tui/app.py</td><td>The terminal UI: Live, Laps, Race, Records and Settings screens, built from the shared core</td></tr>
+      <tr><td>gt7telem/tui/chartview.py</td><td>Draws a chart spec in the terminal with plotext (lines, bars, maps, heat maps) or as text panels</td></tr>
+      <tr><td>analysis_tools.py</td><td>The ANALYSIS TOOLS buttons in the Lap and Race Analyst &mdash; coach, setup advisor, driver DNA, practice plan, lap validation and dyno compare reports</td></tr>
+      <tr><td>cli.py</td><td>The <code>gt7telem-tools</code> command &mdash; every 1.2.0 tool on saved lap files</td></tr>
       <tr><td>labels.py</td><td>Every piece of shared UI wording (window titles, headers, buttons, preference names, card text) in one place &mdash; the Android app&rsquo;s strings are generated from it, and a test fails if the two ever differ</td></tr>
       <tr><td>updates.py</td><td>The launcher&rsquo;s update check &mdash; asks GitHub once per launch for the latest published release, compares versions numerically, and stays silent if offline (switch it off with <code>Ignore update checks</code>)</td></tr>
       <tr><td>gt7telem/fonts/Anton-Regular.ttf</td><td>Anton &mdash; one of the website&rsquo;s fonts, bundled so TRACE looks the same offline (SIL Open Font License; loaded for TRACE only, never installed on your system)</td></tr>
@@ -203,7 +228,7 @@
       <tr><td>requirements.txt</td><td>Python dependencies</td></tr>
       <tr><td>README.txt</td><td>Setup instructions</td></tr>
     </table>
-    <div class="file-count"><svg class="fc-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 51 files</div>
+    <div class="file-count"><svg class="fc-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 76 files</div>
   </div>
 
   <div class="manifest-group">
