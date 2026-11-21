@@ -426,6 +426,31 @@
     </div>
 
     <div class="feat-row">
+      <div class="feat-name">Export to MoTeC (.ld) <span class="fg-sub">— Lap Analyst, PC and terminal</span></div>
+      <div class="feat-desc">Writes the open lap as a MoTeC log (speed, throttle, brake, steering, gear, rpm, tyres, suspension, g-force and position channels, with car, track and lap time in the header) to open in MoTeC i2. Built from the public file description and covered by tests; it hasn&rsquo;t been opened in i2 itself yet. Not on Android.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Video Overlay Export <span class="fg-sub">— Lap Analyst, PC and terminal</span></div>
+      <div class="feat-desc">Burns a lap&rsquo;s HUD &mdash; speed, gear, rpm, pedals, steering, lap timer, delta against Lap B and a track map &mdash; into your own gameplay video, with a sync point, a fine offset and a preview frame. Audio is copied untouched and the original is never modified. Needs <a href="https://ffmpeg.org/download.html" target="_blank" rel="noopener noreferrer">ffmpeg</a> installed separately; greyed out with a hint without it. Not on Android.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Local AI Wording <span class="fg-sub">— optional, off by default</span></div>
+      <div class="feat-desc">A small language model (Llama 3.2 1B Instruct) on your own PC &mdash; or in the separate <strong>TRACE AI</strong> Android app &mdash; rewords the coach&rsquo;s tips after a lap in friendlier language. The rules decide what to say; a check discards any sentence whose numbers, corner labels or direction words changed. Never runs while you drive, no chat, nothing sent anywhere. Shows a spec check and the download size first on the PC; not offered in the Microsoft Store build. <em>Built with Llama.</em></div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">TRACE Lite and TRACE AI <span class="fg-sub">— Android</span></div>
+      <div class="feat-desc">Two Android APKs: <strong>TRACE Lite</strong> (<code>gt7telem-android.apk</code>, the app as before) and <strong>TRACE AI</strong> (<code>gt7telem-android-ai.apk</code>, the same plus the local AI wording; 64-bit phones, about 0.8 GB). Both are signed with the same key and now include the driving coach, setup advisor, race engineer, Driver DNA, practice plan, lap validation, dyno comparison, 3D replay export, friends groups and the stream overlay page.</div>
+    </div>
+
+    <div class="feat-row">
+      <div class="feat-name">Share Lap Link <span class="fg-sub">— Lap Analyst, PC and Android</span></div>
+      <div class="feat-desc">One button turns a recorded lap into a link (<code>gt7trace.netlify.app/lap?id=…</code>) that opens a read-only page with the car, track, lap time, speed, throttle and brake traces and a track map &mdash; no install needed to view it. Strictly opt-in: TRACE asks first, uploads nothing until you confirm, copies the link for you and offers <strong>Delete shared lap</strong>. Links are unlisted and deleted after 90 days. See <a href="/privacy#shared-laps">Privacy</a> for exactly what is uploaded.</div>
+    </div>
+
+    <div class="feat-row">
       <div class="feat-name">Public Leaderboard Browser <span class="fg-sub">— Website</span></div>
       <div class="feat-desc">The same leaderboard, browsable from any browser at <a href="/leaderboard">/leaderboard</a> — no install, no account. Search any of the 590 cars and 123 tracks and see the live Top-10 instantly. Only times set since GT7 update 1.71's physics overhaul are shown — the same reset Polyphony applied to its own boards. Also has a "can't find your car/track?" box that submits straight to the same crowdsourced inbox described below.</div>
     </div>
@@ -522,7 +547,7 @@
 
     <div class="feat-row">
       <div class="feat-name">Update Checker <span class="fg-sub">— Launcher</span></div>
-      <div class="feat-desc">The Launcher shows its version (for example v1.5.3) and, from one quiet background check of the latest GitHub release, either <strong>current</strong> in green or <strong>update available: vX</strong> in blue &mdash; click it to open the release page. It compares version numbers properly, skips drafts and pre-releases, checks once per launch, and shows nothing if you&rsquo;re offline. Tick <strong>Ignore update checks</strong> on the Launcher (or untick CHECK FOR UPDATES in the Dashboard header &mdash; the same setting) to stop it. The Android app does the same.</div>
+      <div class="feat-desc">The Launcher shows its version (for example v1.6.0) and, from one quiet background check of the latest GitHub release, either <strong>current</strong> in green or <strong>update available: vX</strong> in blue &mdash; click it to open the release page. It compares version numbers properly, skips drafts and pre-releases, checks once per launch, and shows nothing if you&rsquo;re offline. Tick <strong>Ignore update checks</strong> on the Launcher (or untick CHECK FOR UPDATES in the Dashboard header &mdash; the same setting) to stop it. The Android app does the same.</div>
     </div>
 
     <div class="feat-row">
@@ -586,7 +611,7 @@
 
     <div class="feat-row">
       <div class="feat-name">Coach, Setup Advisor &amp; Race Engineer <span class="fg-sub">&mdash; Live Dashboard &amp; Analysts</span></div>
-      <div class="feat-desc">After every lap with a reference, up to three ranked tips (&ldquo;Brake 14&nbsp;m later at T4&rdquo;) with a short spoken cue before each corner on the next lap; a setup advisor that reads understeer, oversteer, wheelspin, lock-ups and bottoming-out from one lap and suggests changes in GT7&rsquo;s own units; and a race engineer with a pit window, undercut and overcut maths, a simulated finishing position and live pit calls. Also in 1.2.0: a 3D lap replay HTML file, Driver DNA scores, a practice planner, friends groups and weekly challenges, an OBS stream overlay, lap validation, a dyno overlay and the <code>gt7telem-tools</code> command. These are estimates from the telemetry GT7 sends, which has no tyre wear or pit-lane flag.</div>
+      <div class="feat-desc">After every lap with a reference, up to three ranked tips (&ldquo;Brake 14&nbsp;m later at T4&rdquo;) with a short spoken cue before each corner on the next lap; a setup advisor that reads understeer, oversteer, wheelspin, lock-ups and bottoming-out from one lap and suggests changes in GT7&rsquo;s own units; and a race engineer with a pit window, undercut and overcut maths, a simulated finishing position and live pit calls. Also in 1.2.0 (and on Android since 1.6.0): a 3D lap replay HTML file, Driver DNA scores, a practice planner, friends groups and weekly challenges, an OBS stream overlay, lap validation, a dyno overlay and the <code>gt7telem-tools</code> command. These are estimates from the telemetry GT7 sends, which has no tyre wear or pit-lane flag.</div>
     </div>
   </div>
 

@@ -514,9 +514,15 @@ brew install --cask gt7telem</div>
         <a href="https://github.com/ransh2014/gt7telemtrace/releases/latest/download/gt7telem-android.apk" class="dl-btn">
           <span class="dl-arrow">↓</span>
           Download TRACE for Android
-          <span class="dl-meta">gt7telem-android.apk · Android 8.0+</span>
+          <span class="dl-meta">gt7telem-android.apk · TRACE Lite · Android 8.0+</span>
+        </a>
+        <a href="https://github.com/ransh2014/gt7telemtrace/releases/latest/download/gt7telem-android-ai.apk" class="dl-btn">
+          <span class="dl-arrow">↓</span>
+          Download TRACE AI for Android
+          <span class="dl-meta">gt7telem-android-ai.apk · with local AI wording · 64-bit, about 0.8 GB</span>
         </a>
       </div>
+      <div class="tip"><strong>Lite or AI?</strong> <strong>TRACE Lite</strong> is the normal app. <strong>TRACE AI</strong> is the same app plus a small language model that runs on your phone and rewords the coach&rsquo;s tips after a lap or session. It is a separate app (it installs next to Lite, with the same signing key), it is a much bigger download, and it needs a mid-range phone from about 2022 (Snapdragon 7-series class) with <strong>6 GB of RAM or more</strong>; 8 GB or more is recommended. Under 5 GB of RAM, use Lite. The rules still decide what the coach says and the AI can only reword it, it never runs while you drive, there is no chat, and nothing leaves your phone.</div>
       <p class="step-body" style="margin-top:12px;">This is the full app on your phone &mdash; Live Dashboard, Lap Analyst and Race Analyst &mdash; and it receives the PS5's telemetry itself, so you don't need a PC. It's a free APK download, not a Play Store app.</p>
       <p class="step-body">Open the downloaded file. Android will ask you to allow installs from your browser or file manager (<em>Settings &rarr; Install unknown apps</em>); allow it for the install. If Play Protect says it hasn't seen the app before, tap <strong>More details</strong> &rarr; <strong>Install anyway</strong>.</p>
       <div class="tip"><strong>Why the warnings?</strong> Sideloaded apps always show them. The APK is signed with TRACE's own key and built on GitHub Actions from the open-source code, so every update installs over the previous one.</div>
@@ -526,7 +532,7 @@ brew install --cask gt7telem</div>
     <div class="step-num blue">02</div>
     <div>
       <h3 class="step-title">Pick a Tool</h3>
-      <p class="step-body">A menu shows <strong>Live Dashboard</strong>, <strong>Lap Analyst</strong> and <strong>Race Analyst</strong>. The top shows the version (for example <strong>v1.5.3</strong>) with <strong>current</strong> or <strong>update available</strong> beside it, and an <strong>Ignore update checks</strong> box. The footer has <strong>Log Out</strong>, <strong>Backup Laps</strong>, <strong>Records</strong> (your best lap per car and track) and the Light/Dark toggle &mdash; the same as on the PC. Allow notifications when asked if you want personal-best and race-end alerts.</p>
+      <p class="step-body">A menu shows <strong>Live Dashboard</strong>, <strong>Lap Analyst</strong> and <strong>Race Analyst</strong>. The top shows the version (for example <strong>v1.6.0</strong>) with <strong>current</strong> or <strong>update available</strong> beside it, and an <strong>Ignore update checks</strong> box. The footer has <strong>Log Out</strong>, <strong>Backup Laps</strong>, <strong>Records</strong> (your best lap per car and track) and the Light/Dark toggle &mdash; the same as on the PC. Allow notifications when asked if you want personal-best and race-end alerts.</p>
     </div>
   </div>
   <div class="step">
@@ -641,7 +647,7 @@ python launcher.py</div>
 
   <div class="faq-item">
     <div class="fq">Is there an Android app?</div>
-    <p class="fa">Yes &mdash; <strong>TRACE for Android</strong> is a free APK (Android 8.0+) with the same Live Dashboard, Lap Analyst and Race Analyst. Your phone receives the PS5's telemetry directly, so no PC is needed. It's a direct APK download rather than a Play Store app &mdash; see the <strong>Android</strong> tab above.</p>
+    <p class="fa">Yes &mdash; <strong>TRACE for Android</strong> is a free APK (Android 8.0+) with the same Live Dashboard, Lap Analyst and Race Analyst, in two editions: <strong>TRACE Lite</strong> and <strong>TRACE AI</strong> (Lite plus the optional local AI wording). Your phone receives the PS5's telemetry directly, so no PC is needed. It's a direct APK download rather than a Play Store app &mdash; see the <strong>Android</strong> tab above.</p>
   </div>
 
   <div class="faq-item">
@@ -712,6 +718,26 @@ python launcher.py</div>
   <div class="faq-item">
     <div class="fq">How does the lap leaderboard work?</div>
     <p class="fa">Load a lap in Lap Analyst, then hit <strong>Submit to Leaderboard</strong> in the LEADERBOARD sidebar panel. Submitting requires a free account — if you skipped that at first launch, it offers to create one right there (display name only, no email or password). It then asks for the PSN name to show on the row (remembered for next time, editable each submit) and sends your car, track, lap time, and a compact input trace to a shared per-car, per-track leaderboard. The Top-10 panel updates live. Submission is entirely opt-in — nothing goes anywhere unless you press that button. Full breakdown of exactly what's sent on the <a href="/privacy">Privacy</a> page.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="fq">What is TRACE AI, and what is the local AI wording?</div>
+    <p class="fa">An optional, off-by-default extra. A small language model (Llama 3.2 1B Instruct) on your own device rewords the coach&rsquo;s tips after a lap in friendlier language. The rules still decide what to say: a check throws the AI&rsquo;s sentence away unless every number, corner label and direction word is unchanged. It never runs while you drive and nothing is sent anywhere. On the <strong>PC</strong> tick <strong>LOCAL AI WORDING</strong> (Dashboard header, or Settings in the terminal edition): TRACE shows a spec check and the download size first (about 1.5 GB of disk) and downloads nothing until you say yes; it needs about 4 cores and 6 GB of RAM at minimum, 8 GB recommended. The Microsoft Store version does not offer it, because Store apps can&rsquo;t download or run extra programs; use the website zip or <code>pip install "gt7tracetelem[ai]"</code> instead. On <strong>Android</strong> install <strong>TRACE AI</strong> (see the Android tab). <em>Built with Llama</em>; Llama 3.2 is licensed under the <a href="https://www.llama.com/llama3_2/license/" target="_blank" rel="noopener noreferrer">Llama 3.2 Community License</a>.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="fq">What is Export video overlay, and why is it greyed out?</div>
+    <p class="fa">It burns a lap&rsquo;s HUD (speed, gear, rpm, pedals, steering, timer, delta and a track map) into your own gameplay video on the PC. It needs <strong>ffmpeg</strong>, which isn&rsquo;t bundled: install it from <a href="https://ffmpeg.org/download.html" target="_blank" rel="noopener noreferrer">ffmpeg.org</a> so it is on your PATH (or set <code>FFMPEG_PATH</code> in settings.json), then reopen Lap Analyst. Without ffmpeg the button is greyed out with a hint and everything else works. Audio is copied untouched and your original video is never changed. It isn&rsquo;t on Android.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="fq">How do I open a lap in MoTeC?</div>
+    <p class="fa">In Lap Analyst on the PC (or the terminal edition) choose <strong>Export to MoTeC (.ld)</strong> and open the file in MoTeC i2. It is written from the public file description and hasn&rsquo;t been opened in i2 by the developer yet, so if i2 refuses a file, please <a href="https://github.com/ransh2014/gt7telemtrace/issues" target="_blank" rel="noopener noreferrer">open an issue</a>. Not on Android.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="fq">How do I share a lap with a friend?</div>
+    <p class="fa">Load the lap in Lap Analyst (PC or Android) and press <strong>Share lap link</strong>. TRACE first tells you what it will upload and only continues if you say yes: the lap&rsquo;s car, track, time and a compact speed, throttle, brake and map trace. It then copies a link like <code>gt7trace.netlify.app/lap?id=…</code>; anyone with the link can open it in a browser, nothing to install. Links are unlisted and are deleted after 90 days, or straight away with <strong>Delete shared lap</strong> on the device you shared from. Sharing needs the same free account as the leaderboard (display name only) and is limited to 20 laps a day.</p>
   </div>
 
   <div class="faq-item">

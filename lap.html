@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://hignsvyojdqsjoidgkud.supabase.co; base-uri 'none'; form-action 'none'">
+<title>Shared lap — TRACE for Gran Turismo 7</title>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="A single Gran Turismo 7 lap shared from TRACE: speed, throttle and brake traces and the track map.">
+<meta name="theme-color" content="#050505">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%2308080a'/><path d='M7 6 L19 6 L27 16 L19 26 L7 26 L15 16 Z' fill='%23c8102e'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/styles.css">
+<style>
+.lap-wrap { max-width:980px; margin:0 auto; padding:28px 24px 8px; }
+.lap-status { font-family:'JetBrains Mono', monospace; font-size:.8rem; color:var(--mid); padding:18px 0; }
+.lap-status.err { color:var(--orange-2); }
+.stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:12px; margin:8px 0 22px; }
+.stat { background:var(--bg-1); border:1px solid var(--line); border-radius:var(--radius); padding:14px 16px; min-width:0; }
+.stat b { display:block; font-family:'JetBrains Mono', monospace; font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:var(--dim); font-weight:500; margin-bottom:6px; }
+.stat span { font-family:'Sora', sans-serif; font-weight:700; font-size:1.05rem; color:var(--txt); overflow-wrap:anywhere; }
+.stat.big span { font-size:1.6rem; color:var(--blue-2); }
+.panel { background:var(--bg-1); border:1px solid var(--line); border-radius:var(--radius); padding:14px 14px 10px; margin-bottom:16px; }
+.panel h2 { font-family:'JetBrains Mono', monospace; font-size:.62rem; letter-spacing:.2em; text-transform:uppercase; color:var(--dim); font-weight:500; margin-bottom:10px; }
+.panel canvas { width:100%; display:block; touch-action:pan-y; }
+.legend { display:flex; gap:16px; flex-wrap:wrap; font-family:'JetBrains Mono', monospace; font-size:.68rem; color:var(--mid); margin-top:8px; }
+.legend i { display:inline-block; width:10px; height:10px; border-radius:2px; margin-right:6px; vertical-align:-1px; }
+.readout { font-family:'JetBrains Mono', monospace; font-size:.74rem; color:var(--txt); min-height:1.4em; margin-top:6px; }
+.grid2 { display:grid; grid-template-columns:1fr; gap:16px; }
+@media (min-width:860px) { .grid2 { grid-template-columns:1.4fr 1fr; } }
+.cta { background:var(--bg-1); border:1px solid var(--line-2); border-left:3px solid var(--orange); border-radius:var(--radius); padding:18px 20px; margin:6px 0 26px; }
+.cta h2 { font-family:'Sora', sans-serif; font-size:1.05rem; margin-bottom:6px; }
+.cta p { color:var(--mid); font-size:.92rem; line-height:1.6; }
+.cta a.dl { display:inline-block; margin-top:12px; padding:10px 18px; background:var(--orange); color:#fff; border-radius:var(--radius-sm); font-family:'Sora', sans-serif; font-weight:700; font-size:.85rem; text-decoration:none; }
+.cta a.dl:hover { background:var(--orange-2); }
+.note { color:var(--dim); font-size:.78rem; line-height:1.6; margin:0 0 28px; }
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<nav>
+  <a href="/" class="logo">TRACE <span>GT7</span></a>
+  <div class="nav-links">
+    <a href="/about" class="nav-link">About</a>
+    <a href="/features" class="nav-link">Features</a>
+    <a href="/leaderboard" class="nav-link">Leaderboard</a>
+    <a href="/totalfiles" class="nav-link">Files</a>
+    <a href="/privacy" class="nav-link">Privacy</a>
+    <a href="/archived" class="nav-link">Archived</a>
+    <a href="/setup" class="nav-btn orange">Set It Up →</a>
+    <a href="https://ko-fi.com/ransh" target="_blank" rel="noopener noreferrer" class="nav-btn gold">Support</a>
+  </div>
+  <button class="nav-burger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</nav>
+<div class="menu-scrim"></div>
+<div class="mobile-menu">
+  <a href="/about">About</a>
+  <a href="/features">Features</a>
+  <a href="/leaderboard">Leaderboard</a>
+  <a href="/totalfiles">Files</a>
+  <a href="/privacy">Privacy</a>
+  <a href="/archived">Archived</a>
+  <a href="/setup" class="mm-btn orange">Set It Up →</a>
+  <a href="https://ko-fi.com/ransh" target="_blank" rel="noopener noreferrer" class="mm-btn gold">Support</a>
+</div>
+
+<div class="page-hdr" id="main-content">
+  <div class="eyebrow">Shared lap</div>
+  <h1 id="h-car">Loading…</h1>
+  <p id="h-track">A single lap shared from TRACE. Read-only.</p>
+</div>
+
+<div class="lap-wrap">
+  <div class="lap-status" id="status" role="status">Loading this lap…</div>
+  <noscript><div class="lap-status err">This page needs JavaScript to draw the lap.</div></noscript>
+
+  <div id="lap" hidden>
+    <div class="stats">
+      <div class="stat big"><b>Lap time</b><span id="s-time"></span></div>
+      <div class="stat"><b>Car</b><span id="s-car"></span></div>
+      <div class="stat"><b>Track</b><span id="s-track"></span></div>
+      <div class="stat"><b>Top speed</b><span id="s-top"></span></div>
+      <div class="stat"><b>Shared</b><span id="s-shared"></span></div>
+      <div class="stat"><b>Link expires</b><span id="s-exp"></span></div>
+    </div>
+
+    <div class="grid2">
+      <div>
+        <div class="panel">
+          <h2>Speed</h2>
+          <canvas id="c-speed" height="220" aria-label="Speed against lap time"></canvas>
+        </div>
+        <div class="panel">
+          <h2>Throttle and brake</h2>
+          <canvas id="c-pedals" height="200" aria-label="Throttle and brake against lap time"></canvas>
+          <div class="legend"><span><i style="background:var(--green)"></i>Throttle</span><span><i style="background:var(--orange-2)"></i>Brake</span></div>
+          <div class="readout" id="readout"></div>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>Track map</h2>
+        <canvas id="c-map" height="360" aria-label="Track map coloured by speed"></canvas>
+        <div class="legend"><span><i style="background:var(--blue-2)"></i>Slow</span><span><i style="background:var(--gold)"></i>Medium</span><span><i style="background:var(--orange-2)"></i>Fast</span></div>
+        <div class="lap-status" id="map-note" hidden></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta">
+    <h2>Open this lap in TRACE</h2>
+    <p>TRACE is a free, offline telemetry tool for Gran Turismo 7 on PC and Android. Record your own laps, compare them with this one and get coaching. This page only shows the lap; nothing here is stored about you.</p>
+    <a class="dl" href="/setup">Get TRACE</a>
+  </div>
+  <p class="note">Shared laps are unlisted and deleted after 90 days, or sooner if the owner deletes them. What a shared lap contains is described on the <a href="/privacy">privacy page</a>.</p>
+</div>
+
+<footer>
+  TRACE — community tool, not affiliated with Polyphony Digital or Sony Interactive Entertainment<br>
+  <a href="/features">Features</a> &middot; <a href="/totalfiles">Files</a> &middot; <a href="/about">About</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/setup">Setup</a> &middot; <a href="/archived">Archived</a>
+</footer>
+
+<script src="/assets/site.js"></script>
+<script>
+(function () {
+  'use strict';
+  var SUPA = 'https://hignsvyojdqsjoidgkud.supabase.co';
+  var KEY = 'sb_publishable_OdzGvcypa0GI7TVxxUkusQ_KJ_Apa8i';
+  var MAX_GUNZIP = 4000000, MAX_B64 = 290000, MAX_N = 20000;
+  var $ = function (id) { return document.getElementById(id); };
+
+  function status(msg, bad) { var s = $('status'); s.textContent = msg; s.className = 'lap-status' + (bad ? ' err' : ''); s.hidden = !msg; }
+  function fail(msg) { $('h-car').textContent = 'Lap not available'; $('h-track').textContent = ''; status(msg, true); }
+  function fmtTime(ms) { var m = Math.floor(ms / 60000), s = (ms - m * 60000) / 1000; return m + ':' + (s < 10 ? '0' : '') + s.toFixed(3); }
+  function fmtDate(iso) { var d = new Date(iso); return isNaN(d) ? '—' : d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }); }
+  function css(name, fb) { var v = getComputedStyle(document.documentElement).getPropertyValue(name).trim(); return v || fb; }
+
+  // ---- id from the link; the same 20 lower-case hex characters the server hands out
+  var id = (new URLSearchParams(location.search).get('id') || '').trim().toLowerCase();
+  if (!/^[0-9a-f]{20}$/.test(id)) { fail('This link is not a valid shared-lap link.'); return; }
+  if (typeof DecompressionStream !== 'function') { fail('This browser cannot open shared laps. Try a current Chrome, Edge, Firefox or Safari.'); return; }
+
+  function b64bytes(s) {
+    var bin = atob(s), out = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+    return out;
+  }
+
+  // gunzip with a hard cap on the decompressed size (a gzip bomb stops here, not in the browser tab)
+  async function gunzip(bytes) {
+    var stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
+    var reader = stream.getReader(), chunks = [], total = 0;
+    for (;;) {
+      var r = await reader.read();
+      if (r.done) break;
+      total += r.value.length;
+      if (total > MAX_GUNZIP) { try { await reader.cancel(); } catch (e) {} throw new Error('too big'); }
+      chunks.push(r.value);
+    }
+    var all = new Uint8Array(total), off = 0;
+    chunks.forEach(function (c) { all.set(c, off); off += c.length; });
+    return new TextDecoder('utf-8').decode(all);
+  }
+
+  // everything from the server is untrusted: check the shape and the ranges before drawing anything
+  function ints(a, n, lo, hi) {
+    if (!Array.isArray(a) || a.length !== n) return false;
+    for (var i = 0; i < n; i++) { var v = a[i]; if (typeof v !== 'number' || !isFinite(v) || Math.floor(v) !== v || v < lo || v > hi) return false; }
+    return true;
+  }
+  function validate(p) {
+    if (!p || typeof p !== 'object' || p.v !== 1) return null;
+    var n = p.n;
+    if (typeof n !== 'number' || n < 2 || n > MAX_N || Math.floor(n) !== n) return null;
+    if (typeof p.car !== 'string' || typeof p.track !== 'string' || p.car.length > 120 || p.track.length > 120) return null;
+    if (!ints(p.t, n, 0, 3600000) || !ints(p.s, n, 0, 20000) || !ints(p.th, n, 0, 1000) || !ints(p.br, n, 0, 1000)) return null;
+    var hasMap = Array.isArray(p.x) && p.x.length > 0;
+    if (hasMap && (!ints(p.x, n, -100000000, 100000000) || !ints(p.z, n, -100000000, 100000000))) return null;
+    if (!hasMap && !(Array.isArray(p.x) && Array.isArray(p.z) && p.z.length === 0)) return null;
+    for (var i = 1; i < n; i++) if (p.t[i] < p.t[i - 1]) return null;
+    return { car: p.car, track: p.track, n: n, t: p.t, s: p.s, th: p.th, br: p.br, x: hasMap ? p.x : null, z: hasMap ? p.z : null };
+  }
+
+  // ---- drawing
+  function setup(canvas) {
+    var dpr = window.devicePixelRatio || 1, w = canvas.clientWidth, h = parseInt(canvas.getAttribute('height'), 10);
+    canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+    var g = canvas.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return { g: g, w: w, h: h };
+  }
+  var PAD = { l: 44, r: 10, t: 8, b: 22 };
+  function frame(c, tmax, ymax, ylabel) {
+    var g = c.g, w = c.w, h = c.h;
+    g.clearRect(0, 0, w, h);
+    g.font = '10px "JetBrains Mono", monospace'; g.fillStyle = css('--dim', '#605e68'); g.strokeStyle = css('--line', 'rgba(255,255,255,.08)'); g.lineWidth = 1;
+    for (var k = 0; k <= 4; k++) {
+      var y = PAD.t + (h - PAD.t - PAD.b) * k / 4;
+      g.beginPath(); g.moveTo(PAD.l, y); g.lineTo(w - PAD.r, y); g.stroke();
+      g.textAlign = 'right'; g.fillText(ylabel(ymax * (1 - k / 4)), PAD.l - 6, y + 3);
+    }
+    g.textAlign = 'center';
+    for (var j = 0; j <= 5; j++) { var x = PAD.l + (w - PAD.l - PAD.r) * j / 5; g.fillText(Math.round(tmax * j / 5 / 1000) + 's', x, h - 6); }
+  }
+  function line(c, d, tmax, ymax, color) {
+    var g = c.g, w = c.w, h = c.h;
+    g.strokeStyle = color; g.lineWidth = 1.6; g.beginPath();
+    for (var i = 0; i < d.n; i++) {
+      var x = PAD.l + (w - PAD.l - PAD.r) * (d.t[i] / tmax), y = PAD.t + (h - PAD.t - PAD.b) * (1 - d.v[i] / ymax);
+      if (i === 0) g.moveTo(x, y); else g.lineTo(x, y);
+    }
+    g.stroke();
+  }
+  function drawAll(d, hoverIdx) {
+    var tmax = Math.max(1, d.t[d.n - 1]);
+    var top = 0; for (var i = 0; i < d.n; i++) if (d.s[i] > top) top = d.s[i];
+    var ymaxS = Math.max(100, Math.ceil(top / 10 / 50) * 50) * 10;          // in 0.1 km/h
+    var cs = setup($('c-speed')); frame(cs, tmax, ymaxS, function (v) { return Math.round(v / 10); });
+    line(cs, { n: d.n, t: d.t, v: d.s }, tmax, ymaxS, css('--blue-2', '#5fb3a8'));
+    var cp = setup($('c-pedals')); frame(cp, tmax, 100, function (v) { return Math.round(v) + '%'; });
+    line(cp, { n: d.n, t: d.t, v: d.th }, tmax, 1000, css('--green', '#3c9a5f'));
+    line(cp, { n: d.n, t: d.t, v: d.br }, tmax, 1000, css('--orange-2', '#e2455a'));
+    if (hoverIdx != null) {
+      [cs, cp].forEach(function (c) {
+        var x = PAD.l + (c.w - PAD.l - PAD.r) * (d.t[hoverIdx] / tmax);
+        c.g.strokeStyle = css('--txt', '#f2f0ec'); c.g.lineWidth = 1; c.g.beginPath(); c.g.moveTo(x, PAD.t); c.g.lineTo(x, c.h - PAD.b); c.g.stroke();
+      });
+    }
+    drawMap(d, top, hoverIdx);
+  }
+  function drawMap(d, top, hoverIdx) {
+    var note = $('map-note'), canvas = $('c-map');
+    if (!d.x) { canvas.hidden = true; note.hidden = false; note.textContent = 'This lap was shared without position data, so there is no map.'; return; }
+    var c = setup(canvas), g = c.g, minx = Infinity, maxx = -Infinity, minz = Infinity, maxz = -Infinity;
+    for (var i = 0; i < d.n; i++) { if (d.x[i] < minx) minx = d.x[i]; if (d.x[i] > maxx) maxx = d.x[i]; if (d.z[i] < minz) minz = d.z[i]; if (d.z[i] > maxz) maxz = d.z[i]; }
+    var sx = maxx - minx || 1, sz = maxz - minz || 1, m = 14, k = Math.min((c.w - 2 * m) / sx, (c.h - 2 * m) / sz);
+    var ox = (c.w - sx * k) / 2, oy = (c.h - sz * k) / 2;
+    function px(i) { return ox + (d.x[i] - minx) * k; }
+    function py(i) { return c.h - (oy + (d.z[i] - minz) * k); }
+    g.clearRect(0, 0, c.w, c.h); g.lineWidth = 3; g.lineCap = 'round';
+    var lo = css('--blue-2', '#5fb3a8'), mid = css('--gold', '#c9a24b'), hi = css('--orange-2', '#e2455a');
+    for (var j = 1; j < d.n; j++) {
+      var f = top > 0 ? d.s[j] / top : 0;
+      g.strokeStyle = f < 0.45 ? lo : f < 0.75 ? mid : hi;
+      g.beginPath(); g.moveTo(px(j - 1), py(j - 1)); g.lineTo(px(j), py(j)); g.stroke();
+    }
+    g.fillStyle = css('--txt', '#f2f0ec'); g.beginPath(); g.arc(px(0), py(0), 4, 0, 6.2832); g.fill();
+    if (hoverIdx != null) { g.fillStyle = css('--orange', '#c8102e'); g.strokeStyle = '#fff'; g.lineWidth = 2; g.beginPath(); g.arc(px(hoverIdx), py(hoverIdx), 6, 0, 6.2832); g.fill(); g.stroke(); }
+  }
+
+  function wire(d) {
+    var tmax = Math.max(1, d.t[d.n - 1]), pend = false;
+    function at(ev) {
+      var cv = ev.currentTarget, r = cv.getBoundingClientRect(), f = (ev.clientX - r.left - PAD.l) / (r.width - PAD.l - PAD.r);
+      var t = Math.min(1, Math.max(0, f)) * tmax, lo = 0, hi = d.n - 1;
+      while (lo < hi) { var mid = (lo + hi) >> 1; if (d.t[mid] < t) lo = mid + 1; else hi = mid; }
+      return lo;
+    }
+    function show(i) {
+      $('readout').textContent = i == null ? '' : fmtTime(d.t[i]) + '   ' + (d.s[i] / 10).toFixed(1) + ' km/h   throttle ' + Math.round(d.th[i] / 10) + '%   brake ' + Math.round(d.br[i] / 10) + '%';
+      if (!pend) { pend = true; requestAnimationFrame(function () { pend = false; drawAll(d, i); }); }
+    }
+    ['c-speed', 'c-pedals'].forEach(function (cid) {
+      var cv = $(cid);
+      cv.addEventListener('pointermove', function (ev) { show(at(ev)); });
+      cv.addEventListener('pointerleave', function () { show(null); });
+    });
+    var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { drawAll(d, null); }, 120); });
+  }
+
+  async function main() {
+    var res;
+    try {
+      res = await fetch(SUPA + '/rest/v1/rpc/get_shared_lap', {
+        method: 'POST', headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ p_id: id }), referrerPolicy: 'no-referrer', credentials: 'omit'
+      });
+    } catch (e) { fail('Could not reach the server. Check your connection and reload.'); return; }
+    if (!res.ok) { fail('Could not load this lap (server error ' + res.status + '). Try again later.'); return; }
+    var rows; try { rows = await res.json(); } catch (e) { fail('The server sent something unexpected.'); return; }
+    if (!Array.isArray(rows) || rows.length === 0) { fail('This lap was not found. It may have been deleted, or it has expired (shared laps are kept for 90 days).'); return; }
+    var row = rows[0], d;
+    try {
+      if (!row || typeof row.payload !== 'string' || row.payload.length > MAX_B64) throw new Error('shape');
+      d = validate(JSON.parse(await gunzip(b64bytes(row.payload.replace(/\s+/g, '')))));
+    } catch (e) { d = null; }
+    if (!d) { fail('This lap could not be read: its data is damaged or in a format this page does not know.'); return; }
+
+    var ms = typeof row.lap_time_ms === 'number' ? row.lap_time_ms : d.t[d.n - 1];
+    var top = 0; for (var i = 0; i < d.n; i++) if (d.s[i] > top) top = d.s[i];
+    $('h-car').textContent = d.car; $('h-track').textContent = d.track + ' · ' + fmtTime(ms);
+    document.title = d.car + ' at ' + d.track + ' — TRACE';
+    $('s-time').textContent = fmtTime(ms); $('s-car').textContent = d.car; $('s-track').textContent = d.track;
+    $('s-top').textContent = (top / 10).toFixed(0) + ' km/h';
+    $('s-shared').textContent = fmtDate(row.created_at); $('s-exp').textContent = fmtDate(row.expires_at);
+    status('');
+    $('lap').hidden = false;
+    drawAll(d, null); wire(d);
+  }
+  main();
+})();
+</script>
+</body>
+</html>

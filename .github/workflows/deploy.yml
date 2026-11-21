@@ -53,7 +53,7 @@ jobs:
           names=$(echo "$json" | jq -r '[.assets[].name] | join(" ")')
           last=$(cat .deployed-tag 2>/dev/null || echo none)
           complete=true
-          for f in gt7telem-windows.zip gt7telem-macos.zip gt7telem-linux.zip gt7telem-source.zip gt7telem-android.apk; do
+          for f in gt7telem-windows.zip gt7telem-macos.zip gt7telem-linux.zip gt7telem-source.zip gt7telem-android.apk gt7telem-android-ai.apk; do
             case " $names " in *" $f "*) ;; *) complete=false; echo "waiting for $f on $tag";; esac
           done
           deploy=false

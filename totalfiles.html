@@ -194,6 +194,12 @@
       <tr><td>driver_dna.py</td><td>Driver DNA &mdash; five driving-style traits, tracked over weeks and comparable with a friend through a short code</td></tr>
       <tr><td>planner.py</td><td>Practice planner &mdash; the corners worth drilling after a session, a target for each, and progress since the last session</td></tr>
       <tr><td>validate.py</td><td>Lap validation &mdash; flags teleports, shortcuts, impossible data and wall hits so records can be trusted</td></tr>
+      <tr><td>motec.py</td><td>MoTeC i2 export &mdash; writes a saved lap as a <code>.ld</code> data file (pure Python, no extra dependency)</td></tr>
+      <tr><td>llm.py</td><td>Optional local AI wording &mdash; rewords the coach&rsquo;s tips with a small on-PC model; a check discards any answer that changes a number, corner or direction (off by default)</td></tr>
+      <tr><td>videosync.py</td><td>Video sync &mdash; draws a lap&rsquo;s HUD (speed, gear, rpm, pedals, steering, timer, delta, map) and pipes it to ffmpeg over a gameplay video; ffmpeg is optional</td></tr>
+      <tr><td>sharelink.py</td><td>Share lap link &mdash; builds the small payload for one lap, uploads it only after you confirm, and deletes it on request. Optional and online-only</td></tr>
+      <tr><td>video_ui.py</td><td>The dialog for the video overlay export: sync point, preview frame, progress and Cancel</td></tr>
+      <tr><td>llm_ui.py</td><td>The warning and download dialogs for the local AI wording switch</td></tr>
       <tr><td>dyno_compare.py</td><td>Car-versus-car power overlay and final-drive advice from a lap&rsquo;s speed trace</td></tr>
       <tr><td>groups.py</td><td>Friends groups, weekly challenges and sector boards shared as pasteable codes &mdash; no server</td></tr>
       <tr><td>overlay_page.py</td><td>The transparent stream overlay page the web dashboard serves at <code>/overlay</code> for an OBS Browser Source</td></tr>
@@ -228,7 +234,7 @@
       <tr><td>requirements.txt</td><td>Python dependencies</td></tr>
       <tr><td>README.txt</td><td>Setup instructions</td></tr>
     </table>
-    <div class="file-count"><svg class="fc-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 76 files</div>
+    <div class="file-count"><svg class="fc-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 82 files</div>
   </div>
 
   <div class="manifest-group">
@@ -272,11 +278,21 @@
   </div>
 
   <div class="manifest-group">
-    <h2>Android — gt7telem-android.apk</h2>
-    <div class="manifest-sub">One installable file, Android 8.0+. Built by GitHub Actions and signed with TRACE's own key. Download it from the latest GitHub release.</div>
+    <h2>Android — gt7telem-android.apk and gt7telem-android-ai.apk</h2>
+    <div class="manifest-sub">Two installable files, Android 8.0+ (TRACE Lite and TRACE AI). Built by GitHub Actions and signed with TRACE's own key. Download them from the latest GitHub release.</div>
     <table class="file-table">
 <tr><th>File</th><th>Purpose</th></tr>
 <tr><td>gt7telem-android.apk</td><td>The whole Android app &mdash; Live Dashboard, Lap Analyst, Race Analyst, Records, backups &mdash; written in Kotlin and Jetpack Compose. Receives the console's telemetry on the phone itself, no PC needed</td></tr>
+<tr><td>gt7telem-android-ai.apk</td><td>TRACE AI &mdash; a separate app next to the one above (same signing key). The same app plus the optional local AI wording: it bundles a 0.8 GB language model (Llama 3.2 1B Instruct, <em>Built with Llama</em>) and a local server program, for 64-bit phones. Nothing is sent anywhere for the AI wording</td></tr>
+</table>
+  </div>
+
+  <div class="manifest-group">
+    <h2>Website &mdash; lap.html</h2>
+    <div class="manifest-sub">The one page on this website that shows a lap someone shared from TRACE. It is only used if you open a share link; the rest of TRACE stays offline.</div>
+    <table class="file-table">
+<tr><th>File</th><th>Purpose</th></tr>
+<tr><td>lap.html</td><td>Read-only viewer for one shared lap: car, track, lap time, speed, throttle and brake traces and a track map, drawn in your browser. Not indexed by search engines and not listed in the sitemap. Server data is only ever shown as plain text</td></tr>
 </table>
   </div>
 

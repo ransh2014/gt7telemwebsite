@@ -263,7 +263,7 @@
     <div class="not-collected nc-shield">
       <ul>
         <li>No PSN name, username, or account identity</li>
-        <li>No telemetry data — speed, inputs or lap times. Car and track names leave your PC only in the cases described on this page (the Dashboard&rsquo;s top-lap lookup, leaderboard submissions, the community inbox and, if SHARE USAGE DATA is on, track auto-detect&rsquo;s start-point sharing)</li>
+        <li>No telemetry data — speed, inputs or lap times. Car and track names leave your PC only in the cases described on this page (the Dashboard&rsquo;s top-lap lookup, leaderboard submissions, shared lap links, the community inbox and, if SHARE USAGE DATA is on, track auto-detect&rsquo;s start-point sharing)</li>
         <li>No IP address stored in our own database</li>
         <li>No location data</li>
         <li>No files, laps, or recordings from your computer</li>
@@ -294,6 +294,32 @@
     <p class="prose">Every submission passes through server-side anti-cheat before it can appear: a lap that's physically impossible for that track's length is rejected outright, a suspiciously fast first time for a car and track is held in a private review queue instead of publishing immediately, and only laps set since GT7 update 1.71's physics overhaul are shown. Both checks run in the database itself, not in the app.</p>
     <p class="prose">If GT7 reports a car ID that isn't in the local database yet, or you type a track name that isn't in the picker, that name/ID is also submitted automatically to a shared community inbox — this one isn't a button you press, but it only ever sends the car ID or track name itself, nothing else about your session. It isn&rsquo;t controlled by the <strong>SHARE USAGE DATA</strong> checkbox, so unticking that doesn&rsquo;t stop it.</p>
     <p class="prose">The <a href="/leaderboard">public leaderboard page</a> on this website reads from the same database anonymously — no login, no account, nothing stored about you as a visitor. Its "can't find your car/track?" boxes write to that same community inbox, and only ever send the name (and, optionally, a numeric car ID) you type in — never anything else about your visit.</p>
+  </div>
+
+  <div class="section" id="shared-laps">
+    <div class="eyebrow orange">// opt-in, one button click</div>
+    <h2>Shared Lap Links</h2>
+    <p class="prose">&ldquo;Share lap link&rdquo; in Lap Analyst (on the PC and on Android) uploads <strong>one lap</strong> so anyone you give the link to can open a read-only page showing it. It is <strong>never automatic</strong>: TRACE first asks &ldquo;This uploads this lap&rsquo;s telemetry so anyone with the link can view it. It is deleted after 90 days or when you delete it.&rdquo; and sends nothing unless you say yes. Here is exactly what goes up:</p>
+
+    <table class="data-table">
+      <tr><th>Field</th><th>What it is</th></tr>
+      <tr><td>car, track, lap time</td><td>The car, the track and the lap time of the lap you shared</td></tr>
+      <tr><td>trace</td><td>Up to 3,000 evenly spaced points of the lap: time, position on the track map, speed, throttle and brake. No steering, gears, tyres, fuel or other channels, and nothing from any other lap</td></tr>
+      <tr><td>owner ID</td><td>Your anonymous account ID (see Free Account below). It lets you delete your own links and limits sharing to 20 laps a day. It is never shown on the page. If you have no account yet, TRACE offers to create one (just a display name) before the first share</td></tr>
+      <tr><td>link</td><td>A random 20-character code. Links are unlisted: there is no list or search of shared laps, and the page tells search engines not to index it. Anyone who has the link can open it, so share it only with people you want to see the lap</td></tr>
+    </table>
+
+    <div class="discovery disc-trophy">
+      <p><strong>When it is deleted:</strong> a shared lap is deleted automatically 90 days after you shared it, or immediately when you press <strong>Delete shared lap</strong> for that lap on the device you shared it from. The page then shows &ldquo;not found&rdquo;. A copy someone saved themselves (a screenshot, say) is outside TRACE&rsquo;s control.</p>
+    </div>
+
+    <p class="prose">The <a href="/lap">viewer page</a> on this website reads the lap anonymously from the same database, draws it in your browser and stores nothing about you as a visitor. It carries no analytics script and no support chat. As with any web request, the database host can see your IP address.</p>
+  </div>
+
+  <div class="section" id="local-ai">
+    <div class="eyebrow orange">// optional, off by default</div>
+    <h2>Local AI Wording</h2>
+    <p class="prose">The optional <strong>LOCAL AI WORDING</strong> switch on the PC, and the separate <strong>TRACE AI</strong> Android app, run a small language model (Llama 3.2 1B Instruct) on your own device to reword the coach&rsquo;s tips. <strong>Your laps, tips and telemetry are never sent anywhere</strong> for this: the model answers over a connection to your own device only (<code>127.0.0.1</code>). The only network use is the one-time download on the PC, after TRACE shows a warning and you say yes: the model from its pinned Hugging Face address and the <code>llama-server</code> program from its pinned llama.cpp release on GitHub, each checked against a fixed SHA-256 sum. Those hosts can see your IP address, as with any download. The TRACE AI Android app carries the model inside the APK and downloads nothing. The Microsoft Store build neither downloads nor runs it. <em>Built with Llama.</em> Llama 3.2 is licensed under the <a href="https://www.llama.com/llama3_2/license/" target="_blank" rel="noopener noreferrer">Llama 3.2 Community License</a> and is copyright &copy; Meta Platforms, Inc.</p>
   </div>
 
   <div class="section">
